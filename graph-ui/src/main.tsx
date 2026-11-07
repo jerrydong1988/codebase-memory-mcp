@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { UiLanguageProvider } from './i18n/ui-language';
 import { installUiLog } from './app/ui-log-install';
 // Erst die Tokens, dann das Chrome, das sie benutzt. Die Reihenfolge ist keine
 // Kosmetik: eine Regel, die eine noch nicht definierte Variable liest, faellt
@@ -21,6 +22,6 @@ if (container === null) {
 
 createRoot(container).render(
   <StrictMode>
-    <App />
+    <UiLanguageProvider><App /></UiLanguageProvider>
   </StrictMode>,
 );
