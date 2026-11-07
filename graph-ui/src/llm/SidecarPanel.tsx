@@ -17,7 +17,7 @@
 
 import type { JSX } from 'react';
 import { messages } from '../i18n/messages';
-import { workspaceStrings } from '../app/workspace-strings';
+import { useChromeMessages } from '../i18n/chrome';
 import Hint from '../ui/tooltip/Hint';
 import type { SidecarFacts, SidecarState } from './sidecar';
 import { humanBytes, SIDECAR_PORT } from './sidecar';
@@ -91,6 +91,7 @@ function hintFor(props: SidecarPanelProps): string {
 }
 
 export default function SidecarPanel(props: SidecarPanelProps): JSX.Element {
+    const { workspace: workspaceStrings } = useChromeMessages();
     const facts = props.facts;
     const blocked = props.state === 'disabled-by-policy';
     const on = props.state !== 'off' && !blocked;

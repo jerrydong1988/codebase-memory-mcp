@@ -35,7 +35,8 @@ import type { CommandExample } from '../search/command-examples';
 import Hint from '../ui/tooltip/Hint';
 import { LAYOUT_DEFAULT } from '../layout/layout-model';
 import Splitter from '../layout/Splitter';
-import { availableWorkspaces, workspaceStrings } from './workspace-strings';
+import { availableWorkspaces } from './workspace-strings';
+import { useChromeMessages } from '../i18n/chrome';
 import type { Workspace, Guidance } from './workspace-strings';
 import './agent-status.css';
 
@@ -328,6 +329,7 @@ function TabBar(props: {
     onCloseTab: (path: string) => void;
 }): JSX.Element {
     const scroller = useRef<HTMLDivElement | null>(null);
+    const { app } = useChromeMessages();
     const [overflow, setOverflow] = useState({ left: false, right: false, any: false });
     const [dragging, setDragging] = useState(false);
     const drag = useRef<{ startX: number; startScroll: number; moved: number } | null>(null);
@@ -466,7 +468,7 @@ function TabBar(props: {
                 }}
             >
                 {props.tabs.length === 0 ? (
-                    <span className="atlas-tabs-empty">{messages.app.noFileOpen}</span>
+                    <span className="atlas-tabs-empty">{app.noFileOpen}</span>
                 ) : (
                     props.tabs.map((tab) => (
                         <span key={tab.path} className="atlas-tab" data-active={tab.active} data-path={tab.path}>
@@ -486,7 +488,7 @@ function TabBar(props: {
                             <button
                                 type="button"
                                 className="atlas-tab-close"
-                                aria-label={messages.app.closeTab(tab.name)}
+                                aria-label={app.closeTab(tab.name)}
                                 onClick={() => props.onCloseTab(tab.path)}
                             >
                                 x
@@ -513,6 +515,7 @@ export const OPEN_COMMAND_SEARCH_EVENT = 'cbm:open-command-search';
 export const CLOSE_COMMAND_SEARCH_EVENT = 'cbm:close-command-search';
 
 export default function AtlasChrome(props: AtlasChromeProps): JSX.Element {
+    const { app, workspace: workspaceStrings } = useChromeMessages();
     /*
      * Ob der Fokus IRGENDWO in der Kommandozeile steht, das Feld oder eines
      * ihrer Beispiele.
@@ -616,7 +619,7 @@ export default function AtlasChrome(props: AtlasChromeProps): JSX.Element {
     return (
         <div className="atlas-shell" data-workspace={props.workspace ?? 'explore'} data-guidance={props.guidance ?? 'brief'} data-chat-open={showChatColumn} data-has-status={props.workspaceStatus !== undefined}>
             <header className="atlas-header" data-testid="atlas-header">
-                <h1 className="atlas-brand">{messages.app.brand}{' '}<span className="atlas-brand-beta">{messages.app.releaseLabel}</span></h1>
+                <h1 className="atlas-brand">{app.brand}{' '}<span className="atlas-brand-beta">{app.releaseLabel}</span></h1>
                 <span className="atlas-version" data-testid="atlas-version">
                     {props.version.replace(/-dirty$/, '')}
                 </span>
@@ -635,12 +638,12 @@ export default function AtlasChrome(props: AtlasChromeProps): JSX.Element {
                   */}
                 {props.onWorkspaceChange !== undefined && (
                     <nav className="atlas-workspace-tabs" role="tablist" aria-label={workspaceStrings.navigation}>
-                        {availableWorkspaces(props.experimentalAgents).map((workspace, index) => (
+                        {availableWorkspaces(props.experimentalAgents, workspaceStrings).map((workspace, index) => (
                             <button type="button" role="tab" key={workspace.id} data-workspace-tab={workspace.id}
                                 tabIndex={(props.workspace ?? 'explore') === workspace.id ? 0 : -1}
                                 aria-selected={(props.workspace ?? 'explore') === workspace.id}
                                 onKeyDown={(event) => {
-                                    const choices = availableWorkspaces(props.experimentalAgents);
+                                    const choices = availableWorkspaces(props.experimentalAgents, workspaceStrings);
                                     const next = event.key === 'ArrowRight' ? (index + 1) % choices.length
                                         : event.key === 'ArrowLeft' ? (index + choices.length - 1) % choices.length
                                         : event.key === 'Home' ? 0 : event.key === 'End' ? choices.length - 1 : -1;
@@ -710,7 +713,7 @@ export default function AtlasChrome(props: AtlasChromeProps): JSX.Element {
                 <main className="atlas-main" data-testid="atlas-main">
                     <div className="atlas-breadcrumb" data-testid="atlas-breadcrumb">
                         {props.breadcrumb.length === 0 ? (
-                            <span className="atlas-breadcrumb-empty">{messages.app.noFileOpen}</span>
+                            <span className="atlas-breadcrumb-empty">{app.noFileOpen}</span>
                         ) : (
                             props.breadcrumb.map((segment, index) => (
                                 <span key={`${segment}-${index}`}>

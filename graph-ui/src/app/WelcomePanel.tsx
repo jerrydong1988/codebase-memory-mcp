@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import type { JSX } from 'react';
 import type { Workspace } from './workspace-strings';
-import { availableWorkspaces, workspaceStrings as s } from './workspace-strings';
+import { availableWorkspaces } from './workspace-strings';
+import { useChromeMessages } from '../i18n/chrome';
 
 interface Props {
     workspace: Workspace;
@@ -10,6 +11,7 @@ interface Props {
     onContinue: () => void; onLocalAi: () => void;
 }
 export default function WelcomePanel(props: Props): JSX.Element {
+    const { workspace: s } = useChromeMessages();
     const panelRef = useRef<HTMLElement>(null);
     useEffect(() => {
         const previous = document.activeElement as HTMLElement | null;
@@ -29,7 +31,7 @@ export default function WelcomePanel(props: Props): JSX.Element {
             <p className="cbm-welcome-eyebrow">{s.welcomeEyebrow}</p>
             <h2 id="cbm-welcome-title">{s.welcomeTitle}</h2><p>{s.welcomeDescription}</p>
             <div className="cbm-welcome-choices" role="group" aria-label={s.navigation}>
-                {availableWorkspaces(props.experimentalAgents).map((item) => <button type="button" key={item.id}
+                {availableWorkspaces(props.experimentalAgents, s).map((item) => <button type="button" key={item.id}
                     aria-pressed={props.workspace === item.id} onClick={() => props.onWorkspace(item.id)}>
                     <strong>{item.label}</strong><span>{s.descriptions[item.id]}</span>
                 </button>)}

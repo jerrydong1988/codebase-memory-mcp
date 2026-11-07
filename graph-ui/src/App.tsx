@@ -139,7 +139,8 @@ import type { BrowserChatContext } from './browser-ai/chat-model';
 import { selectionEvidenceContext } from './galaxy/selection-evidence';
 import SystemWorkspace from './system/SystemWorkspace';
 import type { Workspace, Guidance } from './app/workspace-strings';
-import { allowedWorkspace, initialWorkspace, workspaceStrings as workspaceText } from './app/workspace-strings';
+import { allowedWorkspace, initialWorkspace } from './app/workspace-strings';
+import { useChromeMessages } from './i18n/chrome';
 import { experimentalAgentsEnabled } from './app/feature-flags';
 import type { Chip, MenuExtra, MenuWiring, TabDescriptor } from './app/AtlasChrome';
 import { AtlasApi, TREE_ROUTE } from './app/atlas-api';
@@ -760,6 +761,7 @@ export default function App(): JSX.Element {
 }
 
 function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<WindowCarry> }): JSX.Element {
+    const { app: appText, workspace: workspaceText } = useChromeMessages();
     const carried = projectWindow.carried;
     const [workspace, setWorkspace] = useState<Workspace>(() => {
         try {
@@ -4073,7 +4075,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
     const chips: Chip[] = [
         {
             label: messages.statusbar.chipProject,
-            value: project.length > 0 ? project : messages.app.noProject,
+            value: project.length > 0 ? project : appText.noProject,
             state: project.length > 0 ? 'plain' : 'absent',
         },
         {
@@ -4091,7 +4093,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
     const status: Chip[] = [
         {
             label: messages.statusbar.chipProject,
-            value: project.length > 0 ? project : messages.app.noProject,
+            value: project.length > 0 ? project : appText.noProject,
             state: project.length > 0 ? 'ok' : 'absent',
         },
         {
@@ -4516,7 +4518,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
         const qualifiedName = fileQualifiedName(repositoryReading.snapshot, path);
         if (!qualifiedName) throw new Error(workspaceText.sourceOutsideSnapshot);
         return client.getCodeSnippet(project, qualifiedName, { startLine, maxLines });
-    }, [client, project, repositoryReading.snapshot]);
+    }, [client, project, repositoryReading.snapshot, workspaceText]);
     const clearGraphSelection = () => {
         setGalaxySelection(undefined);
         setGalaxySelectionProject('');
@@ -4898,7 +4900,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
             onCloseTab={closeTab}
             tree={{
                 explained: false,
-                projectName: project.length > 0 ? project : messages.app.noProject,
+                projectName: project.length > 0 ? project : appText.noProject,
                 rows,
                 cursor,
                 activePath,

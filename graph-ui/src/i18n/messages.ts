@@ -23,12 +23,8 @@
  * die ihn begruendet, und ein zweiter Ort fuer denselben Satz waere ein zweiter
  * Ort, an dem ihn jemand schaerft.
  *
- * ## Ein Baum, eine Sprache, und keine erfundene zweite
- *
- * Es gibt genau `en`. Ein `zh`-Baum mit maschinell erzeugten Saetzen waere eine
- * unuebersetzte Luege in einer Struktur, die behauptet, uebersetzt zu sein. Die
- * Struktur ist erweiterbar: ein zweiter Baum derselben Form neben `messages` und
- * eine Wahl darueber, und keine Aufrufstelle aendert sich.
+ * This is the reference English catalog. The app and workspace messages also
+ * have a typed Simplified Chinese catalog in chrome.ts.
  *
  * ## Der eine Satz, der hier nicht englisch war
  *

@@ -138,7 +138,7 @@ import {
     rewriteMap,
 } from './reader-rewrite';
 import { browserStore, readReaderLevel, writeReaderLevel } from './reader-level-store';
-import { workspaceStrings } from '../app/workspace-strings';
+import { useChromeMessages } from '../i18n/chrome';
 
 /** Wie das Panel gerade dasteht. Nie einfach leer. */
 export type TwinStatus = 'empty' | 'loading' | 'ready' | 'not-indexed' | 'failed';
@@ -1541,6 +1541,7 @@ declare global {
 }
 
 export default function TwinPanel(props: TwinPanelProps): JSX.Element {
+    const { workspace: workspaceStrings } = useChromeMessages();
     const [openEvidence, setOpenEvidence] = useState<string | undefined>(undefined);
     const ir = props.ir;
     const model = ir === undefined

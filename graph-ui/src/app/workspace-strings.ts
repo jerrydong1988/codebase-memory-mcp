@@ -72,8 +72,8 @@ export const workspaceStrings = {
     aiOptional: 'Browser AI is optional and off. Setup asks before downloading a model.',
 };
 
-export function availableWorkspaces(agentsEnabled = experimentalAgentsEnabled) {
-    return workspaceStrings.workspaces.filter(workspace => agentsEnabled || workspace.id !== 'agents');
+export function availableWorkspaces(agentsEnabled = experimentalAgentsEnabled, strings = workspaceStrings) {
+    return strings.workspaces.filter(workspace => agentsEnabled || workspace.id !== 'agents');
 }
 
 export function allowedWorkspace(workspace: Workspace, agentsEnabled = experimentalAgentsEnabled): Workspace {

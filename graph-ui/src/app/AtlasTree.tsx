@@ -44,7 +44,7 @@ import { useEffect, useRef } from 'react';
 import { COVERAGE_ORDER } from './tree-model';
 import type { CoverageState, TreeRow } from './tree-model';
 import { messages } from '../i18n/messages';
-import { workspaceStrings } from './workspace-strings';
+import { useChromeMessages } from '../i18n/chrome';
 import Hint from '../ui/tooltip/Hint';
 import {
     COVERAGE_DESCRIPTIONS,
@@ -252,6 +252,7 @@ export default function AtlasTree(props: AtlasTreeProps): JSX.Element {
 
 /** Coverage metadata belongs in the Coverage workspace, separate from file navigation. */
 export function AtlasTreeIndexDetails(props: Pick<AtlasTreeProps, 'rows' | 'note' | 'noteIsAbsence' | 'truncations'>): JSX.Element {
+    const { workspace: workspaceStrings } = useChromeMessages();
     const states = shownStates(props.rows);
     const markedFolders = props.rows.some((row) => row.kind === 'dir' && coverageOf(row) !== 'indexed');
     return <section aria-label={workspaceStrings.indexInventory}>
