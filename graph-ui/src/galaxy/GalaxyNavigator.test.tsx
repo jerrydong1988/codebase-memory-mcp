@@ -4,6 +4,20 @@ import { createRoot } from 'react-dom/client';
 import { expect, it, vi } from 'vitest';
 import GalaxyNavigator, { choicesFromSearchHits } from './GalaxyNavigator';
 import type { GraphNode } from './types';
+import { navigatorStrings } from './navigator-strings';
+
+it('translates search result details without changing graph identifiers or paths', () => {
+    const hits = [{ name: 'choose', qualified_name: 'demo.choose', label: 'Function', file_path: 'src/search.ts' }];
+    const choices = choicesFromSearchHits(hits, navigatorStrings.zh);
+    expect(choices.find(choice => choice.key === 'demo.choose')?.scope)
+        .toEqual({ kind: 'symbol', name: 'choose', qualifiedName: 'demo.choose' });
+    expect(choices.find(choice => choice.key === 'src/search.ts')).toMatchObject({
+        name: 'src/search.ts', detail: '已索引的文件', scope: { kind: 'file', path: 'src/search.ts' },
+    });
+    expect(choices.find(choice => choice.key === 'src/')).toMatchObject({
+        name: 'src/', detail: '已索引的文件夹', scope: { kind: 'folder', path: 'src' },
+    });
+});
 
 it('finds entry points and attaches the exact selected graph node', async () => {
     (globalThis as unknown as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true;
