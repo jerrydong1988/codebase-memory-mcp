@@ -71,7 +71,7 @@
 import { execFile } from 'node:child_process';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { existsSync, statSync } from 'node:fs';
-import { dirname, join, relative, resolve } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
@@ -169,8 +169,10 @@ async function main() {
      * Das gilt auch fuer den eingecheckten Bericht am Standardort, wenn --out
      * woanders hin schreibt: er ist ein frueherer Lauf desselben Werkzeugs.
      */
-    const selfReport = relative(ROOT, out);
-    const ownReports = new Set([selfReport, relative(ROOT, DEFAULT_OUT)]);
+    // git ls-files returns slash-separated names on Windows, too.
+    const gitPath = (file) => relative(ROOT, file).split(sep).join('/');
+    const selfReport = gitPath(out);
+    const ownReports = new Set([selfReport, gitPath(DEFAULT_OUT)]);
     const files = (await repositoryFiles()).filter((path) => !ownReports.has(path));
     const dashHits = [];
     const dashExceptions = [];
