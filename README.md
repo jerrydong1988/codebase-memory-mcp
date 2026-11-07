@@ -1,5 +1,7 @@
 # codebase-memory-mcp: local MCP server for code search, lower token usage and visualization
 
+**简体中文社区分支** · [中文说明与当前翻译范围](README.zh-CN.md)。This fork maintains Simplified Chinese for CBM Lens on the `zh-CN` branch.
+
 [![GitHub Release](https://img.shields.io/github/v/release/DeusData/codebase-memory-mcp?style=flat&color=blue)](https://github.com/DeusData/codebase-memory-mcp/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/DeusData/codebase-memory-mcp/release.yml?branch=main&label=main%20CI)](https://github.com/DeusData/codebase-memory-mcp/actions/workflows/release.yml)
