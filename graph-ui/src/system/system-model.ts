@@ -1,22 +1,23 @@
+import { systemStrings } from './system-strings';
 import type { DaemonLogRecord, ProcessCpuUnit, ProcessMemoryKind } from '../projects/projects-model';
 import { countedDetail, repeatCount } from '../app/ui-log';
 
-export function cpuText(value: number | null | undefined, unit: ProcessCpuUnit | undefined): string {
-    if (value == null || !Number.isFinite(value) || value < 0) return 'Unavailable';
+export function cpuText(value: number | null | undefined, unit: ProcessCpuUnit | undefined, text = systemStrings.en): string {
+    if (value == null || !Number.isFinite(value) || value < 0) return text.unavailable;
     if (unit === 'percent') return `${value.toFixed(1)}%`;
-    if (unit === 'seconds') return `${value.toFixed(1)} s total`;
-    return 'Unit unavailable';
+    if (unit === 'seconds') return text.seconds(value.toFixed(1));
+    return text.unitUnavailable;
 }
 
-export function memoryText(value: number | null | undefined): string {
-    return value == null || !Number.isFinite(value) || value < 0 ? 'Unavailable' : `${value.toFixed(1)} MiB`;
+export function memoryText(value: number | null | undefined, text = systemStrings.en): string {
+    return value == null || !Number.isFinite(value) || value < 0 ? text.unavailable : `${value.toFixed(1)} MiB`;
 }
 
-export function memoryLabel(kind: ProcessMemoryKind | undefined): string {
-    if (kind === 'working_set') return 'Working set';
-    if (kind === 'resident') return 'Resident memory';
-    if (kind === 'peak_resident') return 'Peak resident memory';
-    return 'Memory · kind unspecified';
+export function memoryLabel(kind: ProcessMemoryKind | undefined, text = systemStrings.en): string {
+    if (kind === 'working_set') return text.workingSet;
+    if (kind === 'resident') return text.resident;
+    if (kind === 'peak_resident') return text.peakResident;
+    return text.unspecified;
 }
 
 export type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'other';
@@ -89,6 +90,6 @@ export function collapseRepeats(records: readonly DaemonLogRecord[]): LogRow[] {
 }
 
 /** The tooltip of a combined row. */
-export function repeatTitle(row: LogRow): string {
-    return `${row.count.toLocaleString()} identical events from ${row.first} to ${row.record.ts}`;
+export function repeatTitle(row: LogRow, text = systemStrings.en): string {
+    return text.repeated(row.count.toLocaleString(), row.first, row.record.ts);
 }

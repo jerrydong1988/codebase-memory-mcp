@@ -1,3 +1,4 @@
+import { settingsStrings } from './settings-strings';
 /** The daemon owns the registry, validation, provenance and apply timing. */
 export interface ConfigSetting {
     key: string;
@@ -50,17 +51,17 @@ export function readConfigSnapshot(value: unknown): ConfigSnapshot {
     return value as unknown as ConfigSnapshot;
 }
 
-export function configValueError(setting: ConfigSetting, value: string | null): string | undefined {
+export function configValueError(setting: ConfigSetting, value: string | null, text = settingsStrings.en): string | undefined {
     if (value === null) return;
-    if (!setting.editable) return 'This setting is controlled outside the running daemon.';
-    if (setting.type === 'boolean' && !['true', 'false'].includes(value)) return 'Choose on or off.';
-    if (setting.type === 'enum' && !setting.options?.includes(value)) return 'Choose a listed value.';
+    if (!setting.editable) return text.controlledElsewhere;
+    if (setting.type === 'boolean' && !['true', 'false'].includes(value)) return text.chooseBoolean;
+    if (setting.type === 'enum' && !setting.options?.includes(value)) return text.chooseListed;
     if (setting.type === 'integer' || setting.type === 'number') {
-        if (!value.trim() || (setting.type === 'integer' && !/^-?\d+$/.test(value)) || !Number.isFinite(Number(value))) return 'Enter a valid number.';
+        if (!value.trim() || (setting.type === 'integer' && !/^-?\d+$/.test(value)) || !Number.isFinite(Number(value))) return text.validNumber;
         const number = Number(value);
-        if (setting.type === 'integer' && !Number.isSafeInteger(number)) return 'Enter a safe whole number.';
-        if (setting.minimum !== undefined && number < setting.minimum) return `Minimum: ${setting.minimum}.`;
-        if (setting.maximum !== undefined && number > setting.maximum) return `Maximum: ${setting.maximum}.`;
+        if (setting.type === 'integer' && !Number.isSafeInteger(number)) return text.safeInteger;
+        if (setting.minimum !== undefined && number < setting.minimum) return text.minimum(setting.minimum);
+        if (setting.maximum !== undefined && number > setting.maximum) return text.maximum(setting.maximum);
     }
 }
 
