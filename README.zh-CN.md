@@ -1,6 +1,6 @@
 # Codebase Memory 简体中文社区分支
 
-本分支基于 [DeusData/codebase-memory-mcp 的 v0.12.1](https://github.com/DeusData/codebase-memory-mcp/releases/tag/v0.12.1)，为 CBM Lens 提供简体中文界面，由社区独立维护。翻译使用 AI 辅助，结合界面和代码语境校订，未经专业译者复核。
+本分支截至 2026-11-18 已同步 [DeusData/codebase-memory-mcp 主线提交 08a7a586](https://github.com/DeusData/codebase-memory-mcp/commit/08a7a586a41587c62079a4c3482d5a6068523480)，为 CBM Lens 提供简体中文界面，由社区独立维护。该提交晚于官方正式版 v0.12.1。翻译使用 AI 辅助，结合界面和代码语境校订，未经专业译者复核。
 
 ## 当前范围
 
@@ -16,8 +16,8 @@ codebase-memory-mcp config set ui-lang zh
 
 ## 版本维护
 
-- `main` 跟踪上游主分支，`zh-CN` 维护基于上游稳定标签的中文改动。
-- 集成新稳定版时，先核对新增或变更的界面词条，再验证中英文显示、工作区导航和现有前端测试。发布说明应标注对应的上游版本。
+- `main` 跟踪上游主分支，`zh-CN` 在已验证的上游版本或主线提交上维护中文改动。
+- 集成上游更新时，先核对新增或变更的界面词条，再验证中英文显示、工作区导航和现有前端测试。发布说明应标注对应的上游版本或提交。
 - 反馈翻译问题时，请附上所在页面、当前文案和预期含义。截图中可以遮盖私人项目名和路径。
 
 上游的中文化讨论见 [#553](https://github.com/DeusData/codebase-memory-mcp/issues/553) 和 [#1668](https://github.com/DeusData/codebase-memory-mcp/issues/1668)。

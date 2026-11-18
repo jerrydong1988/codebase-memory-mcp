@@ -1,6 +1,7 @@
 #ifndef CBM_LSP_PHP_LSP_H
 #define CBM_LSP_PHP_LSP_H
 
+#include "lsp_name_rows.h"
 #include "type_rep.h"
 #include "scope.h"
 #include "type_registry.h"
@@ -36,6 +37,7 @@ typedef struct {
     enum { CBM_PHP_USE_CLASS = 0, CBM_PHP_USE_FUNCTION, CBM_PHP_USE_CONST } *use_kinds;
     int use_count;
     int use_cap;
+    CBMNameRows use_rows; /* use_local_names by name; zeroed whenever use_count is reset */
 
     /* Cross-file mode: dotted targets of the file's class `use` declarations
      * that the pipeline's import map left unresolved (vendor / unmapped
@@ -70,6 +72,11 @@ typedef struct {
      * overflow on deeply-nested/cyclic files; see cbm_lsp_max_walk_depth).
      * Zero via memset. */
     int walk_depth;
+
+    /* Receiver -> registered-method index used while traits are flattened
+     * (php_lsp.c, php_trait_index_t). Owned by the class-field pass, NULL
+     * outside it. Zero via memset. */
+    struct php_trait_index *trait_index;
 
     /* Debug mode (CBM_LSP_DEBUG env). */
     bool debug;

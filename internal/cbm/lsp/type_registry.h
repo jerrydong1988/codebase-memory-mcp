@@ -3,6 +3,7 @@
 
 #include "type_rep.h"
 #include "../arena.h"
+#include "lsp_neg_memo.h"
 #include <stdbool.h>
 
 // Language-specific function metadata. Added at struct tail so existing
@@ -95,6 +96,13 @@ typedef struct {
     int type_index;
 } CBMRegistryTypeQNEntry;
 
+// The rows of funcs[] or types[] past their QN index, by name (see tail_arena).
+typedef struct {
+    CBMIdxMemo first; // a QN's first row among [start, synced)
+    int start;
+    int synced;
+} CBMRegistryTail;
+
 // Cross-file type/function registry.
 typedef struct CBMTypeRegistry {
     CBMRegisteredFunc *funcs;
@@ -125,6 +133,13 @@ typedef struct CBMTypeRegistry {
     CBMRegistryHashEntry *type_qn_entries;
     int type_qn_bucket_count;
     int type_qn_entry_count;
+
+    // Set by a caller whose lookups run while the registry fills: the rows past
+    // the QN indexes are then found by name instead of by a scan, with the same
+    // answers. The arena must outlive those lookups. NULL keeps the scan.
+    CBMArena *tail_arena;
+    CBMRegistryTail func_tail;
+    CBMRegistryTail type_tail;
 
     // Methods indexed by (receiver_type, short_name) — chain holds overloads.
     int *method_buckets;
@@ -181,6 +196,19 @@ typedef struct CBMTypeRegistry {
     CBMRegistryTypeQNEntry *type_qn_sorted;
     int type_qn_sorted_count;
     int type_qn_sorted_upto;
+
+    /* Module namespaces (Python re-exports). module_qns: every module symbol
+     * scope with definitions or namespace facts, sorted (strcmp). export_keys /
+     * export_targets: `module.name` -> the definition QN the module's imports
+     * bind that name to (re-exports), sorted by key. Built once by the language
+     * builder after finalize and before the seal; lookups are binary searches
+     * and never mutate. Separate from the func/type arrays by design: a
+     * re-export is an alias of a definition, never a definition of its own. */
+    const char **module_qns;
+    int module_count;
+    const char **export_keys;
+    const char **export_targets;
+    int export_count;
 } CBMTypeRegistry;
 
 // Initialize a registry.
@@ -199,6 +227,9 @@ void cbm_registry_finalize(CBMTypeRegistry *reg);
 // pipeline-lifetime result arena, and per-file index allocations accumulated
 // there add GBs across a large repo (FastAPI incremental test: +1.1 GB RSS).
 void cbm_registry_finalize_into(CBMTypeRegistry *reg, CBMArena *idx_arena);
+// Indexes only the types, for a registry that is still filling. A scan finds the first
+// registration, so these answer with that one; a later finalize replaces them.
+void cbm_registry_index_types_into(CBMTypeRegistry *reg, CBMArena *idx_arena);
 
 // Build the optional final-QN-segment type index. Call immediately after
 // finalization. Consumers that do not opt in avoid its type_count-sized allocation
@@ -228,6 +259,13 @@ const CBMRegisteredFunc *cbm_registry_lookup_func(const CBMTypeRegistry *reg,
 // package_qn is the package prefix (e.g., "proj.pkg").
 const CBMRegisteredFunc *cbm_registry_lookup_symbol(const CBMTypeRegistry *reg,
                                                     const char *package_qn, const char *name);
+
+// Module-namespace lookups (CBMTypeRegistry.module_qns / export_keys); both
+// chain to reg->fallback. cbm_registry_lookup_export returns the definition QN
+// `module_qn.name` is re-exported as, or NULL.
+bool cbm_registry_is_module(const CBMTypeRegistry *reg, const char *module_qn);
+const char *cbm_registry_lookup_export(const CBMTypeRegistry *reg, const char *module_qn,
+                                       const char *name);
 
 /* Build in an arena that outlives every use (owner arena for shared registries,
  * walk scratch for per-file registries). QN strings and registered identities
@@ -443,6 +481,10 @@ void cbm_registry_all_types_chain(const CBMTypeRegistry *head, CBMTypeShortIter 
  * sealed-registry no-op in cbm_registry_add_func does today. */
 CBMRegisteredFunc *cbm_registry_func_for_update(CBMTypeRegistry *head, const char *qualified_name);
 CBMRegisteredType *cbm_registry_type_for_update(CBMTypeRegistry *head, const char *qualified_name);
+/* The first function or type registered under this name in reg itself, whichever order
+ * its index answers lookups in; a fallback registry is not consulted. */
+CBMRegisteredFunc *cbm_registry_first_own_func(CBMTypeRegistry *reg, const char *qualified_name);
+CBMRegisteredType *cbm_registry_first_own_type(CBMTypeRegistry *reg, const char *qualified_name);
 
 // --- TS-specific helpers (return NULL for types without these signatures) ---
 
