@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/chat';
 /**
  * Everything the chat says in its own voice.
  *
@@ -14,61 +15,60 @@
 import { SIDECAR_PORT } from '../llm/sidecar';
 
 /** The word over the panel. */
-export const CHAT_TITLE = 'CBM LENS CHAT';
+export const CHAT_TITLE = featureCopy.CBM_LENS_CHAT_704e6dd;
 
 /** What the command line hint says when a question would be sent. */
-export const CHAT_HINT_READY = 'enter asks CBM Lens';
+export const CHAT_HINT_READY = featureCopy.enter_asks_CBM_Lens_b6ef87c;
 
 /** What it says when the line looks like a question and the model is off. */
-export const CHAT_HINT_OFF = 'enter asks CBM Lens: the local model is off';
+export const CHAT_HINT_OFF = featureCopy.enter_asks_CBM_Lens_the_local_model_is_off_02d21a1;
 
 /** The sentence when the model is off and a question was typed. */
 export const CHAT_OFF_MESSAGE =
-    `the local model is off, so nothing was sent to 127.0.0.1:${SIDECAR_PORT}. `
-    + 'Turn it on in the [a]tlas menu or on the LOCAL LLM card, then ask again.';
+    featureCopy.the_local_model_is_off_so_nothing_was_sent_to_127_0_0_1_0_59207e4(SIDECAR_PORT)
+    + featureCopy.Turn_it_on_in_the_a_tlas_menu_or_on_the_LOCAL_LLM_card_then_ask_a_746ff25;
 
 /** The model is off, but the index-built cards still answer the question. */
 export const CHAT_OFF_WITH_CARDS =
-    `the local model is off, so the answer below is built from the cards and nothing was sent to 127.0.0.1:${SIDECAR_PORT}.`;
+    featureCopy.the_local_model_is_off_so_the_answer_below_is_built_from_the_card_6c0d4b1(SIDECAR_PORT);
 
 /** The compiler still answered; this only names why its optional model pass did not run. */
 export function chatBuiltUnavailableMessage(reason: 'off' | 'not-running' | 'policy'): string {
     switch (reason) {
         case 'policy':
-            return 'the local model is denied by the project policy, so the answer below is built from the cards and nothing was sent.';
+            return featureCopy.the_local_model_is_denied_by_the_project_policy_so_the_answer_bel_bd0538a;
         case 'not-running':
-            return `the local model is on, but nothing answers on 127.0.0.1:${SIDECAR_PORT}; the answer below is built from the cards.`;
+            return featureCopy.the_local_model_is_on_but_nothing_answers_on_127_0_0_1_0_the_answ_f45b009(SIDECAR_PORT);
         default:
             return CHAT_OFF_WITH_CARDS;
     }
 }
 
-export const CHAT_AI_LABEL = 'AI version';
-export const CHAT_AI_RESTORE = 'built version';
-export const CHAT_BUILT_PROVENANCE = 'built from indexed cards and their citations.';
+export const CHAT_AI_LABEL = featureCopy.AI_version_a9eb753;
+export const CHAT_AI_RESTORE = featureCopy.built_version_1ee1845;
+export const CHAT_BUILT_PROVENANCE = featureCopy.built_from_indexed_cards_and_their_citations_2df365b;
 export function chatAiProvenance(model: string): string {
-    return `worded by local model ${model}; every required fact passed the rewrite guard.`;
+    return featureCopy.worded_by_local_model_0_every_required_fact_passed_the_rewrite_gu_676f1e5(model);
 }
 
 /** The sentence when the model is on but no process answers. */
 export const CHAT_NOT_RUNNING_MESSAGE =
-    `the local model is on, but nothing answers on 127.0.0.1:${SIDECAR_PORT}. `
-    + 'Start the sidecar with llm/start.sh, then ask again.';
+    featureCopy.the_local_model_is_on_but_nothing_answers_on_127_0_0_1_0_d02d8a4(SIDECAR_PORT)
+    + featureCopy.Start_the_sidecar_with_llm_start_sh_then_ask_again_82e15aa;
 
 /** The sentence when a policy denies the model. */
 export const CHAT_POLICY_MESSAGE =
-    'the local model is denied by the project policy, so nothing was sent.';
+    featureCopy.the_local_model_is_denied_by_the_project_policy_so_nothing_was_se_06a8b6a;
 
 /** The sentence while the compiler is working. */
-export const CHAT_COMPILING = 'compiling the cards from the index ...';
+export const CHAT_COMPILING = featureCopy.compiling_the_cards_from_the_index_b94473c;
 
 /** The sentence while the model is answering. */
-export const CHAT_ASKING = 'the local model is phrasing an answer from the cards ...';
+export const CHAT_ASKING = featureCopy.the_local_model_is_phrasing_an_answer_from_the_cards_ffe6a91;
 
 /** Why the agreed sentence is there, under it. */
 export const CHAT_NO_CARDS_HINT =
-    'The index holds nothing this question could be answered from, so the model was not asked. '
-    + 'Name a symbol with @name to fetch its facts.';
+    featureCopy.The_index_holds_nothing_this_question_could_be_answered_from_so_t_bb989f8;
 
 // ------------------------------------------------- the name and the symbol --
 
@@ -79,8 +79,8 @@ export const CHAT_NO_CARDS_HINT =
  * and it says what a click does, because a list without that is a list.
  */
 export function chatChoiceHeadline(name: string, count: number): string {
-    return `"${name}" names ${count} symbols in this index. Pick the one you meant and the same `
-        + 'question is asked again about it; nothing was sent to the model in the meantime.';
+    return featureCopy.message_0_names_1_symbols_in_this_index_Pick_the_one_you_meant_and_the_sa_da83e4a(name, count)
+        + featureCopy.question_is_asked_again_about_it_nothing_was_sent_to_the_model_in_a43cfab;
 }
 
 /** One candidate, as the list writes it: the name, the file, the line. */
@@ -90,18 +90,18 @@ export function chatCandidateLabel(
     line: number | undefined,
 ): string {
     const where = filePath === undefined || filePath.length === 0
-        ? 'no file in the index'
+        ? featureCopy.no_file_in_the_index_3273387
         : line === undefined ? filePath : `${filePath}:${line}`;
     return `${name} (${where})`;
 }
 
 /** The tooltip of a candidate. It names the act and not the thing. */
 export function chatCandidateTitle(name: string): string {
-    return `ask this question again about ${name}`;
+    return featureCopy.ask_this_question_again_about_0_f223211(name);
 }
 
 /** The mark on a candidate the index flagged as test code. */
-export const CHAT_CANDIDATE_TEST_MARK = 'test';
+export const CHAT_CANDIDATE_TEST_MARK = featureCopy.test_a94a8fe;
 
 /**
  * The line that says the answer is about something else than what was asked.
@@ -113,71 +113,69 @@ export const CHAT_CANDIDATE_TEST_MARK = 'test';
  * same symbol and how the compiler got from one to the other.
  */
 export function chatFocusFallbackLine(asked: string, used: string): string {
-    return `"@${asked}" was not found in the index; answered about the symbol in focus instead: `
+    return featureCopy.message_0_was_not_found_in_the_index_answered_about_the_symbol_in_focus_i_c1e97cf(asked)
         + `${used}.`;
 }
 
 
 /** The line over the cards, which fold open. */
 export function chatCardsLabel(count: number): string {
-    return count === 1 ? 'the 1 card this answer was given' : `the ${count} cards this answer was given`;
+    return count === 1 ? featureCopy.the_1_card_this_answer_was_given_06a7886 : featureCopy.the_0_cards_this_answer_was_given_8054eb9(count);
 }
 
 /** The honest line under the answer, naming the class and the rule that fired. */
 export function chatProvenance(klass: string, rule: string, tokens: number, budget: number): string {
-    return `question class ${klass} (rule ${rule}); the cards cost about ${tokens} of ${budget} `
-        + 'tokens, estimated at four characters per token.';
+    return featureCopy.question_class_0_rule_1_the_cards_cost_about_2_of_3_88e68bc(klass, rule, tokens, budget)
+        + featureCopy.tokens_estimated_at_four_characters_per_token_a5bb45b;
 }
 
 /** What the panel says when a claim came back without a citation. */
 export function chatCitationWarning(count: number): string {
     return count === 1
-        ? '1 line of this answer carries no card citation and is shown as the model wrote it.'
-        : `${count} lines of this answer carry no card citation and are shown as the model wrote it.`;
+        ? featureCopy.message_1_line_of_this_answer_carries_no_card_citation_and_is_shown_as_th_12e24f6
+        : featureCopy.message_0_lines_of_this_answer_carry_no_card_citation_and_are_shown_as_th_158ac83(count);
 }
 
 /** What it says when the model cited a card that was never given. */
 export function chatUnknownCardWarning(ids: readonly string[]): string {
-    return `this answer cites ${ids.join(', ')}, which was never handed over. `
-        + 'Nothing was navigated to and nothing was believed.';
+    return featureCopy.this_answer_cites_0_which_was_never_handed_over_874991f(ids.join(', '))
+        + featureCopy.Nothing_was_navigated_to_and_nothing_was_believed_4a118e6;
 }
 
 /** What it says when a model returned only its own monologue. */
 export const CHAT_THOUGHT_ONLY =
-    'the model returned only its internal monologue and no answer. Nothing of it is shown: '
-    + 'a monologue is not a finding.';
+    featureCopy.the_model_returned_only_its_internal_monologue_and_no_answer_Noth_c4b646d;
 
 /** What it says when the token ceiling cut the answer off. */
 export const CHAT_TRUNCATED =
-    'the answer stopped at the token limit, so its last line is incomplete. It is shown as it '
-    + 'arrived and is not counted as a claim.';
+    featureCopy.the_answer_stopped_at_the_token_limit_so_its_last_line_is_incompl_71cb02e;
 
 /** What it says when the request failed. */
 export function chatFailed(detail: string): string {
-    return `the local model could not be asked: ${detail}`;
+    return featureCopy.the_local_model_could_not_be_asked_0_f17575f(detail);
 }
 
 // ------------------------------------------------ the neighbourhood setting --
 
 /** The label of the depth control. */
-export const CHAT_DEPTH_LABEL = 'context';
+export const CHAT_DEPTH_LABEL = featureCopy.context_ec2727b;
 
 /** The three options, in order. */
 export const CHAT_DEPTH_OPTIONS: readonly { value: 0 | 1 | 2; label: string; title: string }[] = [
     {
         value: 0,
-        label: '0 hops',
-        title: 'the focus symbol alone: no caller and no callee goes into the cards',
+        label: featureCopy.message_0_hops_09a5389,
+        title: featureCopy.the_focus_symbol_alone_no_caller_and_no_callee_goes_into_the_card_8c251f5,
     },
     {
         value: 1,
-        label: '1 hop',
-        title: 'the focus symbol plus its direct callers and callees. The default.',
+        label: featureCopy.message_1_hop_73ce478,
+        title: featureCopy.the_focus_symbol_plus_its_direct_callers_and_callees_The_default_0b026e3,
     },
     {
         value: 2,
-        label: '2 hops',
-        title: 'the focus symbol plus two rings of neighbours. More context, more to confuse.',
+        label: featureCopy.message_2_hops_35d2cba,
+        title: featureCopy.the_focus_symbol_plus_two_rings_of_neighbours_More_context_more_t_7e331bb,
     },
 ];
 
@@ -195,9 +193,7 @@ export const CHAT_DEPTH_OPTIONS: readonly { value: 0 | 1 | 2; label: string; tit
  * is built so that a citation still means what it meant when it was written.
  */
 export const CHAT_DEPTH_NOTE =
-    'How much of the neighbourhood goes into the cards. More neighbours change the answer and '
-    + 'can make it worse: a small model has more to confuse, and the token budget cuts the '
-    + 'furthest cards first.';
+    featureCopy.How_much_of_the_neighbourhood_goes_into_the_cards_More_neighbours_978b68a;
 
 /**
  * The offer on the last answer when the depth has been changed since.
@@ -214,14 +210,14 @@ export const CHAT_DEPTH_NOTE =
  * ambiguous candidates.
  */
 export function chatRerunLabel(depth: number): string {
-    return depth === 1 ? 'ask again with 1 hop' : `ask again with ${depth} hops`;
+    return depth === 1 ? featureCopy.ask_again_with_1_hop_ffabeef : featureCopy.ask_again_with_0_hops_081c1e3(depth);
 }
 
 /** Why the offer is there, on the button itself. */
 export function chatRerunTooltip(was: number, now: number): string {
-    return `This answer was compiled with ${was === 1 ? '1 hop' : `${was} hops`} of context and the `
-        + `setting now says ${now === 1 ? '1 hop' : `${now} hops`}. Asking again makes a new turn; `
-        + 'this one stays as it is, so the two can be compared.';
+    return featureCopy.This_answer_was_compiled_with_0_of_context_and_the_006713a(was === 1 ? '1 hop' : `${was} hops`)
+        + featureCopy.setting_now_says_0_Asking_again_makes_a_new_turn_4716c75(now === 1 ? '1 hop' : `${now} hops`)
+        + featureCopy.this_one_stays_as_it_is_so_the_two_can_be_compared_9951fe4;
 }
 
 /**
@@ -232,38 +228,37 @@ export function chatRerunTooltip(was: number, now: number): string {
  * here. A word in front of the count answers the question the sign asked.
  */
 export function chatCardsFoldLabel(open: boolean): string {
-    return open ? 'collapse' : 'open';
+    return open ? featureCopy.collapse_86d3bfb : featureCopy.open_5fc7e38;
 }
 
 // -------------------------------------------------------------- the refine --
 
 /** The label on the refine button in the pseudocode view. */
-export const REFINE_LABEL = 'rephrase';
+export const REFINE_LABEL = featureCopy.rephrase_68fc2d8;
 
 /** Its tooltip when it can be pressed. */
 export const REFINE_TITLE =
-    'let the local model rewrite these lines. Every number and every line must survive, or the '
-    + 'rewrite is refused and the deterministic block stays.';
+    featureCopy.let_the_local_model_rewrite_these_lines_Every_number_and_every_li_0249549;
 
 /** The label that brings the deterministic block back. */
-export const REFINE_RESTORE_LABEL = 'original';
+export const REFINE_RESTORE_LABEL = featureCopy.original_d73ef92;
 
 /** Its tooltip. */
-export const REFINE_RESTORE_TITLE = 'show the block as the index produced it';
+export const REFINE_RESTORE_TITLE = featureCopy.show_the_block_as_the_index_produced_it_9d25b69;
 
 /** What the view says while the model works. */
-export const REFINE_RUNNING = 'the local model is rephrasing these lines ...';
+export const REFINE_RUNNING = featureCopy.the_local_model_is_rephrasing_these_lines_dfa0820;
 
 /** What it says when the rewrite was accepted. */
 export const REFINE_APPLIED =
-    'rephrased by the local model. Every line and every number is the one the index produced.';
+    featureCopy.rephrased_by_the_local_model_Every_line_and_every_number_is_the_o_dc1f63d;
 
 /** What it says when the rewrite was refused, with the reason. */
 export function refineRejected(reason: string): string {
-    return `the rewrite was refused and the original block is still shown. Reason: ${reason}`;
+    return featureCopy.the_rewrite_was_refused_and_the_original_block_is_still_shown_Rea_9ef2884(reason);
 }
 
 /** The three reasons a rewrite is refused. Read by the proof run. */
-export const REFINE_REASON_COUNT = 'the answer holds a different number of lines than were sent';
-export const REFINE_REASON_NUMBERS = 'a line came back with a different number than it was sent with';
-export const REFINE_REASON_EMPTY = 'the model returned nothing to put back';
+export const REFINE_REASON_COUNT = featureCopy.the_answer_holds_a_different_number_of_lines_than_were_sent_9a4ea65;
+export const REFINE_REASON_NUMBERS = featureCopy.a_line_came_back_with_a_different_number_than_it_was_sent_with_03aacd1;
+export const REFINE_REASON_EMPTY = featureCopy.the_model_returned_nothing_to_put_back_09a9d6a;

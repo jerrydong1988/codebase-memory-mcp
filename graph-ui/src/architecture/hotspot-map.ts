@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import type { ArchitectureHotspot } from '../core/intelligence-provider';
 import type { GraphData, GraphNode } from '../galaxy/types';
 import { layoutFolderHierarchy, pruneHierarchyPlatforms, type SemanticGraph, type SemanticNode } from './semantic-graph';
@@ -108,7 +109,7 @@ export function buildHotspotGraph(graph: GraphData, catalog: HotspotCatalog, fil
         const symbol = exact.length === 1 ? exact[0] : undefined;
         const id = symbol ? `hotspot:${symbol.id}` : `hotspot-file:${finding.filePath ?? identity(finding)}`;
         const projected: SemanticNode = { id, kind: symbol || !finding.filePath ? 'symbol' : 'file', label: symbol?.name ?? finding.filePath ?? finding.name,
-            detail: symbol ? hotspotSignals(finding).join(' · ') : 'Ranked hotspot; symbol identity is outside the loaded graph',
+            detail: symbol ? hotspotSignals(finding).join(' · ') : featureCopy.Ranked_hotspot_symbol_identity_is_outside_the_loaded_graph_f704a16,
             position: [0, 0, 0], count: 1, graphNode: symbol, filePath: finding.filePath, line: finding.line,
             areaPath: finding.filePath ? areaOf(finding.filePath) : undefined, members: symbol ? [symbol] : [] };
         if (!matchingNodes.has(id) && `${finding.name} ${finding.filePath ?? ''} ${hotspotSignals(finding).join(' ')}`.toLowerCase().includes(match)) matchingNodes.set(id, projected);
@@ -127,7 +128,7 @@ export function buildHotspotGraph(graph: GraphData, catalog: HotspotCatalog, fil
         id: `hotspot-edge:${edge.id ?? index}`, source: byGraphId.get(edge.source)!, target: byGraphId.get(edge.target)!, type: edge.type, count: 1,
         evidence: [{ source: graphById.get(edge.source)!, target: graphById.get(edge.target)!, type: edge.type, id: edge.id, strategy: edge.strategy }],
     }));
-    return { view: 'hotspots', scopeKey: `hotspots:${filter}`, title: 'Hotspots and their connections',
+    return { view: 'hotspots', scopeKey: `hotspots:${filter}`, title: featureCopy.Hotspots_and_their_connections_09deb05,
         positionMeaning: 'Platforms follow source folders; symbol positions follow file and source order, independently of rank. Gravity fields encode static fan-in, not runtime activity.',
         nodes: shown, platforms: pruneHierarchyPlatforms(platforms, shown), edges, totalNodes, totalEdges: allEdges.length, omittedNodes: totalNodes - shown.length, omittedEdges: allEdges.length - edges.length,
         warnings: ['Hotspots are ranked review signals, not confirmed defects. Unmarked code has not been certified safe.', ...(graph.total_nodes > graph.nodes.length ? ['Some hotspot identities or relationships are outside the loaded graph.'] : [])] };

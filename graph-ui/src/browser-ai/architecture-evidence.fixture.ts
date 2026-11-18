@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import { selectionEvidenceContext } from '../galaxy/selection-evidence';
 import type { BrowserChatContext } from './chat-model';
 
@@ -15,8 +16,8 @@ export function djangoAreaEvidence(): BrowserChatContext {
         evidence: Array.from({ length: 24 }, (_, item) => ({ source: node(`caller_${index}_${item}`, 'django/core/handlers.py'), target: node(`callee_${item}`, 'tests/test_x.py'),
             type: 'CALLS', line: 100 + item })), omittedEvidence: 3 }));
     return selectionEvidenceContext({
-        project: 'django-demo', view: 'architecture-overview', source: 'indexed repository graph and architecture summary', generation: 'g1', label: 'django',
-        selected: { id: 'area:django', kind: 'area', label: 'django', detail: '2310 files · 15299 indexed nodes', areaPath: 'django', count: 15299, memberCount: 15299,
+        project: 'django-demo', view: 'architecture-overview', source: 'indexed repository graph and architecture summary', generation: 'g1', label: featureCopy.django_39e5d53,
+        selected: { id: 'area:django', kind: 'area', label: featureCopy.django_39e5d53, detail: featureCopy.message_2310_files_15299_indexed_nodes_17c86d0, areaPath: 'django', count: 15299, memberCount: 15299,
             members: Array.from({ length: 24 }, (_, index) => member(index)), omittedMembers: 15275,
             measurement: { lines: 528578, measuredFiles: 2163, files: 2310, languages: [{ name: 'Unknown', color: '#81939e', lines: 358827, files: 1227 },
                 { name: 'Python', color: '#79b7aa', lines: 158819, files: 883 }, { name: 'HTML', color: '#dfa184', lines: 3313, files: 162 }] },
@@ -33,11 +34,11 @@ export function djangoAreaEvidence(): BrowserChatContext {
 
 /** `main` of manage.py-tpl as Behavior publishes it: two direct calls with call-site evidence. */
 export function behaviorMainEvidence(currentSource?: string): BrowserChatContext {
-    const main = { id: 46981, name: 'main', qualified_name: 'django-demo.django.conf.project_template.manage.main', label: 'Function',
+    const main = { id: 46981, name: 'main', qualified_name: 'django-demo.django.conf.project_template.manage.main', label: featureCopy.Function_f1e410a,
         file_path: 'django/conf/project_template/manage.py-tpl', start_line: 7, end_line: 18, component_id: 'component-46980', group_id: 'directory:non_test:django' };
     return selectionEvidenceContext({
-        project: 'django-demo', view: 'architecture-behavior', source: 'indexed behavior projection and call-site evidence', generation: 'g1', label: 'main',
-        selected: { operation: main, caller: main, component: { id: 'component-46980', label: 'django/conf/project_template/manage.py-tpl', basis: 'declared_module', member_count: 3, file_count: 1, representatives: [] },
+        project: 'django-demo', view: 'architecture-behavior', source: 'indexed behavior projection and call-site evidence', generation: 'g1', label: featureCopy.main_b28b7af,
+        selected: { operation: main, caller: main, component: { id: 'component-46980', label: featureCopy.django_conf_project_template_manage_py_tpl_5d05600, basis: 'declared_module', member_count: 3, file_count: 1, representatives: [] },
             currentSource: currentSource ? { key: 'k', source: { source: currentSource, file_path: '/abs/django/conf/project_template/manage.py-tpl', start_line: 7, end_line: 18 },
                 provenance: 'Current local source; may differ from the indexed snapshot.' } : undefined },
         relationships: { count: 2, calls: [

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/pseudocode';
 /**
  * What lies behind a call, as far as what this window already holds says.
  *
@@ -126,37 +127,27 @@ export const ENRICHMENT_MISSING: readonly { kind: string; reason: string }[] = [
     {
         kind: 'what the callee reads or writes',
         reason:
-            'The layout carries USAGE edges without a direction and without a kind, so "query goes to the '
-            + 'database" cannot be read off them: a USAGE edge to `rows` says the two are related, not that '
-            + 'the symbol reads it. The `reads` and `writes` families of the callee would answer it, and '
-            + 'those come from a facts request per callee, which is a second server way this block does not '
-            + 'take.',
+            featureCopy.The_layout_carries_USAGE_edges_without_a_direction_and_without_a__f6264a5,
     },
     {
         kind: 'the callee\'s own steps, in order',
         reason:
-            'The graph says that the callee calls something, not in which order or under which condition. '
-            + 'The walk behind the flow explainer has the order; reading it here would mean running that walk '
-            + 'for every step of every block.',
+            featureCopy.The_graph_says_that_the_callee_calls_something_not_in_which_order_ecfcdf6,
     },
     {
         kind: 'whether a raised error escapes through this call',
         reason:
-            'RAISES records where an error is constructed and thrown, never which caller lets it through. '
-            + 'The note therefore says what the callee can raise and never what this symbol propagates.',
+            featureCopy.RAISES_records_where_an_error_is_constructed_and_thrown_never_whi_419b839,
     },
     {
         kind: 'the callee\'s signature and return type',
         reason:
-            'The layout nodes carry a name, a place, a kind and two call counts. Parameters and return types '
-            + 'are in neither the layout nor the twin\'s IR of the calling symbol.',
+            featureCopy.The_layout_nodes_carry_a_name_a_place_a_kind_and_two_call_counts__acade30,
     },
     {
         kind: 'anything at all about an unresolved callee',
         reason:
-            'A call site the index did not resolve carries no qualified name, and this module joins on the '
-            + 'qualified name alone (two functions named `create` in two files are the reason). Such a step '
-            + 'says at its own line that the index records no place for it.',
+            featureCopy.A_call_site_the_index_did_not_resolve_carries_no_qualified_name_a_d54d1ed,
     },
 ];
 
@@ -276,9 +267,7 @@ export function enrichmentAvailabilityOf(
         missing.unshift({
             kind: 'every kind below',
             reason:
-                'This window holds no layout for the project yet, so nothing about a called symbol was in '
-                + 'reach when this block was built. That is a statement about this window and not about the '
-                + 'code.',
+                featureCopy.This_window_holds_no_layout_for_the_project_yet_so_nothing_about__2b87638,
         });
     }
     return { usable, silent, missing };

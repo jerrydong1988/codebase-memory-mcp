@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import { snapshotReaderContext, type BrowserChatContext, type BrowserChatReaderContext, type BrowserChatSource } from './chat-model';
 import { fairShares, readGalaxyEvidence, relationshipLine, scopeSentence, selectionSentence, sideLoaded, type GalaxyEvidence } from './galaxy-evidence';
 import { relationshipWords, staticGraphNote } from './strings';
@@ -147,7 +148,7 @@ function graphFacts(value: unknown, name: string, maxCharacters: number): string
     };
     visit(value, name, 0);
     if (omittedFields) {
-        const note = `${omittedFields} additional graph fields omitted from this explanation.`;
+        const note = featureCopy.message_0_additional_graph_fields_omitted_from_this_explanation_f0123eb(omittedFields);
         while (lines.length && lines.join('\n').length + note.length + 1 > maxCharacters) lines.pop();
         if (note.length <= maxCharacters) lines.push(note);
     }
@@ -169,11 +170,11 @@ function fitGraphFact(fact: string, budget: number): string {
     const lines = fact.split('\n');
     const included: string[] = [];
     for (const line of lines) {
-        const note = `${lines.length - included.length - 1} additional graph summary lines omitted.`;
+        const note = featureCopy.message_0_additional_graph_summary_lines_omitted_9b5820b(lines.length - included.length - 1);
         if (included.join('\n').length + line.length + note.length + 2 > budget) break;
         included.push(line);
     }
-    const note = `${lines.length - included.length} additional graph summary lines omitted.`;
+    const note = featureCopy.message_0_additional_graph_summary_lines_omitted_9b5820b(lines.length - included.length);
     if (included.length && included.join('\n').length + note.length + 1 <= budget) return [...included, note].join('\n');
     return '';
 }

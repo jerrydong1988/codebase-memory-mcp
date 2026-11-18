@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/agents';
 /**
  * Wo im Graphen ein Ereignis liegt, und wie sicher das ist.
  *
@@ -84,7 +85,7 @@ export interface PlacementIndex {
 }
 
 /** Der Etikettwert, den der Server einem Modulknoten gibt. */
-export const MODULE_LABEL = 'Module';
+export const MODULE_LABEL = featureCopy.Module_b8ff028;
 
 /** Hoechstens so viele Ghost-Pings je Suchereignis. */
 export const GHOST_LIMIT = 6;

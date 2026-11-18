@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/graph';
 import { useEffect, useRef } from 'react';
 import { edgeColor } from './edge-style';
 import { useEdgeMotionPreference } from './edge-motion';
@@ -25,11 +26,11 @@ export default function GraphEdgeControls() {
     return <details ref={details} className="graph-edge-controls" onKeyDown={event => {
         if (event.key === 'Escape') { event.currentTarget.open = false; event.currentTarget.querySelector('summary')?.focus(); }
     }}>
-        <summary title="3D graph edge colors and motion">Edges</summary>
-        <div className="graph-edge-settings" role="group" aria-label="3D edge appearance">
-            <label><input type="checkbox" checked={enabled && !reduced} disabled={reduced} onChange={event => setEnabled(event.target.checked)} />Direction pulse</label>
-            <p>{reduced ? 'Motion is paused by your reduced-motion setting.' : 'A subtle pulse shows relationship direction across all 3D graphs.'}</p>
-            <ul className="graph-edge-key" aria-label="Edge color key">{KEY.map(([type, label]) => <li key={type} title={type}><i style={{ backgroundColor: edgeColor(type) }} />{label}</li>)}</ul>
+        <summary title={featureCopy.message_3D_graph_edge_colors_and_motion_08b9fc5}>{featureCopy.Edges_dffa33c}</summary>
+        <div className="graph-edge-settings" role="group" aria-label={featureCopy.message_3D_edge_appearance_0d4c0e1}>
+            <label><input type="checkbox" checked={enabled && !reduced} disabled={reduced} onChange={event => setEnabled(event.target.checked)} />{featureCopy.Direction_pulse_4a4c94a}</label>
+            <p>{reduced ? featureCopy.Motion_is_paused_by_your_reduced_motion_setting_6befd45 : featureCopy.A_subtle_pulse_shows_relationship_direction_across_all_3D_graphs_6eacb00}</p>
+            <ul className="graph-edge-key" aria-label={featureCopy.Edge_color_key_6685d11}>{KEY.map(([type, label]) => <li key={type} title={type}><i style={{ backgroundColor: edgeColor(type) }} />{label}</li>)}</ul>
         </div>
     </details>;
 }

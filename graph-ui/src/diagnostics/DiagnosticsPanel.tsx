@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/diagnostics';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { loadCoverage, loadPathCoverage, type CoverageReading } from '../app/coverage-source';
 import type { CoverageIndex } from '../app/tree-model';
@@ -51,7 +52,7 @@ export default function DiagnosticsPanel({ project, client, coverage, coverageEr
     };
     const copy = async () => {
         try {
-            if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable; select the draft and copy it manually.');
+            if (!navigator.clipboard?.writeText) throw new Error(featureCopy.Clipboard_unavailable_select_the_draft_and_copy_it_manually_e402fc7);
             await navigator.clipboard.writeText(report); setStatus('Edited report copied locally. Nothing was sent.');
         } catch (reason) { setStatus(reason instanceof Error ? reason.message : String(reason)); }
     };
@@ -61,38 +62,38 @@ export default function DiagnosticsPanel({ project, client, coverage, coverageEr
         anchor.click(); URL.revokeObjectURL(url); setStatus('Edited report downloaded locally. Nothing was sent.');
     };
     if (!active) return null;
-    return <section className="diagnostics-panel" aria-label="Coverage" data-testid="diagnostics-panel">
-        <header><div><p className="diagnostics-eyebrow">{project}</p><h2>Coverage</h2>{path && <p>Selected <code>{path}</code></p>}</div></header>
-        <p>The map can omit excluded files, unsupported inputs and failed or partial parses. Inspect the recorded reasons before relying on missing graph relationships.</p>
-        {(error || coverageError) && <p role="alert" className="diagnostics-error">Coverage reading failed: {error || coverageError}. {index ? 'Previous records remain visible; this is not a fresh reading.' : 'Completeness is unknown.'}</p>}
-        <div className="diagnostics-actions"><button type="button" disabled={busy || !project} onClick={() => { void run(); }}>{busy ? 'Reading local diagnosis…' : 'Run local diagnosis'}</button><span>Reads existing coverage metadata through this daemon. No agent, upload or issue creation.</span></div>
-        {!index && <p>Coverage evidence has not been loaded. Run a local diagnosis to inspect the index records.</p>}
+    return <section className="diagnostics-panel" aria-label={featureCopy.Coverage_80e1354} data-testid="diagnostics-panel">
+        <header><div><p className="diagnostics-eyebrow">{project}</p><h2>{featureCopy.Coverage_80e1354}</h2>{path && <p>{featureCopy.Selected_04c51f0}<code>{path}</code></p>}</div></header>
+        <p>{featureCopy.The_map_can_omit_excluded_files_unsupported_inputs_and_failed_or__b26d3ae}</p>
+        {(error || coverageError) && <p role="alert" className="diagnostics-error">{featureCopy.Coverage_reading_failed_74b5023}{error || coverageError}. {index ? featureCopy.Previous_records_remain_visible_this_is_not_a_fresh_reading_5d2f58f : featureCopy.Completeness_is_unknown_376bf3c}</p>}
+        <div className="diagnostics-actions"><button type="button" disabled={busy || !project} onClick={() => { void run(); }}>{busy ? featureCopy.Reading_local_diagnosis_4ed9b4b : featureCopy.Run_local_diagnosis_b6400fb}</button><span>{featureCopy.Reads_existing_coverage_metadata_through_this_daemon_No_agent_upl_632440b}</span></div>
+        {!index && <p>{featureCopy.Coverage_evidence_has_not_been_loaded_Run_a_local_diagnosis_to_in_a19e283}</p>}
         {index && <>
             <div className="diagnostics-counts">{(['partial', 'excluded', 'unsupported', 'skipped', 'unknown'] as const).map((category) => <span key={category}>{DIAGNOSTIC_LABELS[category]}: <strong>{records.filter((record) => diagnosticCategory(record) === category).length}</strong></span>)}</div>
-            <p className="diagnostics-caveat">Counts describe returned path records, including directories. They do not measure all repository files. Unsupported inputs and files never discovered may be absent from these records.</p>
-            <p className="diagnostics-caveat">Partial parses mark source ranges the index parser could not interpret reliably. Grammar or preprocessor limitations and malformed source can cause this; a partial parse alone does not establish a build or runtime failure. Exclusions follow indexing rules.</p>
-            {index.listingComplete && <p className="diagnostics-caveat">All recorded coverage entries have been loaded. The parser limitations and exclusions listed below still apply.</p>}
-            {index.truncations.map((note) => <p key={note} className="diagnostics-caveat">Incomplete list: {note}</p>)}
+            <p className="diagnostics-caveat">{featureCopy.Counts_describe_returned_path_records_including_directories_They__8d6fd59}</p>
+            <p className="diagnostics-caveat">{featureCopy.Partial_parses_mark_source_ranges_the_index_parser_could_not_inte_107eb40}</p>
+            {index.listingComplete && <p className="diagnostics-caveat">{featureCopy.All_recorded_coverage_entries_have_been_loaded_The_parser_limitat_71a1be5}</p>}
+            {index.truncations.map((note) => <p key={note} className="diagnostics-caveat">{featureCopy.Incomplete_list_a858fde}{note}</p>)}
         </>}
-        {indexDetails && <details className="diagnostics-inventory"><summary>Index inventory and legend</summary>{indexDetails}</details>}
-        {diagnosis && <div className="diagnostics-reading"><p>Checked {diagnosis.checkedAt} · Index generation <code>{diagnosis.reading.answer.metadata.generation || 'unavailable'}</code> · Recording {diagnosis.reading.answer.metadata.recordingStatus || 'unavailable'}</p>
-            {!diagnosis.reading.answer.metadata.generationMatches && <p className="diagnostics-error">Coverage generation does not confirm the current index. Treat the map as potentially stale.</p>}
-            {path && <p>{diagnosis.pathAnswer ? freshnessText(diagnosis.pathAnswer.freshness) : 'No path-specific evidence returned. Freshness is unknown.'}</p>}
-            {diagnosis.pathAnswer?.coverage.map((row, i) => <p key={`${row.path}:${i}`}><code>{row.path}</code> · {row.kind} · {row.detail || 'No detail recorded'}</p>)}
+        {indexDetails && <details className="diagnostics-inventory"><summary>{featureCopy.Index_inventory_and_legend_eb279ec}</summary>{indexDetails}</details>}
+        {diagnosis && <div className="diagnostics-reading"><p>{featureCopy.Checked_aca936b}{diagnosis.checkedAt}{featureCopy.Index_generation_7e91289}<code>{diagnosis.reading.answer.metadata.generation || 'unavailable'}</code>{featureCopy.Recording_db52f40}{diagnosis.reading.answer.metadata.recordingStatus || featureCopy.unavailable_1d5ee31}</p>
+            {!diagnosis.reading.answer.metadata.generationMatches && <p className="diagnostics-error">{featureCopy.Coverage_generation_does_not_confirm_the_current_index_Treat_the__b84a314}</p>}
+            {path && <p>{diagnosis.pathAnswer ? freshnessText(diagnosis.pathAnswer.freshness) : featureCopy.No_path_specific_evidence_returned_Freshness_is_unknown_f8a0c5f}</p>}
+            {diagnosis.pathAnswer?.coverage.map((row, i) => <p key={`${row.path}:${i}`}><code>{row.path}</code> · {row.kind} · {row.detail || featureCopy.No_detail_recorded_28dd2bd}</p>)}
             {diagnosis.reading.answer.caveat && <p className="diagnostics-caveat">{diagnosis.reading.answer.caveat}</p>}
         </div>}
-        {records.length > 0 && <details><summary>Recorded paths · {records.length}</summary>
+        {records.length > 0 && <details><summary>{featureCopy.Recorded_paths_f8b18eb}{records.length}</summary>
             <ol className="diagnostics-records">{records.slice(0, recordLimit).map((record) => <li key={record.path} className={`diagnostics-record-${diagnosticCategory(record)}`}>
                 <div><strong>{DIAGNOSTIC_LABELS[diagnosticCategory(record)]}</strong> · {record.kind} <button type="button" onClick={() => onNavigate(record.path)}><code>{record.path}</code></button></div>
-                <p><strong>Recorded reason:</strong> {record.reason || 'No reason recorded'}</p>
-                <p><strong>Evidence:</strong> {record.sources.join(', ') || 'Source not reported'}</p>
+                <p><strong>{featureCopy.Recorded_reason_6725e46}</strong> {record.reason || featureCopy.No_reason_recorded_c3d1bbd}</p>
+                <p><strong>{featureCopy.Evidence_3ef3540}</strong> {record.sources.join(', ') || featureCopy.Source_not_reported_4f81323}</p>
                 <p>{diagnosticAction(record)}</p>
-            </li>)}</ol><p className="diagnostics-caveat">Showing {Math.min(recordLimit, records.length)} of {records.length} records.</p>
-            {recordLimit < records.length && <button type="button" onClick={() => setRecordLimit(limit => limit + 100)}>Show more paths</button>}</details>}
-        {index && records.length === 0 && <p>No gap records returned. This does not prove complete indexing; undiscovered or unsupported files may be unrecorded.</p>}
-        {diagnosis && <section aria-label="Local diagnostic report"><h3>Review the local report</h3><p>This draft contains paths and recorded reasons. Edit it before sharing. Copy and download stay local; publication would require a separate, explicit action outside this panel.</p>
-            <textarea aria-label="Editable local diagnostic report" value={report} onChange={(event) => setReport(event.currentTarget.value)} spellCheck={false} />
-            <div className="diagnostics-actions"><button type="button" onClick={() => { void copy(); }}>Copy edited report</button><button type="button" onClick={download}>Download edited report</button><span role="status">{status}</span></div>
+            </li>)}</ol><p className="diagnostics-caveat">{featureCopy.Showing_85a4af0}{Math.min(recordLimit, records.length)}{featureCopy.of_607f2de}{records.length}{featureCopy.records_9cde55c}</p>
+            {recordLimit < records.length && <button type="button" onClick={() => setRecordLimit(limit => limit + 100)}>{featureCopy.Show_more_paths_c2ddcd6}</button>}</details>}
+        {index && records.length === 0 && <p>{featureCopy.No_gap_records_returned_This_does_not_prove_complete_indexing_und_21c64ed}</p>}
+        {diagnosis && <section aria-label={featureCopy.Local_diagnostic_report_39b3f2e}><h3>{featureCopy.Review_the_local_report_0935401}</h3><p>{featureCopy.This_draft_contains_paths_and_recorded_reasons_Edit_it_before_sha_64e48d6}</p>
+            <textarea aria-label={featureCopy.Editable_local_diagnostic_report_878a9bf} value={report} onChange={(event) => setReport(event.currentTarget.value)} spellCheck={false} />
+            <div className="diagnostics-actions"><button type="button" onClick={() => { void copy(); }}>{featureCopy.Copy_edited_report_64037b3}</button><button type="button" onClick={download}>{featureCopy.Download_edited_report_f6252b3}</button><span role="status">{status}</span></div>
         </section>}
     </section>;
 }

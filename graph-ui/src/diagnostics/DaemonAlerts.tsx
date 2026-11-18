@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/diagnostics';
 import { useEffect, useMemo, useState } from 'react';
 import type { LogTail } from '../projects/projects-model';
 import { logLevel } from '../system/system-model';
@@ -59,28 +60,28 @@ export default function DaemonAlerts({ reading, onDiagnose, coverage, coverageKn
         const skipped = rows.filter((row) => row.state === 'skipped').length;
         return `Index coverage: ${partial} partially parsed paths · ${skipped} skipped · ${excluded} intentionally excluded${coverage.truncations.length ? ' · detail listing incomplete' : ''}.`;
     }, [coverage, coverageKnown, coverageError]);
-    return <section className={`daemon-alerts${newErrors.length || reading.error ? ' daemon-alerts-has-errors' : ''}${expanded ? ' daemon-alerts-expanded' : ' daemon-alerts-collapsed'}`} aria-label="Daemon errors and warnings" data-testid="daemon-alerts">
+    return <section className={`daemon-alerts${newErrors.length || reading.error ? ' daemon-alerts-has-errors' : ''}${expanded ? ' daemon-alerts-expanded' : ' daemon-alerts-collapsed'}`} aria-label={featureCopy.Daemon_errors_and_warnings_1075da2} data-testid="daemon-alerts">
         <div className="daemon-alerts-heading">
-            <strong>{scope === 'daemon' ? 'Daemon history · all projects' : newErrors.length ? `! ${newErrors.length} new recorded errors · ${project ?? 'this project'}` : `Project events${project ? ` · ${project}` : ''}`}</strong>
-            <span>{reading.error ? 'Connection interrupted · last reading' : reading.loading && !reading.data ? 'Reading events…' : reading.updatedAt ? `Last checked ${new Date(reading.updatedAt).toLocaleTimeString()}` : 'No event reading yet'}</span>
-            <button type="button" onClick={() => setExpanded(!expanded)}>{expanded ? 'Close history' : `History (${reading.data?.total ?? records.length} retained)`}</button>
-            {newErrors.length > 0 && <button type="button" onClick={acknowledge}>Acknowledge new events</button>}
-            {expanded && onScopeChange && <button type="button" onClick={() => onScopeChange(scope === 'project' ? 'daemon' : 'project')}>{scope === 'project' ? 'All daemon history' : 'This project only'}</button>}
-            {expanded && reading.refresh && <button type="button" onClick={reading.refresh} disabled={reading.loading}>Refresh events</button>}
-            {onDiagnose && <button type="button" onClick={onDiagnose}>Inspect index coverage</button>}
+            <strong>{scope === 'daemon' ? featureCopy.Daemon_history_all_projects_6a17aaa : newErrors.length ? featureCopy.message_0_new_recorded_errors_1_2a3a7c5(newErrors.length, project ?? 'this project') : featureCopy.Project_events_0_5ad1fe9(project ? ` · ${project}` : '')}</strong>
+            <span>{reading.error ? featureCopy.Connection_interrupted_last_reading_131ce57 : reading.loading && !reading.data ? featureCopy.Reading_events_6ef1bc5 : reading.updatedAt ? featureCopy.Last_checked_0_67a9acf(new Date(reading.updatedAt).toLocaleTimeString()) : featureCopy.No_event_reading_yet_ed606f4}</span>
+            <button type="button" onClick={() => setExpanded(!expanded)}>{expanded ? featureCopy.Close_history_7bf06ef : featureCopy.History_0_retained_04b65b0(reading.data?.total ?? records.length)}</button>
+            {newErrors.length > 0 && <button type="button" onClick={acknowledge}>{featureCopy.Acknowledge_new_events_4f07a06}</button>}
+            {expanded && onScopeChange && <button type="button" onClick={() => onScopeChange(scope === 'project' ? 'daemon' : 'project')}>{scope === 'project' ? featureCopy.All_daemon_history_d8b23e0 : featureCopy.This_project_only_61fd3f8}</button>}
+            {expanded && reading.refresh && <button type="button" onClick={reading.refresh} disabled={reading.loading}>{featureCopy.Refresh_events_cfa71d5}</button>}
+            {onDiagnose && <button type="button" onClick={onDiagnose}>{featureCopy.Inspect_index_coverage_333e636}</button>}
         </div>
         {(coverageKnown !== undefined || coverage !== undefined || coverageError) && <p className="daemon-coverage-summary" title={coverageSummary}>{coverageSummary}</p>}
-        {reading.error && <p role="alert" className="diagnostics-error">Event updates failed: {reading.error}. A missing update does not mean the daemon recovered.</p>}
-        {reading.data?.persistent !== true && reading.data && <p className="diagnostics-caveat">Persistent event history unavailable. This log tail may not survive a restart.</p>}
-        {expanded && <p className="diagnostics-caveat">Recorded history, not a count of active failures. {scope === 'project' ? 'Only events attributed to this project; older unattributed records remain in daemon history.' : 'Includes other projects and older events without project attribution.'} Acknowledging events does not resolve their causes or delete them.</p>}
+        {reading.error && <p role="alert" className="diagnostics-error">{featureCopy.Event_updates_failed_1e8eb1f}{reading.error}. A missing update does not mean the daemon recovered.</p>}
+        {reading.data?.persistent !== true && reading.data && <p className="diagnostics-caveat">{featureCopy.Persistent_event_history_unavailable_This_log_tail_may_not_surviv_3ce7ff9}</p>}
+        {expanded && <p className="diagnostics-caveat">{featureCopy.Recorded_history_not_a_count_of_active_failures_aa0e6e0}{scope === 'project' ? featureCopy.Only_events_attributed_to_this_project_older_unattributed_records_5a555b7 : featureCopy.Includes_other_projects_and_older_events_without_project_attribut_64fc448}{featureCopy.Acknowledging_events_does_not_resolve_their_causes_or_delete_them_38d9781}</p>}
         {visible.length > 0 && <ol className="daemon-alert-list">{visible.map((record) => {
             const message = readableMessage(record.message);
             return <li key={record.key} className={`daemon-alert-${record.severity}`}>
-            <div><strong>{record.severity === 'error' ? '! ERROR' : '△ WARNING'}</strong> <span>{record.source || 'Source not reported'}</span> {record.ts && <time dateTime={record.ts}>{record.ts}</time>} {reading.data?.records && <span>Event #{record.id}</span>}{scope === 'daemon' && <span>Project: {'project' in record && typeof record.project === 'string' ? record.project : 'not recorded'}</span>}</div>
+            <div><strong>{record.severity === 'error' ? featureCopy.ERROR_9484277 : featureCopy.WARNING_452bee1}</strong> <span>{record.source || featureCopy.Source_not_reported_4f81323}</span> {record.ts && <time dateTime={record.ts}>{record.ts}</time>} {reading.data?.records && <span>{featureCopy.Event_baeb32b}{record.id}</span>}{scope === 'daemon' && <span>{featureCopy.Project_604452e}{'project' in record && typeof record.project === 'string' ? record.project : featureCopy.not_recorded_9925ee3}</span>}</div>
             <pre>{message.length > 400 ? `${message.slice(0, 400)}…` : message}</pre>
-            <details><summary>Full recorded event</summary><pre>{record.message}</pre></details>
+            <details><summary>{featureCopy.Full_recorded_event_53a6e6c}</summary><pre>{record.message}</pre></details>
         </li>})}</ol>}
-        {expanded && records.length === 0 && reading.data && <p>No attributed warning/error events in this retained reading. Unrecorded events and indexing gaps may still exist.</p>}
-        {reading.data && expanded && <p className="diagnostics-caveat">{records.length} of {reading.data.total} matching retained events shown · {errors} errors in this page{reading.data.retentionLimit !== undefined ? ` · shared history limit ${reading.data.retentionLimit}` : ''}. Older events may have expired. Project and file details appear only when recorded.</p>}
+        {expanded && records.length === 0 && reading.data && <p>{featureCopy.No_attributed_warning_error_events_in_this_retained_reading_Unrec_048edfc}</p>}
+        {reading.data && expanded && <p className="diagnostics-caveat">{records.length}{featureCopy.of_607f2de}{reading.data.total}{featureCopy.matching_retained_events_shown_451196a}{errors}{featureCopy.errors_in_this_page_1a7a8e9}{reading.data.retentionLimit !== undefined ? featureCopy.shared_history_limit_0_af98ecf(reading.data.retentionLimit) : ''}. Older events may have expired. Project and file details appear only when recorded.</p>}
     </section>;
 }

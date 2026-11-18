@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import type { BrowserChatMessage } from './browser-ai-controller';
 import type { PreparedExplanationContext } from './explanation-context';
 import { fileKind } from './file-kind';
@@ -163,7 +164,7 @@ export type ExplanationResponse =
 /** Preserve generated text independently of optional attribution. This parses
  * presentation, not semantic truth; callers must label the text as generated. */
 export function parseExplanationResponse(output: string, packet: PreparedExplanationContext): ExplanationResponse {
-    if (!packet.evidence.length) return { status: 'unavailable', reason: 'No source or graph evidence is available. Select source text or a graph item and try again.' };
+    if (!packet.evidence.length) return { status: 'unavailable', reason: featureCopy.No_source_or_graph_evidence_is_available_Select_source_text_or_a__48e21fa };
     const text = output.trim();
     const fenced = text.match(/^```(json|markdown|md)?[ \t]*\r?\n([\s\S]*?)```$/i);
     let markdown = (fenced?.[2] ?? text).trim();
@@ -172,18 +173,18 @@ export function parseExplanationResponse(output: string, packet: PreparedExplana
     if (structured) {
         let value: unknown;
         try { value = JSON.parse(markdown); }
-        catch { return { status: 'unavailable', reason: 'The model returned incomplete structured text. Try again for a plain-language explanation.' }; }
+        catch { return { status: 'unavailable', reason: featureCopy.The_model_returned_incomplete_structured_text_Try_again_for_a_pla_2a1c8ef }; }
         if (!value || typeof value !== 'object' || Array.isArray(value) || typeof (value as Record<string, unknown>).claim !== 'string') {
-            return { status: 'unavailable', reason: 'The model returned structured text without an explanation. Try again for a plain-language explanation.' };
+            return { status: 'unavailable', reason: featureCopy.The_model_returned_structured_text_without_an_explanation_Try_aga_4c8b83a };
         }
         markdown = ((value as Record<string, unknown>).claim as string).trim();
         citation = citedInterpretation(JSON.stringify(value), packet);
     }
-    if (!/[\p{L}\p{N}]/u.test(markdown)) return { status: 'unavailable', reason: 'The model returned no readable explanation. Try again or select a smaller source range.' };
+    if (!/[\p{L}\p{N}]/u.test(markdown)) return { status: 'unavailable', reason: featureCopy.The_model_returned_no_readable_explanation_Try_again_or_select_a__b99ef94 };
     const sourceText = (markdown.match(/^```[^\r\n]*\r?\n([\s\S]*?)\r?\n```$/)?.[1] ?? markdown).trim();
     if (markdown === packet.fallback.trim() || markdown === formatExplanationEvidence(packet).trim()
         || packet.evidence.some(item => item.text.trim() === sourceText)) {
-        return { status: 'unavailable', reason: 'The model only repeated supplied evidence. Try again or select a smaller source range.' };
+        return { status: 'unavailable', reason: featureCopy.The_model_only_repeated_supplied_evidence_Try_again_or_select_a_s_2c106c6 };
     }
     return { status: 'generated', markdown, ...(citation ? { citation } : {}) };
 }

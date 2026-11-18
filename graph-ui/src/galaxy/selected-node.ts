@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/galaxy';
 import { galaxyNodeContext } from '../browser-ai/galaxy-context';
 import type { BrowserChatContext } from '../browser-ai/chat-model';
 import { graphNodeName } from './node-names';
@@ -33,14 +34,14 @@ export function selectedGraphContext(layout: GraphData | undefined, selected: Gr
     };
     return {
         id: snapshotId,
-        label: `Graph node · ${graphNodeName(selected).slice(0, 60)}`,
+        label: featureCopy.Graph_node_0_b0ea882(graphNodeName(selected).slice(0, 60)),
         text: JSON.stringify({
             kind: 'graph-selection-snapshot',
             source: 'selected-graph-node',
             project: field(project, 'project'),
             selectedNode,
             loadedLayout: 'This symbol is outside the loaded layout; its displayed identity and source location are retained.',
-            relationships: { state: 'unavailable', reason: 'The loaded layout does not contain this selected symbol.' },
+            relationships: { state: 'unavailable', reason: featureCopy.The_loaded_layout_does_not_contain_this_selected_symbol_786e506 },
             indexCoverage: { state: 'unavailable' },
             generation: { state: 'unavailable' },
             truncatedFields,

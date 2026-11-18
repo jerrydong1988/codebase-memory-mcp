@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { Component, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Edges, Html, Line, OrbitControls, OrthographicCamera } from '@react-three/drei';
@@ -139,7 +140,7 @@ function Connection({ edge, strands, selected, dimmed, emphasized, onSelect, col
                 transparent opacity={opacity} depthWrite={false} />
         </group>)}
         {selected && <Html position={strands[0].geometry.curve.getPoint(0.5).lerp(strands.at(-1)!.geometry.curve.getPoint(0.5), 0.5)} center zIndexRange={[15, 10]} style={{ pointerEvents: 'none' }}>
-            <span className="system-scene-edge-label" style={{ borderColor: colorOf(edge.type, edge.types) }}>{internal ? 'Within group · ' : ''}{edge.types?.length ? edge.types.join(' · ').replaceAll('_', ' ') : edge.type.replaceAll('_', ' ')} · {edge.count}</span>
+            <span className="system-scene-edge-label" style={{ borderColor: colorOf(edge.type, edge.types) }}>{internal ? featureCopy.Within_group_02537fd : ''}{edge.types?.length ? edge.types.join(' · ').replaceAll('_', ' ') : edge.type.replaceAll('_', ' ')} · {edge.count}</span>
         </Html>}
     </group>;
 }
@@ -235,12 +236,12 @@ function NodeLabels({ model, selectedNode, highlightedPathIndex, onSelect, onExp
             data-color={node.visual?.color} data-color-label={node.visual?.label}
             data-connection-load={loads?.get(node.id)?.links}
             style={{ '--system-node-tint': node.visual?.color ?? SCENE_PALETTE.node } as CSSProperties}
-            data-muted={!activeNode(model, node, highlightedPathIndex)} title={`${node.label} · ${node.detail}${loads ? ` · ${loads.get(node.id)?.links ?? 0} visible links · ${loads.get(node.id)?.neighbors ?? 0} connected items` : ''}${node.visual ? ` · ${node.visual.label}${node.visual.basis ? ` (${node.visual.basis})` : ''}` : ''}`}
+            data-muted={!activeNode(model, node, highlightedPathIndex)} title={`${node.label} · ${node.detail}${loads ? featureCopy.message_0_visible_links_1_connected_items_a1d23e0(loads.get(node.id)?.links ?? 0, loads.get(node.id)?.neighbors ?? 0) : ''}${node.visual ? ` · ${node.visual.label}${node.visual.basis ? ` (${node.visual.basis})` : ''}` : ''}`}
             type="button" aria-label={`${node.label} · ${node.detail}`} aria-pressed={selectedNode === node.id}
             onClick={() => onSelect(node.id)} onDoubleClick={onExpand && (node.group || presentation === 'journey') ? () => onExpand(node.id) : undefined}>
-            {presentation === 'journey' && !compactChips && <small>{node.depth === 0 ? 'START' : node.pathIndices?.length ? `HOP ${node.depth}` : 'POSSIBLE CALL'}</small>}
+            {presentation === 'journey' && !compactChips && <small>{node.depth === 0 ? 'START' : node.pathIndices?.length ? featureCopy.HOP_0_1579635(node.depth) : featureCopy.POSSIBLE_CALL_77d3b73}</small>}
             <strong>{node.label}</strong>
-            {presentation === 'journey' && !compactChips && <small>{node.symbol?.file_path?.split('/').at(-1) ?? 'Source unavailable'}</small>}
+            {presentation === 'journey' && !compactChips && <small>{node.symbol?.file_path?.split('/').at(-1) ?? featureCopy.Source_unavailable_3775ebb}</small>}
         </button>
     </Html>)}</>;
 }
@@ -248,7 +249,7 @@ function NodeLabels({ model, selectedNode, highlightedPathIndex, onSelect, onExp
 class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
     state = { failed: false };
     static getDerivedStateFromError() { return { failed: true }; }
-    render() { return this.state.failed ? <div className="system-scene-empty" role="status">3D is unavailable. Components and source evidence remain accessible below.</div> : this.props.children; }
+    render() { return this.state.failed ? <div className="system-scene-empty" role="status">{featureCopy.message_3D_is_unavailable_Components_and_source_evidence_remain_accessibl_89a54fa}</div> : this.props.children; }
 }
 
 export default function SystemArchitectureScene({ model, selectedNode, selectedEdge, highlightedPathIndex, onSelectNode, onSelectEdge, onExpandNode, onClearSelection, resetKey, planar = false, active = true, showConnectionLoad = true, presentation = 'system' }: {
@@ -297,7 +298,7 @@ export default function SystemArchitectureScene({ model, selectedNode, selectedE
     const extent = Math.max(120, ...model.nodes.map(node => Math.max(Math.abs(node.position[0]) + dimensions(node)[0] / 2, Math.abs(node.position[1]) + dimensions(node)[2] / 2) * 2 + 40));
     return <SceneBoundary><div className="system-scene" data-testid="system-scene" data-projection={planar ? 'plan' : '3d'} data-node-count={model.nodes.length}>
         <Canvas {...background} frameloop={active ? 'demand' : 'never'} dpr={[1, 1.5]} gl={{ antialias: true, alpha: false, powerPreference: 'low-power' }}
-            role="img" aria-label={presentation === 'journey' ? 'Behavior call journey. Follow recorded invocations across component lanes. Double-click an operation to explore its calls.' : `System ${planar ? 'plan' : '3D map'}. Groups lie on a ground plane; expanded members sit above their group. Use the adjacent list to inspect source evidence.`}>
+            role="img" aria-label={presentation === 'journey' ? featureCopy.Behavior_call_journey_Follow_recorded_invocations_across_componen_0b4beac : featureCopy.System_0_Groups_lie_on_a_ground_plane_expanded_members_sit_above__2c8ccf1(planar ? 'plan' : '3D map')}>
             <color attach="background" args={[SCENE_PALETTE.background]} />
             <OrthographicCamera makeDefault position={[80, 115, 105]} zoom={4} near={0.1} far={10000} />
             <ambientLight intensity={1.6} /><directionalLight position={[30, 80, 20]} intensity={2.4} color={SCENE_PALETTE.keyLight} />

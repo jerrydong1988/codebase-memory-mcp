@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import type { CallSite, CallerRef, Fact, SemanticIR } from '../core/semantic-ir';
 import type { BrowserChatContext } from './chat-model';
 
@@ -20,7 +21,7 @@ export function browserGraphContext(ir: SemanticIR | undefined, project: string,
         const value = relation === 'calls' ? (fact?.value as CallSite[] | undefined)?.map(callWithoutArguments) : fact?.value;
         return {
             id: `graph:${JSON.stringify([project, activePath, ir.symbol.uri, ir.symbol.nodeId ?? ir.symbol.qualifiedName ?? ir.symbol.name, ir.generation, relation])}`,
-            label: `${relation === 'calls' ? 'Calls' : 'Called by'} · ${ir.symbol.name} · ${fact?.state ?? 'unavailable'}`,
+            label: `${relation === 'calls' ? featureCopy.Calls_0a19b7e : featureCopy.Called_by_8cbfefc} · ${ir.symbol.name} · ${fact?.state ?? featureCopy.unavailable_1d5ee31}`,
             text: JSON.stringify({
                 kind: 'graph-context-snapshot',
                 project,

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/twin';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import type { SymbolRef } from '../core/focus-protocol';
@@ -44,16 +45,16 @@ export interface SelectedCodePanelProps {
 }
 
 const SECTION_TITLES: Readonly<Record<string, string>> = {
-    purpose: 'Indexed summary',
-    steps: 'Outgoing calls',
-    callers: 'Called by',
+    purpose: featureCopy.Indexed_summary_8319771,
+    steps: featureCopy.Outgoing_calls_e99846a,
+    callers: featureCopy.Called_by_8cbfefc,
     state: 'References and environment',
-    errors: 'Error types',
-    effects: 'External effects',
-    tests: 'Related tests',
-    risks: 'Structural observations',
-    runtime: 'Recorded runtime calls',
-    imports: 'File imports',
+    errors: featureCopy.Error_types_791a69f,
+    effects: featureCopy.External_effects_7d33fc9,
+    tests: featureCopy.Related_tests_b3ff536,
+    risks: featureCopy.Structural_observations_4f4b8ea,
+    runtime: featureCopy.Recorded_runtime_calls_adbd817,
+    imports: featureCopy.File_imports_c3d01f3,
 };
 
 function unavailableText(section: TwinSection): string | undefined {
@@ -87,7 +88,7 @@ function FactDisclosure(props: {
         // Missing answers must never inherit a checked-empty sentence.
         emptyText: unavailable ?? props.section.emptyText,
         ...(props.section.name === 'tests'
-            ? { note: 'Links inferred from indexed callers; these are not test results or measured coverage.' }
+            ? { note: featureCopy.Links_inferred_from_indexed_callers_these_are_not_test_results_or_8e1bb60 }
             : {}),
     };
     return (
@@ -133,53 +134,53 @@ export default function SelectedCodePanel(props: SelectedCodePanelProps) {
         : props.status === 'not-indexed' ? (props.message || 'This file is not indexed yet.')
         : undefined;
     return (
-        <section className="selected-code" aria-label="Selected code" data-testid="selected-code-panel" data-pinned={props.pinned}>
+        <section className="selected-code" aria-label={featureCopy.Selected_code_3f3e266} data-testid="selected-code-panel" data-pinned={props.pinned}>
             <header className="selected-code-header">
-                <h2>Selected code</h2>
+                <h2>{featureCopy.Selected_code_3f3e266}</h2>
                 <button type="button" className="selected-code-pin" disabled={!hasFile || (!props.pinned && (props.status === 'loading' || props.fileSymbolsStatus === 'loading'))}
                     aria-pressed={props.pinned} onClick={props.onTogglePin}
-                    title={props.pinned ? 'Follow the current editor selection' : 'Keep this context while exploring elsewhere'}>
-                    {props.pinned ? 'Pinned' : 'Pin'}
+                    title={props.pinned ? featureCopy.Follow_the_current_editor_selection_61ac0ed : featureCopy.Keep_this_context_while_exploring_elsewhere_3a3915b}>
+                    {props.pinned ? featureCopy.Pinned_f931216 : featureCopy.Pin_9c91841}
                 </button>
             </header>
             {!hasFile ? (
-                <p className="selected-code-message">Open a file to inspect its symbols and connections.</p>
+                <p className="selected-code-message">{featureCopy.Open_a_file_to_inspect_its_symbols_and_connections_b9333ec}</p>
             ) : (
                 <>
                     <div className="selected-code-identity">
                         {symbol && <div className="selected-code-symbol"><strong>{symbol.name}</strong><span>{symbol.kind}</span></div>}
                         <div className="selected-code-path" title={filePath}>{filePath}{range && <span>:{range}</span>}</div>
-                        {props.pinned && <p className="selected-code-note">Context pinned. Unpin to follow the editor.</p>}
+                        {props.pinned && <p className="selected-code-note">{featureCopy.Context_pinned_Unpin_to_follow_the_editor_3aabe03}</p>}
                         {ready && ir.signature?.value && <code className="selected-code-signature">{ir.signature.value}</code>}
                     </div>
                     {selection && selection.text.length > 0 && (
                         <div className="selected-code-selection" data-testid="selected-code-selection">
                             <details>
-                                <summary>Exact selection <span>{selection.startLine}:{selection.startColumn} to {selection.endLine}:{selection.endColumn}</span></summary>
+                                <summary>{featureCopy.Exact_selection_84126af}<span>{selection.startLine}:{selection.startColumn}{featureCopy.to_3a59c4e}{selection.endLine}:{selection.endColumn}</span></summary>
                                 <pre><code>{selection.text}</code></pre>
                             </details>
-                            <p className="selected-code-note">Chat receives the marked text.{symbol ? ` Relationships below describe ${symbol.name}.` : ' File connections remain separate from the selection.'}</p>
+                            <p className="selected-code-note">{featureCopy.Chat_receives_the_marked_text_408b1ac}{symbol ? featureCopy.Relationships_below_describe_0_f089fe1(symbol.name) : featureCopy.File_connections_remain_separate_from_the_selection_a945a13}</p>
                         </div>
                     )}
                     <div className="selected-code-actions">
-                        <button type="button" className="selected-code-ask" onClick={props.onAsk}>Ask about this</button>
-                        <button type="button" onClick={props.onShowGraph}>Show in graph</button>
+                        <button type="button" className="selected-code-ask" onClick={props.onAsk}>{featureCopy.Ask_about_this_85161df}</button>
+                        <button type="button" onClick={props.onShowGraph}>{featureCopy.Show_in_graph_1c8a690}</button>
                     </div>
                     {props.selectionContext}
                     {props.impact}
                     {noSymbolMessage && <p className="selected-code-message" role="status">{noSymbolMessage}</p>}
                     {!symbol && (
                         <div className="selected-code-file" data-testid="selected-code-file">
-                            <h3>Symbols in this file</h3>
-                            {props.fileSymbolsStatus === 'loading' ? <p className="selected-code-note">Loading symbols...</p>
-                                : props.fileSymbolsStatus === 'error' ? <p className="selected-code-note" role="status">{props.fileSymbolsMessage || 'Could not load file symbols.'}</p>
+                            <h3>{featureCopy.Symbols_in_this_file_ceffbef}</h3>
+                            {props.fileSymbolsStatus === 'loading' ? <p className="selected-code-note">{featureCopy.Loading_symbols_727f4ea}</p>
+                                : props.fileSymbolsStatus === 'error' ? <p className="selected-code-note" role="status">{props.fileSymbolsMessage || featureCopy.Could_not_load_file_symbols_16ec9b0}</p>
                                 : props.fileSymbols && props.fileSymbols.length > 0 ? (
                                     <ul>{props.fileSymbols.map((entry) => <li key={`${entry.qualifiedName ?? entry.name}:${entry.range.start.line}`}>
                                         <button type="button" onClick={() => props.onFollow(entry)}>
                                             <span>{entry.name}</span><span>{entry.kind} · {entry.range.start.line + 1}</span>
                                         </button>
                                     </li>)}</ul>
-                                ) : <p className="selected-code-note">{props.fileSymbolsStatus === 'ready' ? 'No symbols found in the current index.' : 'Select code in the reader to inspect it.'}</p>}
+                                ) : <p className="selected-code-note">{props.fileSymbolsStatus === 'ready' ? featureCopy.No_symbols_found_in_the_current_index_c078ef6 : featureCopy.Select_code_in_the_reader_to_inspect_it_86f8cbb}</p>}
                             {props.fileSymbolsMessage && props.fileSymbolsStatus !== 'error' && <p className="selected-code-note">{props.fileSymbolsMessage}</p>}
                         </div>
                     )}
@@ -190,16 +191,16 @@ export default function SelectedCodePanel(props: SelectedCodePanelProps) {
                             onFollow={props.onFollow} onPointRow={props.onPointRow} />)}
                         {ready && (props.callOutline || props.onOpenFlow) && (
                             <details className="selected-code-fact" data-section="outline">
-                                <summary><span>Call outline</span></summary>
-                                <p className="selected-code-note">Indexed call sequence, not complete control flow.</p>
-                                {props.onOpenFlow && <button type="button" className="selected-code-flow" onClick={props.onOpenFlow}>Open flow view</button>}
+                                <summary><span>{featureCopy.Call_outline_c9de541}</span></summary>
+                                <p className="selected-code-note">{featureCopy.Indexed_call_sequence_not_complete_control_flow_bc0f622}</p>
+                                {props.onOpenFlow && <button type="button" className="selected-code-flow" onClick={props.onOpenFlow}>{featureCopy.Open_flow_view_c8b3e77}</button>}
                                 {props.callOutline}
                             </details>
                         )}
                         {ready && (ir.writes.state === 'unsupported' || ir.externalEffects.state === 'unsupported') && (
                             <details className="selected-code-fact" data-section="limits">
-                                <summary><span>Index limits</span></summary>
-                                <p className="selected-code-note">{[ir.writes.state === 'unsupported' ? 'Assignments and writes are not tracked.' : '', ir.externalEffects.state === 'unsupported' ? 'External side effects are not tracked.' : ''].filter(Boolean).join(' ')} Absence of a relationship is not proof that it cannot occur.</p>
+                                <summary><span>{featureCopy.Index_limits_ed9a1ae}</span></summary>
+                                <p className="selected-code-note">{[ir.writes.state === 'unsupported' ? 'Assignments and writes are not tracked.' : '', ir.externalEffects.state === 'unsupported' ? 'External side effects are not tracked.' : ''].filter(Boolean).join(' ')}{featureCopy.Absence_of_a_relationship_is_not_proof_that_it_cannot_occur_0697766}</p>
                             </details>
                         )}
                     </div>

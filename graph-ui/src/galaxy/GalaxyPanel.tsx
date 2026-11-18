@@ -1,3 +1,5 @@
+import { presentation } from '../i18n/presentation';
+import { featureCopy } from '../i18n/features/galaxy';
 /**
  * Die Galaxie als Panel, und der Fokus, der in beide Richtungen laeuft.
  *
@@ -265,8 +267,8 @@ export const HIERARCHY_DISPLAY: DisplaySettings = {
 };
 
 /** Der Schalter im Panel-Kopf, in beiden Lagen. */
-export const GALAXY_COLLAPSE_TITLE = 'hide the graph panel: the header stays, so it can be brought back';
-export const GALAXY_EXPAND_TITLE = 'show the graph panel again';
+export const GALAXY_COLLAPSE_TITLE = featureCopy.hide_the_graph_panel_the_header_stays_so_it_can_be_brought_back_6e236fe;
+export const GALAXY_EXPAND_TITLE = featureCopy.show_the_graph_panel_again_f1ffa28;
 
 /**
  * Wie der Zuklapp-Schalter heisst, und warum er ein Wort traegt statt eines
@@ -299,7 +301,7 @@ export function graphFoldLabel(open: boolean, mode: GraphMode): string {
  * ist die Zusicherung, um die es geht.
  */
 export function legendFoldLabel(open: boolean): string {
-    return `${open ? 'hide' : 'show'} legend`;
+    return open ? presentation.hideLegend : presentation.showLegend;
 }
 
 /**
@@ -330,10 +332,9 @@ export function graphModeCollapsedTitle(mode: GraphMode): string {
  * zehn Sekunden Ziehen weiss aber niemand mehr, wie es angefangen hat, und
  * genau dafuer ist dieser Knopf da (Nutzerbefund 2026-08-30, AC5).
  */
-export const GALAXY_FIT_LABEL = 'fit view';
+export const GALAXY_FIT_LABEL = featureCopy.fit_view_0c4a5ba;
 export const GALAXY_FIT_TITLE =
-    'put the whole graph back in the picture: the camera stands square on its widest side, '
-    + 'far enough away that every node fits';
+    featureCopy.put_the_whole_graph_back_in_the_picture_the_camera_stands_square__3c1f835;
 
 /** Der Griff, an dem der Beweislauf die Projektion anfasst. */
 export interface AtlasHierarchySeam {
@@ -1233,10 +1234,10 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
     }, [props.workspaceExpanded, scope.scope, traceTypes, kinds, changeTraceTypes]);
 
     const renderLimits = <>
-        <label>Nodes <select aria-label="Rendered node limit" value={nodeBudget} onChange={event => setViewPreferences({ galaxyNodes: Number(event.target.value) })}>
+        <label>{featureCopy.Nodes_b1811c2}<select aria-label={featureCopy.Rendered_node_limit_b111c85} value={nodeBudget} onChange={event => setViewPreferences({ galaxyNodes: Number(event.target.value) })}>
             {GALAXY_NODE_LIMITS.map(value => <option key={value} value={value}>{value.toLocaleString()}</option>)}
         </select></label>
-        <label>Edges <select aria-label="Rendered edge limit" value={edgeBudget} onChange={event => setViewPreferences({ galaxyEdges: Number(event.target.value) })}>
+        <label>{featureCopy.Edges_8b5523a}<select aria-label={featureCopy.Rendered_edge_limit_b758fa4} value={edgeBudget} onChange={event => setViewPreferences({ galaxyEdges: Number(event.target.value) })}>
             {GALAXY_EDGE_LIMITS.map(value => <option key={value} value={value}>{value.toLocaleString()}</option>)}
         </select></label>
     </>;
@@ -2467,7 +2468,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
         >
             <header className="atlas-galaxy-head">
                 <div className="atlas-galaxy-head-row" data-hint-keep="graph head">
-                    <span className="atlas-galaxy-title">GALAXY</span>
+                    <span className="atlas-galaxy-title">{featureCopy.GALAXY_b549f0a}</span>
                     {/*
                       * Die beiden Ansichten sind ein Paar, und der Rahmen um sie
                       * sagt das, bevor jemand klickt.
@@ -2498,7 +2499,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                         data-mode={mode}
                         data-open={visible}
                         role="group"
-                        aria-label="which picture the panel shows"
+                        aria-label={featureCopy.which_picture_the_panel_shows_7086300}
                     >
                         {GRAPH_MODES.map((candidate) => {
                             const available = true;
@@ -2517,11 +2518,11 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                                                 : mode === candidate && candidate === 'galaxy' && !props.workspaceExpanded
                                                     ? graphModeActiveTitle(candidate)
                                                     : candidate === 'galaxy'
-                                                        ? 'galaxy: the whole project, laid out by the server'
-                                                        : readerHierarchyActive ? 'hierarchy: incoming relationships, file definitions, and outgoing relationships'
+                                                        ? featureCopy.galaxy_the_whole_project_laid_out_by_the_server_8c998d5
+                                                        : readerHierarchyActive ? featureCopy.hierarchy_incoming_relationships_file_definitions_and_outgoing_re_3994e8d
                                                         : scopedProjection ? galaxyHierarchyText.hint(scope.direction, { mixed: scopedProjection.band?.count ?? 0, names: scopedNames,
                                                             budget: SCOPED_HIERARCHY_LABEL_BUDGET, neighbours: scopedNeighbours, sides: scopedNamedSides })
-                                                        : 'hierarchy: what the chosen symbol reaches, one column per call depth'
+                                                        : featureCopy.hierarchy_what_the_chosen_symbol_reaches_one_column_per_call_dept_3f50cb6
                                     }
                                 >
                                     <button
@@ -2557,8 +2558,8 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                         name="galaxy-legend"
                         text={
                             legendOpen
-                                ? 'hide the legend: what the colours, sizes and positions mean'
-                                : 'show the legend: what the colours, sizes and positions mean'
+                                ? featureCopy.hide_the_legend_what_the_colours_sizes_and_positions_mean_01755d5
+                                : featureCopy.show_the_legend_what_the_colours_sizes_and_positions_mean_1c26575
                         }
                     >
                         <button
@@ -2605,9 +2606,9 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                     )}
                 </div>
                 {showCoverage && props.workspaceExpanded && !scope.scope && <span className="atlas-galaxy-coverage-key">
-                    <i aria-hidden="true" />{mode === 'hierarchy' ? 'Coverage shadow is shown in galaxy view' : coverageShadow
-                        ? `Coverage shadow: ${coverageShadow.counts.files} files, ${coverageShadow.counts.folders} folders with index gaps`
-                        : data?.missed_graph ? 'No coverage-shadow nodes reported' : 'Coverage shadow unavailable in this layout'}
+                    <i aria-hidden="true" />{mode === 'hierarchy' ? featureCopy.Coverage_shadow_is_shown_in_galaxy_view_3a5ead7 : coverageShadow
+                        ? featureCopy.Coverage_shadow_0_files_1_folders_with_index_gaps_084376d(coverageShadow.counts.files, coverageShadow.counts.folders)
+                        : data?.missed_graph ? featureCopy.No_coverage_shadow_nodes_reported_1e51fd4 : featureCopy.Coverage_shadow_unavailable_in_this_layout_9d5b758}
                 </span>}
                 <span
                     className="atlas-galaxy-headline"
@@ -2616,7 +2617,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                     data-state={state}
                 >
                     {props.workspaceExpanded && mode === 'galaxy' && state === 'ready' && data
-                        ? `${shown?.nodes.length.toLocaleString() ?? 0} of ${data.total_nodes.toLocaleString()} nodes · ${shown?.edges.length.toLocaleString() ?? 0} relationships`
+                        ? featureCopy.message_0_of_1_nodes_2_relationships_5088d02(shown?.nodes.length.toLocaleString() ?? 0, data.total_nodes.toLocaleString(), shown?.edges.length.toLocaleString() ?? 0)
                         : headline}
                 </span>
                 {edgeNote.length > 0 && !scope.scope && (
@@ -2630,7 +2631,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                     </span>
                 )}
             </header>
-            {(props.workspaceExpanded || scope.scope) && <div className="atlas-graph-exploration" aria-label="Graph scope" ref={explorationBar}
+            {(props.workspaceExpanded || scope.scope) && <div className="atlas-graph-exploration" aria-label={featureCopy.Graph_scope_fddc423} ref={explorationBar}
                 data-scoped={props.workspaceExpanded && scope.scope ? 'true' : undefined}>
                 {historyControls}
                 {props.workspaceExpanded && <GalaxyNavigator embedded nodes={layout?.nodes ?? []} project={project} fetch={fetchImpl} onSelect={handleNodeClick} onSelectScope={next => { props.onClearSelection?.(); setBackgroundCleared(false); clearTrail(); scope.select(next); }} />}
@@ -2647,9 +2648,9 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                         ? <button type="button" className="atlas-graph-scope-name" data-fit-whole="" onClick={openRoot} aria-label={galaxyToolbarText.openRootLabel(rootShown)}
                             title={galaxyToolbarText.openRootTitle(rootShown, scopedRoot?.file_path ?? '', scopedRoot?.start_line)}>{rootShown}</button>
                         : <strong className="atlas-graph-scope-name" data-fit-whole="" title={scopeTitle(scope.scope)}>{rootShown}</strong>}
-                    {props.workspaceExpanded && <select aria-label="Trace direction" title={galaxyToolbarText.traceTitle} value={scope.direction}
+                    {props.workspaceExpanded && <select aria-label={featureCopy.Trace_direction_2332bab} title={galaxyToolbarText.traceTitle} value={scope.direction}
                         onChange={event => scope.setDirection(event.target.value as 'both' | 'inbound' | 'outbound')}>
-                        <option value="both">Both directions</option><option value="inbound">Incoming</option><option value="outbound">Outgoing</option>
+                        <option value="both">{featureCopy.Both_directions_3be1e3a}</option><option value="inbound">{featureCopy.Incoming_a9c615b}</option><option value="outbound">{featureCopy.Outgoing_bd2d917}</option>
                     </select>}
                     {props.workspaceExpanded && <TraceEdgeFilter kinds={traceKinds} availableTypes={kinds.map(kind => kind.type)} selected={traceTypes} onChange={changeTraceTypes} />}
                     {/*
@@ -2659,8 +2660,8 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                       */}
                     <button type="button" disabled={scope.depth <= scope.minDepth}
                         title={scope.loading ? galaxyLayerText.cancelLoading(scope.depth) : galaxyLayerText.removeLayer}
-                        onClick={cancelOrRemoveLayer} aria-label="Remove graph layer">−</button>
-                    <span>{scope.depth} {scope.depth === 1 ? 'layer' : 'layers'}</span>
+                        onClick={cancelOrRemoveLayer} aria-label={featureCopy.Remove_graph_layer_a3d6230}>−</button>
+                    <span>{scope.depth} {scope.depth === 1 ? featureCopy.layer_d54c2aa : featureCopy.layers_668165d}</span>
                     {/*
                       * G3: die Erklaerung zu Expand ist lang, und als natives
                       * `title` kam sie erst nach der Verzoegerung des Browsers.
@@ -2688,8 +2689,8 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                         title={partial ? galaxyLayerText.partialTitle(partial.layer, partial.limit === 'nodes' ? nodeBudget : edgeBudget, partial.limit)
                             : [scopeStatus, scope.loading && scope.progress ? galaxyLayerText.loadingRequest(scope.progress.requests) : groupsText]
                                 .filter(Boolean).join('. ')}>{scopeStatus}</span>
-                    {scope.error && <span className="atlas-graph-scope-warning" title={scope.error}>Some relationships could not be loaded. <button type="button" onClick={scope.retry}>Retry</button></span>}
-                    {!props.workspaceExpanded && scope.complete && <small>All indexed direct dependencies included.</small>}
+                    {scope.error && <span className="atlas-graph-scope-warning" title={scope.error}>{featureCopy.Some_relationships_could_not_be_loaded_1572b54}<button type="button" onClick={scope.retry}>{featureCopy.Retry_9f5cd8a}</button></span>}
+                    {!props.workspaceExpanded && scope.complete && <small>{featureCopy.All_indexed_direct_dependencies_included_3de5efa}</small>}
                     {!props.workspaceExpanded && groupCount > 1 && <small className="atlas-graph-scope-groups" title={groupsText}>{galaxyToolbarText.groups(groupCount)}</small>}
                 </> : null}
                 {props.workspaceExpanded && <>
@@ -2713,10 +2714,8 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                             {outsideLimits && <small>{outsideLimits}</small>}
                         </div>
                     </details> : renderLimits}
-                    {mode === 'galaxy' && !scope.scope && <label className="atlas-graph-coverage-filter" title="Show files and folders with indexing gaps">
-                        <input type="checkbox" aria-label="Show coverage graph" checked={showCoverage} onChange={event => setViewPreferences({ coverageShadow: event.target.checked })} />
-                        Coverage
-                    </label>}
+                    {mode === 'galaxy' && !scope.scope && <label className="atlas-graph-coverage-filter" title={featureCopy.Show_files_and_folders_with_indexing_gaps_ad6da9b}>
+                        <input type="checkbox" aria-label={featureCopy.Show_coverage_graph_10f7056} checked={showCoverage} onChange={event => setViewPreferences({ coverageShadow: event.target.checked })} />{featureCopy.Coverage_80e1354}</label>}
                     {!scope.scope && outsideLimits && <small>{outsideLimits}</small>}
                 </>}
             </div>}
@@ -2780,8 +2779,8 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                                                     name={`legend-${swatch.label}`}
                                                     text={
                                                         hidden
-                                                            ? `${swatch.label} is hidden: click to draw these edges again`
-                                                            : `hide the ${swatch.label} edges; the kind stays here, dimmed`
+                                                            ? featureCopy.message_0_is_hidden_click_to_draw_these_edges_again_7399a1d(swatch.label)
+                                                            : featureCopy.hide_the_0_edges_the_kind_stays_here_dimmed_2563783(swatch.label)
                                                     }
                                                 >
                                                     <button
@@ -2828,7 +2827,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                             ].filter((part) => part.length > 0).join(' ')}
                             data-edge={legendEdge.below ? 'bottom' : 'top'}
                         >
-                            {legendEdge.below ? '▾ more' : '▴ more'}
+                            {legendEdge.below ? featureCopy.more_5d6443d : featureCopy.more_711da2d}
                         </span>
                     )}
                 </div>
@@ -2941,7 +2940,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                             setNote(`${node.file_path ?? node.name}: coverage shadow. Detailed indexing reasons are not included in this layout.`);
                         }}
                         renderShadowTooltip={(node) => <HoverCardHtml position={[node.x, node.y, node.z]}>
-                            <div className="atlas-coverage-tooltip"><b>{node.file_path ?? node.name}</b><p>Coverage shadow: not fully indexed.</p></div>
+                            <div className="atlas-coverage-tooltip"><b>{node.file_path ?? node.name}</b><p>{featureCopy.Coverage_shadow_not_fully_indexed_056fb2b}</p></div>
                         </HoverCardHtml>}
                         onBackgroundClick={handleBackgroundClick}
                         renderTooltip={(node) => <NodeTooltipCard node={node} />}
@@ -2957,7 +2956,7 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                 {state !== 'ready' && (
                     <p className="atlas-galaxy-placeholder" data-state={state}>
                         {headline}
-                        {mode === 'hierarchy' && state !== 'loading' && <><br /><button type="button" data-testid="atlas-hierarchy-choose-root" onClick={() => setChosenMode('galaxy')}>Choose a symbol in the galaxy</button></>}
+                        {mode === 'hierarchy' && state !== 'loading' && <><br /><button type="button" data-testid="atlas-hierarchy-choose-root" onClick={() => setChosenMode('galaxy')}>{featureCopy.Choose_a_symbol_in_the_galaxy_f81f71b}</button></>}
                     </p>
                 )}
                 {/*
@@ -3051,14 +3050,14 @@ export default function GalaxyPanel(props: GalaxyPanelProps): JSX.Element {
                     </div>
                 )}
             </div>
-            {selectionContent && <details className="galaxy-selection-evidence atlas-galaxy-selection-details" aria-label="Selection evidence">
-                <summary>Selection details</summary>
+            {selectionContent && <details className="galaxy-selection-evidence atlas-galaxy-selection-details" aria-label={featureCopy.Selection_evidence_518b9fa}>
+                <summary>{featureCopy.Selection_details_331c816}</summary>
                 <div className="atlas-galaxy-selection-details-body">{selectionContent}</div>
             </details>}
             {note.length > 0 && !scope.loading && !organicTask.loading && (
                 <p className="atlas-galaxy-note" data-testid="atlas-galaxy-note">
                     {props.workspaceExpanded && note === GALAXY_NO_FOCUS_NOTE
-                        ? 'Select a node or entry point to attach graph context to chat.' : note}
+                        ? featureCopy.Select_a_node_or_entry_point_to_attach_graph_context_to_chat_1e84f11 : note}
                 </p>
             )}
         </section>

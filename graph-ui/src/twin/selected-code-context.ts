@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/twin';
 import type { CodeAtlasSymbolKind, SymbolRef } from '../core/focus-protocol';
 import { COLUMNS, declarationsInFiles } from '../provider/cypher';
 import { EngineError } from '../provider/engine-errors';
@@ -31,11 +32,11 @@ export async function loadFileSymbols(
     path: string,
 ): Promise<FileSymbolResult> {
     if (project.trim().length === 0 || path.trim().length === 0) {
-        throw new Error('Select a project and file before loading symbols.');
+        throw new Error(featureCopy.Select_a_project_and_file_before_loading_symbols_8bd26fd);
     }
     const results = await Promise.allSettled(LABELS.map(async ([label]) => {
         const query = declarationsInFiles(label, [path], FILE_SYMBOL_LIMIT);
-        if (!query) throw new Error('The file path could not be queried.');
+        if (!query) throw new Error(featureCopy.The_file_path_could_not_be_queried_fc41afc);
         return client.queryRows(project, query);
     }));
     const symbols = new Map<string, SymbolRef>();
@@ -69,8 +70,8 @@ export async function loadFileSymbols(
     }
     if (answered === 0) {
         throw new Error(failed.length > 0
-            ? `Could not load file symbols. Queries failed for ${failed.join(', ')}.${absent.length ? ` Labels unavailable: ${absent.join(', ')}.` : ''}`
-            : `The current index does not provide these symbol labels: ${absent.join(', ')}.`);
+            ? featureCopy.Could_not_load_file_symbols_Queries_failed_for_0_1_ec83746(failed.join(', '), absent.length ? ` Labels unavailable: ${absent.join(', ')}.` : '')
+            : featureCopy.The_current_index_does_not_provide_these_symbol_labels_0_7f2c52a(absent.join(', ')));
     }
     const ordered = [...symbols.values()].sort((a, b) => a.range.start.line - b.range.start.line
         || (a.qualifiedName ?? a.name).localeCompare(b.qualifiedName ?? b.name));

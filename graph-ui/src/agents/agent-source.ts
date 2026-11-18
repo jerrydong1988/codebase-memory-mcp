@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/agents';
 /** Same-origin daemon polling over the existing sequential HTTP transport.
  * Off means zero requests. Cursors are committed only after a validated page;
  * reconnects retain state, and a replaced SQLite database resets its generation. */
@@ -207,14 +208,14 @@ export function useAgentStream(options: AgentStreamOptions): AgentStream {
             if (cursor.current === 0) announce({ state: 'connecting', error: '' });
             try {
                 const response = await doFetch(url, { signal: controller.signal });
-                if (!response.ok) throw new Error(`daemon activity: HTTP ${response.status}`);
+                if (!response.ok) throw new Error(featureCopy.daemon_activity_HTTP_0_2e1ba09(response.status));
                 const page = await response.json() as {
                     events: unknown[]; cursor: number; generation: string; reset: boolean;
                     has_more: boolean; truncated: boolean; retained: number;
                 };
                 if (!Array.isArray(page.events) || !Number.isSafeInteger(page.cursor)
                     || page.cursor < 0 || typeof page.generation !== 'string') {
-                    throw new Error('Invalid daemon activity response');
+                    throw new Error(featureCopy.Invalid_daemon_activity_response_5734166);
                 }
                 if (stopped) return;
                 if (page.reset || (generation.current !== undefined && generation.current !== page.generation)) {

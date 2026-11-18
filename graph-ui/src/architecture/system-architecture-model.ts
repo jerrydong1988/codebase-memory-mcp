@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import type { SystemComponent, SystemDependency, SystemOverviewGroup, SystemPath, SystemPathEdge, SystemProjection, SystemSymbol } from './system-architecture-source';
 
 export interface SystemSceneNode {
@@ -126,7 +127,7 @@ function overviewLayout(groups: readonly SystemOverviewGroup[], groupingBasis?: 
     for (const region of regions) {
         if (x && x + region.width > rowWidth) { x = 0; y += rowHeight + 18; rowHeight = 0; }
         region.members.forEach(({ group }, index) => positions.set(group.id, [x + 46 + index % region.columns * 76, -y - 28 - Math.floor(index / region.columns) * 34, 0]));
-        lanes.push({ id: `directory:${region.path}`, label: region.path === '\uffff' ? 'Location unavailable' : region.path || 'Repository root',
+        lanes.push({ id: `directory:${region.path}`, label: region.path === '\uffff' ? featureCopy.Location_unavailable_d4c2227 : region.path || featureCopy.Repository_root_e149634,
             position: [x + region.width / 2, -y - region.height / 2, -4], width: region.width, height: region.height, depth: .5,
             memberIds: region.members.map(({ group }) => group.id) });
         width = Math.max(width, x + region.width); rowHeight = Math.max(rowHeight, region.height); x += region.width + 18;
@@ -165,7 +166,7 @@ export function systemOverviewGraph(data: SystemProjection, options: SystemOverv
         const groupComponent: SystemComponent = data.overview ? { id: group.id, label: group.label,
             basis: group.basis ?? data.overview.grouping_basis, member_count: group.member_count, file_count: group.file_count,
             role: group.role, representatives: group.representatives } : members[0];
-        nodes.push({ id: group.id, label: group.label, detail: `${group.component_count.toLocaleString()} components · ${group.member_count.toLocaleString()} symbols`,
+        nodes.push({ id: group.id, label: group.label, detail: featureCopy.message_0_components_1_symbols_90ff94c(group.component_count.toLocaleString(), group.member_count.toLocaleString()),
             component: groupComponent, group: data.overview ? group : undefined, kind: data.overview ? 'group' : 'component',
             groupId: group.id, componentIds: [...group.component_ids], expanded: isExpanded, position: [...position], size: [62, 22, 4] });
         groupNodeIds[group.id] = group.id;
@@ -174,13 +175,13 @@ export function systemOverviewGraph(data: SystemProjection, options: SystemOverv
         const sorted = [...members].sort((a, b) => Number(b.id === options.focusId) - Number(a.id === options.focusId) || a.id.localeCompare(b.id));
         const shown = sorted.length > 12 ? sorted.slice(0, 11) : sorted, remainder = sorted.slice(shown.length);
         const tiles = [...shown.map(component => ({ component, ids: [component.id], kind: 'component' as const })), ...(remainder.length ? [{
-            component: { id: `${group.id}:remaining`, label: `${remainder.length} other components`, basis: 'aggregate_remainder',
+            component: { id: `${group.id}:remaining`, label: featureCopy.message_0_other_components_6dcc6db(remainder.length), basis: 'aggregate_remainder',
                 member_count: remainder.reduce((sum, component) => sum + component.member_count, 0), file_count: remainder.reduce((sum, component) => sum + component.file_count, 0), representatives: [] },
             ids: remainder.map(component => component.id), kind: 'remainder' as const,
         }] : [])];
         tiles.forEach(({ component, ids, kind }, index) => {
             const id = `member:${group.id}:${component.id}`;
-            nodes.push({ id, label: component.label, detail: `${component.member_count.toLocaleString()} symbols`, component, componentIds: ids,
+            nodes.push({ id, label: component.label, detail: featureCopy.message_0_symbols_59f7fb1(component.member_count.toLocaleString()), component, componentIds: ids,
                 kind, groupId: group.id, parentId: group.id, position: [position[0] + (index % 3 - 1) * 19, position[1] + 6 - Math.floor(index / 3) * 5, 4], size: [13, 3, 2] });
             ids.forEach(componentId => { componentNodeIds[componentId] = id; });
         });
@@ -324,7 +325,7 @@ export function systemComponentGraph(data: SystemProjection, filter: string, cyc
         const column = inbound.has(component.id) && outbound.has(component.id) ? 1 : inbound.has(component.id) ? 0 : 2;
         const peers = columns[column], index = peers.indexOf(component);
         return { id: component.id, label: component.label, component,
-            detail: `${component.member_count.toLocaleString()} symbols · ${component.file_count.toLocaleString()} files`,
+            detail: featureCopy.message_0_symbols_1_files_ac3490f(component.member_count.toLocaleString(), component.file_count.toLocaleString()),
             position: component.id === focus.id ? [0, 0, 0] as [number, number, number]
                 : [(column - 1) * columnWidth, column === 1 ? 16 + index * 9 : (index - (peers.length - 1) / 2) * 9, column === 1 ? -3 : 0] as [number, number, number] };
     });

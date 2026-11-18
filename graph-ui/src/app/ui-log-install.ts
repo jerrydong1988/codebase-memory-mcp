@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/app';
 /**
  * Wiring the frontend log into a page: console, window, promises, clients.
  *
@@ -220,7 +221,7 @@ export function installUiLog(options: InstallUiLogOptions = {}): UiLogHandle {
     const userAgent = (target.navigator as Navigator | undefined)?.userAgent ?? '';
     buffer.record('info', 'ui-log', `session ${session} started on ${page}`, {
         project: getProject(),
-        detail: `build ${ATLAS_VERSION}${ATLAS_BUILD_SUFFIX.length > 0 ? `-${ATLAS_BUILD_SUFFIX}` : ''}; ${userAgent}`,
+        detail: featureCopy.build_0_1_2_0b509ab(ATLAS_VERSION, ATLAS_BUILD_SUFFIX.length > 0 ? `-${ATLAS_BUILD_SUFFIX}` : '', userAgent),
         url: target.location.href,
     });
 

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/agents';
 /**
  * Das Instrument unten rechts: es erklaert, was auf dem Graphen zu sehen ist.
  *
@@ -313,9 +314,7 @@ function Row(props: {
             {expanded && (
                 <span className="atlas-agents-card" data-testid="atlas-agents-card">
                     <span className="atlas-agents-card-line">
-                        {`${actor.count} events, ${
-                            actor.missed === 0 ? text.orderIntact : text.orderMissed(actor.missed)
-                        }`}
+                        {featureCopy.message_0_events_1_476d7c3(actor.count, actor.missed === 0 ? text.orderIntact : text.orderMissed(actor.missed))}
                     </span>
                     <span className="atlas-agents-card-line">
                         {`${actor.last.tool} ${actor.last.detail}`}
@@ -751,7 +750,7 @@ export default function AgentsHud(props: AgentsHudProps): JSX.Element {
                         .filter((part) => part.length > 0)
                         .join(' ')}
                 >
-                    {edge.below ? '▾ more' : '▴ more'}
+                    {edge.below ? featureCopy.more_5d6443d : featureCopy.more_711da2d}
                 </span>
             )}
         </aside>

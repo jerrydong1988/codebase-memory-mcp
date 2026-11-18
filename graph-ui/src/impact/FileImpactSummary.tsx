@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/impact';
 import { useEffect, useId, useMemo, useState } from 'react';
 import type { JSX } from 'react';
 import { evidenceTarget, fetchSelectionImpact } from './selection-impact';
@@ -109,7 +110,7 @@ export default function FileImpactSummary({ project, target, onOpen, expectedGen
                 attempts++;
                 if (reply.status === 'ready') {
                     if (reply.project !== project || reply.file_path !== file)
-                        throw new Error('The response belongs to another selection.');
+                        throw new Error(featureCopy.The_response_belongs_to_another_selection_e4b4620);
                     setReading({ key: requestKey, status: 'ready', data: reply });
                     setLastReady({ key: selectionKey, data: reply });
                 } else if (reply.status === 'failed') {
@@ -144,55 +145,54 @@ export default function FileImpactSummary({ project, target, onOpen, expectedGen
         if (data.scope === 'file' && (qualifiedName || id !== undefined)) notes.push('File-level evidence');
     }
     const scope = qualifiedName || id !== undefined ? target?.name ?? qualifiedName ?? 'Selected symbol' : 'File';
-    return <section className="file-impact-summary" aria-label="File impact summary"
+    return <section className="file-impact-summary" aria-label={featureCopy.File_impact_summary_e880206}
         data-status={file ? current?.status ?? 'loading' : 'idle'}>
         <div className="file-impact-summary-row">
-            <span className="file-impact-summary-label" title={file}>{scope} impact</span>
-            {!file && <span className="file-impact-summary-muted">Select a file to see its dependents.</span>}
+            <span className="file-impact-summary-label" title={file}>{scope}{featureCopy.impact_77db41e}</span>
+            {!file && <span className="file-impact-summary-muted">{featureCopy.Select_a_file_to_see_its_dependents_275ddda}</span>}
             {file && waiting && !kept
-                && <span role="status" className="file-impact-summary-muted">{current?.status === 'busy' ? 'Waiting for local analysis…' : 'Reading dependencies…'}</span>}
+                && <span role="status" className="file-impact-summary-muted">{current?.status === 'busy' ? featureCopy.Waiting_for_local_analysis_f68e77f : featureCopy.Reading_dependencies_a14aaa8}</span>}
             {current?.status === 'failed' && <><span role="alert" className="file-impact-summary-warning"
-                title={current.error}>Impact unavailable</span><button type="button" onClick={retryNow}>Retry</button></>}
+                title={current.error}>{featureCopy.Impact_unavailable_ba1647e}</span><button type="button" onClick={retryNow}>{featureCopy.Retry_9f5cd8a}</button></>}
             {data && aggregate && <>
                 <div className="file-impact-summary-metrics">
                     {data.structural.available ? <>
-                        <span title="Indexed caller and importer nodes; not a runtime count.">{countLabel(data.structural.direct, 'direct dependent', data.structural.truncated)}</span>
+                        <span title={featureCopy.Indexed_caller_and_importer_nodes_not_a_runtime_count_6742fc2}>{countLabel(data.structural.direct, 'direct dependent', data.structural.truncated)}</span>
                         <span>{countLabel(aggregate.files.length, 'affected file', aggregate.filesIncomplete)}</span>
-                        <span title="Distinct returned files with a test-candidate dependency. File-path classification does not prove test coverage.">{countLabel(aggregate.testFiles, 'test file', aggregate.filesIncomplete)}</span>
-                    </> : <span className="file-impact-summary-warning" title={data.structural.error}>Graph unavailable</span>}
-                    {data.history.available ? <span title={`Local Git sample: ${data.history.commits_scanned} commits, up to ${data.history.window_days} days. Historical association is not a dependency.`}>
-                        Git: {countLabel(data.history.selection_commits, 'sampled commit')} · {countLabel(aggregate.cochanges.length, 'co-changed file', data.history.cochanges_omitted > 0)}
-                    </span> : <span className="file-impact-summary-muted" title={data.history.error}>Git unavailable</span>}
+                        <span title={featureCopy.Distinct_returned_files_with_a_test_candidate_dependency_File_pat_be4222a}>{countLabel(aggregate.testFiles, 'test file', aggregate.filesIncomplete)}</span>
+                    </> : <span className="file-impact-summary-warning" title={data.structural.error}>{featureCopy.Graph_unavailable_0ab407b}</span>}
+                    {data.history.available ? <span title={featureCopy.Local_Git_sample_0_commits_up_to_1_days_Historical_association_is_2a3b1eb(data.history.commits_scanned, data.history.window_days)}>{featureCopy.Git_1322d26}{countLabel(data.history.selection_commits, 'sampled commit')} · {countLabel(aggregate.cochanges.length, 'co-changed file', data.history.cochanges_omitted > 0)}
+                    </span> : <span className="file-impact-summary-muted" title={data.history.error}>{featureCopy.Git_unavailable_5fab322}</span>}
                 </div>
                 <button type="button" className="file-impact-summary-toggle" aria-expanded={expanded} aria-controls={detailsId}
-                    onClick={() => setExpandedKey(expanded ? '' : selectionKey)}>{expanded ? 'Less' : 'Details'} <span aria-hidden="true">{expanded ? '▴' : '▾'}</span></button>
+                    onClick={() => setExpandedKey(expanded ? '' : selectionKey)}>{expanded ? featureCopy.Less_526cb74 : featureCopy.Details_dc3decb} <span aria-hidden="true">{expanded ? '▴' : '▾'}</span></button>
             </>}
         </div>
         {notes.length > 0 && <p className="file-impact-summary-note">{notes.join(' · ')}</p>}
         {data?.structural.available && data.structural.reachable === 0
-            && <p className="file-impact-summary-note">No dependents found in this index; this does not establish safety.</p>}
+            && <p className="file-impact-summary-note">{featureCopy.No_dependents_found_in_this_index_this_does_not_establish_safety_2bb84cf}</p>}
         {expanded && data && aggregate && <div className="file-impact-summary-details" id={detailsId}>
             <div className="file-impact-summary-detail-grid">
-                <section aria-label="Affected files"><h4>Affected files</h4>
-                    {!data.structural.available ? <p>{data.structural.error ?? 'No usable graph evidence for this selection.'}</p>
-                        : aggregate.files.length === 0 ? <p>No file paths returned by this graph walk.</p>
+                <section aria-label={featureCopy.Affected_files_c9ea7d7}><h4>{featureCopy.Affected_files_c9ea7d7}</h4>
+                    {!data.structural.available ? <p>{data.structural.error ?? featureCopy.No_usable_graph_evidence_for_this_selection_4337393}</p>
+                        : aggregate.files.length === 0 ? <p>{featureCopy.No_file_paths_returned_by_this_graph_walk_eb6ef84}</p>
                             : <ul>{aggregate.files.slice(0, fileLimit).map(row => <li key={row.filePath}>
                                 <button type="button" onClick={() => onOpen(row.target)} title={row.filePath}>{row.filePath}</button>
-                                <span>{row.distance === 1 ? 'direct' : `${row.distance} hops`} · {countLabel(row.symbols, 'symbol')}{row.testCandidate ? ' · test candidate' : ''}</span>
+                                <span>{row.distance === 1 ? featureCopy.direct_24a1733 : featureCopy.message_0_hops_8fc4586(row.distance)} · {countLabel(row.symbols, 'symbol')}{row.testCandidate ? featureCopy.test_candidate_4ec855f : ''}</span>
                             </li>)}</ul>}
-                    {aggregate.files.length > fileLimit && <button type="button" onClick={() => setLimits({ key: selectionKey, files: fileLimit + 6, history: historyLimit })}>More files ({aggregate.files.length - fileLimit})</button>}
+                    {aggregate.files.length > fileLimit && <button type="button" onClick={() => setLimits({ key: selectionKey, files: fileLimit + 6, history: historyLimit })}>{featureCopy.More_files_1940082}{aggregate.files.length - fileLimit})</button>}
                 </section>
-                <section aria-label="Files changed together"><h4>Changed together <span>· Git sample</span></h4>
-                    {!data.history.available ? <p>{data.history.error ?? 'Local Git history is unavailable.'}</p>
-                        : aggregate.cochanges.length === 0 ? <p>No co-changed files in this sample.</p>
+                <section aria-label={featureCopy.Files_changed_together_87414e0}><h4>{featureCopy.Changed_together_90709ef}<span>{featureCopy.Git_sample_1dcd764}</span></h4>
+                    {!data.history.available ? <p>{data.history.error ?? featureCopy.Local_Git_history_is_unavailable_e1cf513}</p>
+                        : aggregate.cochanges.length === 0 ? <p>{featureCopy.No_co_changed_files_in_this_sample_e2876d8}</p>
                             : <ul>{aggregate.cochanges.slice(0, historyLimit).map(row => <li key={row.file_path}>
                                 <button type="button" onClick={() => onOpen({ filePath: row.file_path })} title={row.file_path}>{row.file_path}</button>
                                 <span>{countLabel(row.shared_commits, 'shared commit')}</span>
                             </li>)}</ul>}
-                    {aggregate.cochanges.length > historyLimit && <button type="button" onClick={() => setLimits({ key: selectionKey, files: fileLimit, history: historyLimit + 4 })}>More co-changed files ({aggregate.cochanges.length - historyLimit})</button>}
+                    {aggregate.cochanges.length > historyLimit && <button type="button" onClick={() => setLimits({ key: selectionKey, files: fileLimit, history: historyLimit + 4 })}>{featureCopy.More_co_changed_files_45dac3a}{aggregate.cochanges.length - historyLimit})</button>}
                 </section>
             </div>
-            <footer><span>Indexed calls/imports · up to {data.structural.max_depth} hops. Test files are candidates; Git co-changes are associations.</span>
+            <footer><span>{featureCopy.Indexed_calls_imports_up_to_6a4b1bf}{data.structural.max_depth}{featureCopy.hops_Test_files_are_candidates_Git_co_changes_are_associations_787a55c}</span>
                 <RefreshControl labels={FILE_IMPACT_REFRESH} feedback={refresh.feedback} onRefresh={() => { refresh.begin(); retryNow(); }} /></footer>
         </div>}
     </section>;

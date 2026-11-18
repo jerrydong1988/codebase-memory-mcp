@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import type { RouteRef } from '../core/intelligence-provider';
 import type { GraphData, GraphEdge, GraphNode } from '../galaxy/types';
 import { areaLevels, areaOf, areaTrail, MAP_RELATIONS } from './repository-map';
@@ -290,7 +291,7 @@ export function layoutFolderHierarchy(nodes: SemanticNode[], base = ''): Semanti
     const place = (box: HierarchyBox, x: number, z: number) => {
         if (box.node) { box.node.position = [x, box.level * 1.6 + 0.08, z]; return; }
         if (box.level) platforms.push({ id: `hierarchy:${box.key}`, path: box.path,
-            label: box.unknown ? 'Unknown source' : box.path, position: [x, box.level * 1.6, z], width: box.width, depth: box.depth, level: box.level });
+            label: box.unknown ? featureCopy.Unknown_source_09d2442 : box.path, position: [x, box.level * 1.6, z], width: box.width, depth: box.depth, level: box.level });
         for (const child of box.children) place(child, x + child.x, z + child.z);
     };
     place(root, 0, 0);
@@ -316,7 +317,7 @@ function placeOutside(outside: SemanticNode[], inside: SemanticNode[], platforms
     outside.forEach((node, index) => {
         node.position = [center + (index % columns + 1 - columns / 2) * spacing, 1.68, top + 28 + Math.floor(index / columns) * spacing];
     });
-    return { id: 'hierarchy:outside', path: '', label: 'Outside', position: [center, 1.6, top + depth / 2], width, depth, level: 1 };
+    return { id: 'hierarchy:outside', path: '', label: featureCopy.Outside_b7efb76, position: [center, 1.6, top + depth / 2], width, depth, level: 1 };
 }
 
 /** Prune empty containers without repacking the stable unfiltered layout. */
@@ -341,7 +342,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
     let nodes: SemanticNode[] = [];
     let edges: SemanticEdge[] = [];
     const warnings: string[] = [];
-    let title = options.filePath ?? options.areaPath ?? 'Repository structure';
+    let title = options.filePath ?? options.areaPath ?? featureCopy.Repository_structure_e2b587c;
     let positionMeaning = 'Nested platforms follow source folders; areas outside the opened one wait in their own lane. Boxes represent source grouping, not deployed services.';
     const depth = bounded(options.depth, 3, 8);
     let rootId: string | undefined;
@@ -411,7 +412,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
                 const id = `route:${identity(node)}`;
                 if (!routeNodes.has(id)) routeNodes.set(id, { ...symbolNode(node), id, kind: 'route',
                     graphNode: currentNodes.has(node) ? node : undefined,
-                    label: readableRoute(edge?.routePath ?? node.name), detail: node.file_path ?? 'Indexed route; source location unavailable' });
+                    label: readableRoute(edge?.routePath ?? node.name), detail: node.file_path ?? featureCopy.Indexed_route_source_location_unavailable_ec0bcc5 });
                 return id;
             }
             const area = node.file_path ? areaOf(node.file_path) : undefined;
@@ -420,7 +421,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
             let group = routeNodes.get(id);
             if (!group) {
                 group = { id, kind: area ? 'area' : 'symbol', label: area ?? node.name,
-                    detail: `${role === 'handler' ? 'Handler' : 'Caller'} source area; inferred from file paths`,
+                    detail: featureCopy.message_0_source_area_inferred_from_file_paths_a0f70e0(role === 'handler' ? 'Handler' : 'Caller'),
                     position: [0, 0, 0], count: 0, areaPath: area, members: [] };
                 routeNodes.set(id, group);
             }
@@ -439,7 +440,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
             const id = `registration:${route.method ?? ''}:${route.path}@${route.filePath ?? ''}:${route.line ?? ''}`;
             if (options.hideTestRoutes && route.filePath && TEST_SOURCE.test(route.filePath)) { hidden.add(id); continue; }
             routeNodes.set(id, { id, kind: 'route', label: `${route.method ? `${route.method} ` : ''}${readableRoute(route.path)}`,
-                detail: `${route.origin === 'source' ? 'Source' : 'Index'} registration · handler relationship not resolved`,
+                detail: featureCopy.message_0_registration_handler_relationship_not_resolved_af6d867(route.origin === 'source' ? 'Source' : 'Index'),
                 position: [0, 0, 0], count: 1, filePath: route.filePath, line: route.line, members: [] });
         }
         hiddenRoutes = hidden.size;
@@ -456,7 +457,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
             for (const [prefix, routes] of prefixes) if (routes.length > 1 && prefix !== '/') {
                 const id = `route-group:${prefix}`;
                 routeNodes.set(id, { id, kind: 'route', kindLabel: 'Route group', routePrefix: prefix, label: `${prefix} · ${routes.length}`,
-                    detail: `${routes.length} routes whose path starts with ${prefix}`, position: [0, 0, 0], count: routes.length,
+                    detail: featureCopy.message_0_routes_whose_path_starts_with_1_a21eefd(routes.length, prefix), position: [0, 0, 0], count: routes.length,
                     members: routes.flatMap(route => route.members) });
                 for (const route of routes) { grouped.set(route.id, id); routeNodes.delete(route.id); }
             }
@@ -517,7 +518,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
             const paths = inventory.get(id) ?? new Set<string>(); paths.add(path); inventory.set(id, paths);
             if (options.filePath && [...groups.values()].some(group => group.filePath === path)) continue;
             if (!groups.has(id)) groups.set(id, { id, kind: level.kind, label: options.filePath ? path : scopedLabel(level.path),
-                detail: options.filePath ? 'File inventory · no symbols in the loaded graph' : '',
+                detail: options.filePath ? featureCopy.File_inventory_no_symbols_in_the_loaded_graph_da42d5c : '',
                 position: [0, 0, 0], count: 0, areaPath: level.kind === 'area' ? level.path : scope ?? areaOf(path),
                 filePath: level.kind === 'file' ? path : undefined, members: [] });
         }
@@ -546,7 +547,7 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
                 if (!nodeGroups.has(inside.id) && options.filePath && ['File', 'Module'].includes(inside.label)) {
                     const id = `file:${options.filePath}`;
                     const group: SemanticNode = groups.get(id) ?? { id, kind: 'file', label: options.filePath,
-                        detail: 'File-level dependencies', position: [0, 0, 0], count: 0,
+                        detail: featureCopy.File_level_dependencies_3433029, position: [0, 0, 0], count: 0,
                         filePath: options.filePath, areaPath: areaOf(options.filePath), members: [] };
                     if (!group.members.includes(inside)) { group.members.push(inside); group.count++; }
                     groups.set(id, group); nodeGroups.set(inside.id, id);
@@ -555,14 +556,14 @@ export function buildSemanticGraph(graph: GraphData, options: SemanticGraphOptio
                 const areaPath = outsideArea(outside.file_path!);
                 const id = `area:${areaPath}`;
                 const group: SemanticNode = groups.get(id) ?? { id, kind: 'area', label: areaPath,
-                    detail: 'External source area · inferred from file paths', position: [0, 0, 0],
+                    detail: featureCopy.External_source_area_inferred_from_file_paths_53f1600, position: [0, 0, 0],
                     count: 0, areaPath, members: [], external: true };
                 if (!group.members.includes(outside)) { group.members.push(outside); group.count++; }
                 groups.set(id, group); nodeGroups.set(outside.id, id);
             }
         }
         nodes = [...groups.values()].map(node => ({ ...node, members: node.members.sort(nodeOrder),
-            detail: node.detail || `${new Set([...node.members.map(member => member.file_path), ...(inventory.get(node.id) ?? [])]).size} files · ${node.count} indexed nodes` }));
+            detail: node.detail || featureCopy.message_0_files_1_indexed_nodes_1cc3195(new Set([...node.members.map(member => member.file_path), ...(inventory.get(node.id) ?? [])]).size, node.count) }));
         edges = aggregate(scopedEvidence, node => nodeGroups.get(node.id));
         if (options.view === 'dependencies') title = options.filePath ?? options.areaPath ?? 'Dependencies between source areas';
     }

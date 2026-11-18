@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { RpcIntelligenceClient } from '../provider/rpc-client';
 import type { ProjectEntry } from '../provider/rpc-schemas';
 import { loadRouteGraph } from './route-graph-source';
@@ -71,22 +72,22 @@ export async function loadContainerInventory(project: ProjectEntry, client: RpcI
 /** A partial YAML document must never masquerade as a complete deployment. */
 export async function readContainerSource(inventory: ContainerInventory, path: string, client: RpcIntelligenceClient, signal: AbortSignal): Promise<string> {
     const qn = inventory.files.get(path);
-    if (!qn) throw new Error('File is outside the indexed inventory.');
+    if (!qn) throw new Error(featureCopy.File_is_outside_the_indexed_inventory_5225261);
     // File nodes without a Module span can return a 51-line preview with no truncation flag.
     if (inventory.sourceEnds && !inventory.sourceEnds.has(path)) {
         const spans = isCode(path) ? inventory.sourceSpans?.get(path) : undefined;
-        if (!spans?.length) throw new Error('No complete module span or indexed code range is available.');
+        if (!spans?.length) throw new Error(featureCopy.No_complete_module_span_or_indexed_code_range_is_available_1873685);
         if (spans.length > 8 || spans[spans.length - 1].last > 20_000
-            || spans.reduce((total, span) => total + span.last - span.first + 1, 0) > 2000) throw new Error('Indexed code exceeds the source limit.');
+            || spans.reduce((total, span) => total + span.last - span.first + 1, 0) > 2000) throw new Error(featureCopy.Indexed_code_exceeds_the_source_limit_aaf0af2);
         const lines: string[] = [];
         for (const span of spans) {
             const code = await readSourceRange(inventory.project, span.qn, span.first, span.last, client, signal);
             const part = code.split('\n');
             if (part[part.length - 1] === '') part.pop();
-            if (part.length !== span.last - span.first + 1) throw new Error('Indexed code range changed while reading.');
+            if (part.length !== span.last - span.first + 1) throw new Error(featureCopy.Indexed_code_range_changed_while_reading_1dc1d34);
             while (lines.length < span.first - 1) lines.push('');
             lines.push(...part);
-            if (lines.reduce((total, line) => total + line.length + 1, 0) > 160_000) throw new Error('Source exceeds the inspection limit.');
+            if (lines.reduce((total, line) => total + line.length + 1, 0) > 160_000) throw new Error(featureCopy.Source_exceeds_the_inspection_limit_7c6ffd4);
         }
         return lines.join('\n');
     }
@@ -100,18 +101,18 @@ async function readSourceRange(project: string, qn: string, first: number, last:
         const snippet = await client.getCodeSnippet(project, qn, { startLine: next, maxLines: 500 });
         checkAbort(signal);
         if ((snippet.start_line ?? 1) !== next || snippet.source_mode === 'outline'
-            || !snippet.source || snippet.source === '(source not available)') throw new Error('Source page is unavailable.');
+            || !snippet.source || snippet.source === '(source not available)') throw new Error(featureCopy.Source_page_is_unavailable_43f1699);
         source += (page && !source.endsWith('\n') ? '\n' : '') + snippet.source;
-        if (source.length > 160_000) throw new Error('Source exceeds the inspection limit.');
+        if (source.length > 160_000) throw new Error(featureCopy.Source_exceeds_the_inspection_limit_7c6ffd4);
         if (snippet.next_start_line === undefined) {
             if (snippet.source_clipped || snippet.source_truncated
-                || (last !== undefined && (snippet.end_line ?? 0) < last)) throw new Error('Source is incomplete.');
+                || (last !== undefined && (snippet.end_line ?? 0) < last)) throw new Error(featureCopy.Source_is_incomplete_6218a3c);
             return source;
         }
-        if (snippet.next_start_line <= next || snippet.next_start_line !== (snippet.end_line ?? 0) + 1) throw new Error('Source pages changed while reading.');
+        if (snippet.next_start_line <= next || snippet.next_start_line !== (snippet.end_line ?? 0) + 1) throw new Error(featureCopy.Source_pages_changed_while_reading_bb64747);
         next = snippet.next_start_line;
     }
-    throw new Error('Source exceeds the 2,000-line inspection limit.');
+    throw new Error(featureCopy.Source_exceeds_the_2_000_line_inspection_limit_e357778);
 }
 
 /** Round-robin build scopes so one large service cannot consume every inspected file. */

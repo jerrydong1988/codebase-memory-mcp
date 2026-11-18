@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/galaxy';
 /**
  * Testhilfe: /api/layout und die beiden query_graph-Formen des Scope-Laders,
  * ueber dieselbe RPC-Strecke wie im Betrieb (dieselbe Form wie in
@@ -19,7 +20,7 @@ export interface ScopeFetchOptions {
 }
 
 export function scopeNode(id: number, extra: Partial<GraphNode> = {}): GraphNode {
-    return { id, name: `n${id}`, qualified_name: `sample.n${id}`, label: 'Function', file_path: `src/n${id}.ts`,
+    return { id, name: `n${id}`, qualified_name: `sample.n${id}`, label: featureCopy.Function_f1e410a, file_path: `src/n${id}.ts`,
         start_line: 1, end_line: 5, x: id * 10, y: 0, z: 0, size: 2, color: '#999999', ...extra };
 }
 

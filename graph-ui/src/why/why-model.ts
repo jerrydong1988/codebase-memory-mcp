@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/why';
 /**
  * What the reader came here to do, and what the panel does with the answer.
  *
@@ -61,7 +62,7 @@ export const WHY_SUBLINE =
  * The other three causes are fixed in App.tsx: opening a file, choosing a
  * symbol or asking a question closes it, and Escape closes it too.
  */
-export const WHY_DECLINE_LABEL = 'Continue exploring';
+export const WHY_DECLINE_LABEL = featureCopy.Continue_exploring_d5d6e83;
 
 /** What the button says when it is touched: what closing costs, which is nothing. */
 export const WHY_DECLINE_TOOLTIP =
@@ -77,7 +78,7 @@ export const WHY_DECLINE_TOOLTIP =
  * its shortcut, and a keyboard-first surface with four mouse-only entries is
  * keyboard-first for the top row only.
  */
-export const WHY_MENU_LABEL = '[w]here to start';
+export const WHY_MENU_LABEL = featureCopy.w_here_to_start_c2922a0;
 
 /** One card. `stub` is the honest sentence a card that does not open anything owes. */
 export interface WhyCard {
@@ -99,23 +100,23 @@ export interface WhyCard {
 export const WHY_CARDS: readonly WhyCard[] = [
     {
         intent: 'bug',
-        label: 'Hunt a bug',
-        detail: 'Something is wrong and you want the error paths and what ran, not the shape of the design.',
+        label: featureCopy.Hunt_a_bug_12e012a,
+        detail: featureCopy.Something_is_wrong_and_you_want_the_error_paths_and_what_ran_not__1f438fa,
     },
     {
         intent: 'change',
-        label: 'Scope a change',
-        detail: 'You are about to touch something and want what it reaches and what covers it.',
+        label: featureCopy.Scope_a_change_eab0b8d,
+        detail: featureCopy.You_are_about_to_touch_something_and_want_what_it_reaches_and_wha_c8904d6,
     },
     {
         intent: 'understand',
-        label: 'Understand the project',
-        detail: 'Open the repository map, find an entry point, and follow relationships to their source.',
+        label: featureCopy.Understand_the_project_197d285,
+        detail: featureCopy.Open_the_repository_map_find_an_entry_point_and_follow_relationsh_50bc149,
     },
     {
         intent: 'entry',
-        label: 'Pick my own entry point',
-        detail: 'You already know a name. Start there and walk forward over the calls the index recorded.',
+        label: featureCopy.Pick_my_own_entry_point_8b4fe66,
+        detail: featureCopy.You_already_know_a_name_Start_there_and_walk_forward_over_the_cal_fccc648,
     },
 ];
 
@@ -147,7 +148,7 @@ export function profileFor(intent: WhyIntent, fallback: PresentationProfile): Pr
         case 'bug':
             return {
                 id: 'custom:why-bug',
-                label: 'Bug hunt',
+                label: featureCopy.Bug_hunt_2d06f07,
                 depth: 2,
                 facets: [Facet.Logic, Facet.Calls, Facet.Errors, Facet.Runtime],
                 terminology: 'technical',
@@ -158,7 +159,7 @@ export function profileFor(intent: WhyIntent, fallback: PresentationProfile): Pr
         case 'change':
             return {
                 id: 'custom:why-change',
-                label: 'Change scope',
+                label: featureCopy.Change_scope_874ee67,
                 depth: 2,
                 facets: [Facet.Calls, Facet.Data, Facet.Tests, Facet.Changes],
                 terminology: 'technical',
@@ -169,7 +170,7 @@ export function profileFor(intent: WhyIntent, fallback: PresentationProfile): Pr
         case 'understand':
             return {
                 id: 'custom:why-understand',
-                label: 'Project walk',
+                label: featureCopy.Project_walk_dcb2021,
                 depth: 1,
                 facets: [Facet.Logic, Facet.Calls, Facet.Tests],
                 terminology: 'plain',

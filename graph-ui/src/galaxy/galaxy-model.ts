@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/galaxy';
 /**
  * Was die Galaxie ueber ihre Knoten weiss, ohne dass ein Bild dafuer noetig
  * waere.
@@ -137,4 +138,4 @@ export function unopenableNodeNote(node: GraphNode): string {
 }
 
 /** Was das Panel sagt, solange kein Symbol im Fokus steht. */
-export const GALAXY_NO_FOCUS_NOTE = 'Open a file or select a symbol to focus the graph.';
+export const GALAXY_NO_FOCUS_NOTE = featureCopy.Open_a_file_or_select_a_symbol_to_focus_the_graph_5e85ce1;

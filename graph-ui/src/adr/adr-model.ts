@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/adr';
 import type { AdrRecord } from '../projects/projects-model';
 
 export const ADR_CONTENT_LIMIT = 8000;
@@ -56,6 +57,6 @@ export function clearAdrDraft(project: string): void {
 
 /** Generic authoring scaffold; no repository facts are invented. */
 export function appendDecision(content: string): string {
-    const heading = content.trim() ? '\n\n---\n\n## Decision title' : '# Architecture decisions\n\n## Decision title';
+    const heading = content.trim() ? featureCopy.Decision_title_3c5fde2 : '# Architecture decisions\n\n## Decision title';
     return `${content.trimEnd()}${heading}\n\n**Status:** Proposed\n\n### Context\n\nWhat problem or constraint led to this decision?\n\n### Decision\n\nWhat will change, and why?\n\n### Alternatives\n\nWhich options were considered?\n\n### Consequences\n\nWhat benefits, costs, and follow-up work should readers know?\n`;
 }

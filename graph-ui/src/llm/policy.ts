@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/llm';
 /**
  * Die committete Projekt-Policy und ihr Vorrang vor jeder Nutzerpraeferenz.
  *
@@ -87,11 +88,11 @@ export function readPolicySource(source: string): PolicyReading {
         return {
             verdict: 'unreadable',
             path: POLICY_PATH,
-            detail: `die Datei ist kein lesbares JSON: ${error instanceof Error ? error.message : String(error)}`,
+            detail: featureCopy.die_Datei_ist_kein_lesbares_JSON_0_2c26152(error instanceof Error ? error.message : String(error)),
         };
     }
     if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-        return { verdict: 'unreadable', path: POLICY_PATH, detail: 'die Datei enthaelt kein JSON-Objekt' };
+        return { verdict: 'unreadable', path: POLICY_PATH, detail: featureCopy.die_Datei_enthaelt_kein_JSON_Objekt_56f0974 };
     }
     const value = (parsed as Record<string, unknown>)['llm'];
     if (value === undefined) {
@@ -106,7 +107,7 @@ export function readPolicySource(source: string): PolicyReading {
     return {
         verdict: 'unreadable',
         path: POLICY_PATH,
-        detail: `"llm" traegt den Wert ${JSON.stringify(value)}, und dieses Programm kennt nur "allow" und "deny"`,
+        detail: featureCopy.llm_traegt_den_Wert_0_und_dieses_Programm_kennt_nur_allow_und_den_e63052f(JSON.stringify(value)),
     };
 }
 
@@ -124,7 +125,7 @@ export async function readLlmPolicy(
     project: string,
 ): Promise<PolicyReading> {
     if (project.length === 0) {
-        return { verdict: 'absent', path: POLICY_PATH, detail: 'kein Projekt gewaehlt' };
+        return { verdict: 'absent', path: POLICY_PATH, detail: featureCopy.kein_Projekt_gewaehlt_f5bc3ab };
     }
     try {
         const document = await loadFileDocument(client, project, POLICY_PATH);
@@ -136,7 +137,7 @@ export async function readLlmPolicy(
         return {
             verdict: 'unreadable',
             path: POLICY_PATH,
-            detail: `die Policy war ueber ${POLICY_RPC_TOOL} nicht zu holen: `
+            detail: featureCopy.die_Policy_war_ueber_0_nicht_zu_holen_ff76227(POLICY_RPC_TOOL)
                 + `${error instanceof Error ? error.message : String(error)}`,
         };
     }

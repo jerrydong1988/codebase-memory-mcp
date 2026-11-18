@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/tours';
 /*
  * Herkunft: portiert am 2026-08-28 aus CodeAtlasIDE,
  * /Users/bernhard/Desktop/CodeAtlasIDE/theia-extensions/codeatlas-intelligence/src/node/tours/tour-generator.ts
@@ -93,7 +94,7 @@ import type {
 export const MAX_TOUR_STEPS = 12;
 
 /** Title of the one tour this generator produces. */
-export const GETTING_STARTED_TITLE = 'Getting started';
+export const GETTING_STARTED_TITLE = featureCopy.Getting_started_76e7a3a;
 
 /**
  * The directory CodeAtlas keeps its own files in, which a tour never walks.

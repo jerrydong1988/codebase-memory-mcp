@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/galaxy';
 import type { SymbolRef } from '../core/focus-protocol';
 import type { ReaderSelection } from '../reader/MonacoReader';
 import { workspacePathOf } from '../twin/twin-target';
@@ -34,7 +35,7 @@ export function symbolMatchesReader(symbol: SymbolRef | undefined, filePath: str
 
 export function readerGraphFocus(nodes: readonly GraphNode[], filePath: string, range?: SourceFocusRange): { ids: Set<number>; message: string } {
     const fileNodes = nodes.filter((node) => node.file_path && normalizedPath(node.file_path) === normalizedPath(filePath));
-    if (fileNodes.length === 0) return { ids: new Set(), message: `${filePath} is not in the loaded graph layout.` };
+    if (fileNodes.length === 0) return { ids: new Set(), message: featureCopy.message_0_is_not_in_the_loaded_graph_layout_ad36512(filePath) };
     if (range) {
         const overlapping = fileNodes.filter((node) => !['File', 'Folder', 'Module', 'Package', 'Namespace'].includes(node.label)
             && node.start_line !== undefined && node.start_line <= range.endLine
@@ -42,7 +43,7 @@ export function readerGraphFocus(nodes: readonly GraphNode[], filePath: string, 
         const symbols = overlapping.filter((node) => !['Class', 'Interface', 'Struct', 'Enum'].includes(node.label));
         const selected = symbols.length > 0 ? symbols : overlapping;
         if (selected.length > 0) return { ids: new Set(selected.map((node) => node.id)), message: '' };
-        return { ids: new Set(fileNodes.map((node) => node.id)), message: 'No indexed symbol overlaps this source range. Showing the file.' };
+        return { ids: new Set(fileNodes.map((node) => node.id)), message: featureCopy.No_indexed_symbol_overlaps_this_source_range_Showing_the_file_41ccb27 };
     }
     return { ids: new Set(fileNodes.map((node) => node.id)), message: '' };
 }

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { useEffect, useState } from 'react';
 import type { GraphData, GraphNode, GraphEdge } from '../galaxy/types';
 
@@ -16,11 +17,11 @@ const number = (value: unknown): number => typeof value === 'number' && Number.i
 export function readRepositorySnapshot(value: unknown): RepositorySnapshot {
     const raw = object(value);
     if (!Array.isArray(raw.nodes) || !Array.isArray(raw.edges) || typeof raw.generation !== 'string') {
-        throw new Error('Repository map response has no graph snapshot metadata.');
+        throw new Error(featureCopy.Repository_map_response_has_no_graph_snapshot_metadata_5114be4);
     }
     const nodes: GraphNode[] = raw.nodes.map(value => {
         const row = object(value);
-        if (!Number.isSafeInteger(row.id)) throw new Error('Repository map contains an invalid source identity.');
+        if (!Number.isSafeInteger(row.id)) throw new Error(featureCopy.Repository_map_contains_an_invalid_source_identity_a0d620c);
         return { id: number(row.id), name: string(row.name), label: string(row.label),
             file_path: string(row.file_path) || undefined, qualified_name: string(row.qualified_name),
             start_line: number(row.start_line) || undefined, end_line: number(row.end_line) || undefined,
@@ -33,7 +34,7 @@ export function readRepositorySnapshot(value: unknown): RepositorySnapshot {
     });
     const edges: GraphEdge[] = raw.edges.map(value => {
         const row = object(value);
-        if (!Number.isSafeInteger(row.source) || !Number.isSafeInteger(row.target) || typeof row.type !== 'string') throw new Error('Repository map contains an invalid edge.');
+        if (!Number.isSafeInteger(row.source) || !Number.isSafeInteger(row.target) || typeof row.type !== 'string') throw new Error(featureCopy.Repository_map_contains_an_invalid_edge_08fde79);
         return { source: number(row.source), target: number(row.target), type: row.type,
             id: number(row.id) || undefined, line: number(row.line) || undefined,
             strategy: string(row.strategy) || undefined,
@@ -66,7 +67,7 @@ export async function fetchRepositorySnapshot(project: string, signal: AbortSign
         try {
             const response = await fetch(`/api/repository-map?${new URLSearchParams({ project })}`, { signal });
             if (!response.ok) {
-                const error = new Error(`Repository map returned HTTP ${response.status}.`);
+                const error = new Error(featureCopy.Repository_map_returned_HTTP_0_d183ec5(response.status));
                 if (![408, 429, 502, 503, 504].includes(response.status)) throw Object.assign(error, { permanent: true });
                 throw error;
             }

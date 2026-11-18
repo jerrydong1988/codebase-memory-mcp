@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import type { GraphNode } from '../galaxy/types';
 import { RpcIntelligenceClient, rowsToObjects } from '../provider/rpc-client';
 import type { RpcClientOptions } from '../provider/rpc-client';
@@ -73,7 +74,7 @@ export async function loadRouteGraph(project: string, options: RouteGraphOptions
                 const page = await client.queryGraph(project, queryText(query), cursor);
                 if (first && (page.offset !== rowCount || page.total !== first.total
                     || JSON.stringify(page.columns) !== JSON.stringify(first.columns) || page.rows.length === 0)) {
-                    throw new Error('Query continuation changed its snapshot.');
+                    throw new Error(featureCopy.Query_continuation_changed_its_snapshot_56a4447);
                 }
                 first ??= page;
                 const rows = rowsToObjects(page.columns, page.rows);

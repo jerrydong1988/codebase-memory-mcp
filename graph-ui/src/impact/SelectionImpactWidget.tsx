@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/impact';
 import { useEffect, useId, useState } from 'react';
 import type { JSX } from 'react';
 import { evidenceTarget, fetchSelectionImpact, localCommitCommand, selectionRisk } from './selection-impact';
@@ -56,7 +57,7 @@ export default function SelectionImpactWidget({ project, target, onOpen, onDiagn
                 else if (attempts < 80) {
                     setState(reply.status);
                     timer = setTimeout(() => { void read(); }, 500);
-                } else { setError('Analysis is taking longer than expected. Refresh to retry.'); setState('failed'); }
+                } else { setError(featureCopy.Analysis_is_taking_longer_than_expected_Refresh_to_retry_36e0740); setState('failed'); }
             } catch (cause) {
                 if (!controller.signal.aborted) {
                     setError(cause instanceof Error ? cause.message : String(cause)); setState('failed');
@@ -68,30 +69,29 @@ export default function SelectionImpactWidget({ project, target, onOpen, onDiagn
     }, [project, file, qn, id, refresh, load, expectedGeneration, selectionKey]);
     const risk = data ? selectionRisk(data) : undefined;
     return <section className="selection-impact" data-testid="selection-impact" data-status={state}
-        aria-label="Selection impact analysis">
-        {!compact && <header><div><h3>Selection evidence</h3></div>
-            {file && <button type="button" onClick={() => setRefresh(value => value + 1)}>Refresh analysis</button>}
+        aria-label={featureCopy.Selection_impact_analysis_6bd771d}>
+        {!compact && <header><div><h3>{featureCopy.Selection_evidence_518b9fa}</h3></div>
+            {file && <button type="button" onClick={() => setRefresh(value => value + 1)}>{featureCopy.Refresh_analysis_b7a6756}</button>}
         </header>}
-        {compact && file && !data && <div><button type="button" onClick={() => setRefresh(value => value + 1)}>Refresh analysis</button></div>}
-        {!file && <p>Select an indexed file or symbol to inspect its dependency paths and local Git evidence.</p>}
+        {compact && file && !data && <div><button type="button" onClick={() => setRefresh(value => value + 1)}>{featureCopy.Refresh_analysis_b7a6756}</button></div>}
+        {!file && <p>{featureCopy.Select_an_indexed_file_or_symbol_to_inspect_its_dependency_paths__cd63efe}</p>}
         {file && !compact && <p className="selection-impact-scope"><strong>{target?.name ?? file}</strong><br />{file}
-            {(qn || id !== undefined) ? ' · selected symbol' : ' · whole file'}</p>}
+            {(qn || id !== undefined) ? featureCopy.selected_symbol_bc6cb6e : featureCopy.whole_file_9336aa1}</p>}
         {(state === 'loading' || state === 'pending' || state === 'busy')
-            && <p role="status">{state === 'busy' ? 'Waiting for the current local analysis…' : 'Reading the graph snapshot and bounded local Git history…'}</p>}
-        {error && <p role="alert">Impact evidence unavailable: {error} Risk remains unresolved.</p>}
+            && <p role="status">{state === 'busy' ? featureCopy.Waiting_for_the_current_local_analysis_adb0161 : featureCopy.Reading_the_graph_snapshot_and_bounded_local_Git_history_6680edc}</p>}
+        {error && <p role="alert">{featureCopy.Impact_evidence_unavailable_73ba929}{error}{featureCopy.Risk_remains_unresolved_9f97862}</p>}
         {data && risk && <>
             {expectedGeneration && expectedGeneration !== data.snapshot.generation
-                && <p role="alert">The repository map and this impact analysis use different index generations.
-                    Refresh the map and analysis before comparing their findings.</p>}
+                && <p role="alert">{featureCopy.The_repository_map_and_this_impact_analysis_use_different_index_g_a342867}</p>}
             <div className="selection-impact-risk" data-level={risk.level}>
                 <div className="selection-impact-risk-heading"><strong>{risk.label}</strong>
-                    {compact ? <button type="button" onClick={() => setRefresh(value => value + 1)}>Refresh analysis</button>
-                        : <span>Heuristic, no defect probability</span>}</div>
-                {compact && <small>Transparent heuristic, no defect probability</small>}
+                    {compact ? <button type="button" onClick={() => setRefresh(value => value + 1)}>{featureCopy.Refresh_analysis_b7a6756}</button>
+                        : <span>{featureCopy.Heuristic_no_defect_probability_3356de8}</span>}</div>
+                {compact && <small>{featureCopy.Transparent_heuristic_no_defect_probability_cecc1f8}</small>}
                 <ul>{risk.reasons.map(reason => <li key={reason}>{reason}</li>)}</ul>
-                <button type="button" className="selection-impact-quality-link" onClick={() => setTab('quality')}>{risk.uncertainties.length} data limitations · inspect before relying on absence of findings</button>
+                <button type="button" className="selection-impact-quality-link" onClick={() => setTab('quality')}>{risk.uncertainties.length}{featureCopy.data_limitations_inspect_before_relying_on_absence_of_findings_4eb087a}</button>
             </div>
-            <nav className="selection-impact-tabs" aria-label="Impact evidence" role="tablist">
+            <nav className="selection-impact-tabs" aria-label={featureCopy.Impact_evidence_8c8f92a} role="tablist">
                 {([['dependencies', `Dependencies · ${data.structural.reachable}`],
                     ['tests', `Tests to review · ${data.structural.test_candidates}`],
                     ['history', `Git history · ${data.history.cochanges.length}`],
@@ -102,78 +102,68 @@ export default function SelectionImpactWidget({ project, target, onOpen, onDiagn
             <div className="selection-impact-panels">
             <section className="selection-impact-quality" role="tabpanel" id={`${panelId}-quality`}
                 aria-labelledby={`${panelId}-quality-tab`} hidden={tab !== 'quality'}>
-                <h4>Data quality and revision · {risk.uncertainties.length} limitations</h4>
-                <p>Computed {stamp(data.computed_at)} · cached for up to {data.cache_seconds}s.<br />
-                    Index: {data.snapshot.indexed_at || 'unknown timestamp'} · generation <code>{data.snapshot.generation || 'unknown'}</code><br />
-                    Git HEAD: <code>{data.history.head ?? 'unavailable'}</code><br />
-                    Scope: {data.scope === 'symbol' ? 'selected symbol; Git evidence is file-level' : 'selected file, bounded indexed declarations'}.<br />
-                    Graph scope: {data.structural.seed_count} starting nodes · at most {data.structural.visit_cap} visited nodes · {data.structural.result_cap} returned findings.</p>
+                <h4>{featureCopy.Data_quality_and_revision_0093a8b}{risk.uncertainties.length}{featureCopy.limitations_04f7fb4}</h4>
+                <p>{featureCopy.Computed_89e87eb}{stamp(data.computed_at)}{featureCopy.cached_for_up_to_4af3308}{data.cache_seconds}s.<br />{featureCopy.Index_d9f4d8c}{data.snapshot.indexed_at || featureCopy.unknown_timestamp_ebaadec}{featureCopy.generation_03a95b8}<code>{data.snapshot.generation || 'unknown'}</code><br />{featureCopy.Git_HEAD_c689b1a}<code>{data.history.head ?? 'unavailable'}</code><br />{featureCopy.Scope_1172dab}{data.scope === 'symbol' ? featureCopy.selected_symbol_Git_evidence_is_file_level_9ca4c4a : featureCopy.selected_file_bounded_indexed_declarations_dbb3508}.<br />{featureCopy.Graph_scope_68b55e6}{data.structural.seed_count}{featureCopy.starting_nodes_at_most_99feebc}{data.structural.visit_cap}{featureCopy.visited_nodes_100cf79}{data.structural.result_cap}{featureCopy.returned_findings_2e764a8}</p>
                 <ul>{risk.uncertainties.map(reason => <li key={reason}>{reason}</li>)}</ul>
-                {onDiagnose && <button type="button" onClick={onDiagnose}>Inspect local indexing diagnostics</button>}
+                {onDiagnose && <button type="button" onClick={onDiagnose}>{featureCopy.Inspect_local_indexing_diagnostics_244f932}</button>}
             </section>
-            <section role="tabpanel" id={`${panelId}-dependencies`} aria-labelledby={`${panelId}-dependencies-tab`} hidden={tab !== 'dependencies'}><h4>Structural impact · indexed dependencies</h4>
-                <p>{data.structural.direct} direct · {data.structural.reachable} total dependents within {data.structural.max_depth} hops.
-                    {' '}CALLS means a static call relation; IMPORTS means an import dependency. Neither proves runtime execution or data flow.</p>
-                {data.structural.findings.length === 0 && <p>No dependency path was established for this selection in the current bounded index. This is not evidence of safety.</p>}
-                <p>Showing {Math.min(findingLimit, data.structural.findings.length)} of {data.structural.findings.length} returned evidence paths.</p>
+            <section role="tabpanel" id={`${panelId}-dependencies`} aria-labelledby={`${panelId}-dependencies-tab`} hidden={tab !== 'dependencies'}><h4>{featureCopy.Structural_impact_indexed_dependencies_d89977b}</h4>
+                <p>{data.structural.direct}{featureCopy.direct_a09b458}{data.structural.reachable}{featureCopy.total_dependents_within_bf04d90}{data.structural.max_depth}{featureCopy.hops_4a8dd90}{' '}{featureCopy.CALLS_means_a_static_call_relation_IMPORTS_means_an_import_depend_2755951}</p>
+                {data.structural.findings.length === 0 && <p>{featureCopy.No_dependency_path_was_established_for_this_selection_in_the_curr_5235f9a}</p>}
+                <p>{featureCopy.Showing_85a4af0}{Math.min(findingLimit, data.structural.findings.length)}{featureCopy.of_607f2de}{data.structural.findings.length}{featureCopy.returned_evidence_paths_7e5263f}</p>
                 <ol className="selection-impact-findings">{data.structural.findings.slice(0, findingLimit).map(finding => <li key={finding.id}>
                     <button type="button" onClick={() => onOpen(evidenceTarget(finding))}>{finding.name}</button>
-                    <span>{finding.distance === 1 ? 'direct dependency' : `${finding.distance} hops`}{finding.test_candidate ? ' · test candidate (path heuristic)' : ''}</span>
+                    <span>{finding.distance === 1 ? featureCopy.direct_dependency_b1ca6a2 : featureCopy.message_0_hops_8fc4586(finding.distance)}{finding.test_candidate ? featureCopy.test_candidate_path_heuristic_0ac2960 : ''}</span>
                     <small>{finding.file_path}:{finding.line}</small>
-                    <details><summary>Show indexed path ({finding.path.length} edge{finding.path.length === 1 ? '' : 's'})</summary>
+                    <details><summary>{featureCopy.Show_indexed_path_ee6daa8}{finding.path.length}{featureCopy.edge_52a2688}{finding.path.length === 1 ? '' : 's'})</summary>
                         <ol>{finding.path.map(edge => <li key={edge.edge_id}>
                             <button type="button" onClick={() => onOpen(evidenceTarget(edge.from))}>{edge.from.name}</button>
                             {' '}<code>{edge.type}</code>{' '}
                             <button type="button" onClick={() => onOpen(evidenceTarget(edge.to))}>{edge.to.name}</button>
-                            <small>Graph edge #{edge.edge_id} · source {edge.from.file_path}:{edge.from.line}</small>
+                            <small>{featureCopy.Graph_edge_6c5b3fb}{edge.edge_id}{featureCopy.source_c9b1c91}{edge.from.file_path}:{edge.from.line}</small>
                         </li>)}</ol>
                     </details>
                 </li>)}</ol>
                 {findingLimit < data.structural.findings.length && <button type="button"
-                    onClick={() => setFindingLimit(value => value + 8)}>
-                    Show more affected symbols ({findingLimit} of {data.structural.findings.length})
+                    onClick={() => setFindingLimit(value => value + 8)}>{featureCopy.Show_more_affected_symbols_8f109cf}{findingLimit}{featureCopy.of_607f2de}{data.structural.findings.length})
                 </button>}
             </section>
-            <section role="tabpanel" id={`${panelId}-history`} aria-labelledby={`${panelId}-history-tab`} hidden={tab !== 'history'}><h4>Historical evidence · files changed together</h4>
-                <p>{data.history.selection_commits} ordinary commits touched this file in a sample of {data.history.commits_scanned} commits,
-                    up to {data.history.window_days} days. Excluded: {data.history.merges_excluded} merges and {data.history.mass_changes_excluded} changes
-                    touching more than {data.history.mass_change_threshold} files. Rename history is not followed.</p>
-                <p>Co-changes are historical association, not functional dependency or evidence of a later defect.</p>
-                {data.history.cochanges.length === 0 && <p>No co-change evidence is available in this sample.</p>}
-                {data.history.cochanges.length > 0 && <p>Showing {Math.min(historyLimit, data.history.cochanges.length)} of {data.history.cochanges.length} returned files.
-                    {data.history.cochanges_omitted > 0 && ` ${data.history.cochanges_omitted} further co-change files were omitted by the server limit.`}</p>}
+            <section role="tabpanel" id={`${panelId}-history`} aria-labelledby={`${panelId}-history-tab`} hidden={tab !== 'history'}><h4>{featureCopy.Historical_evidence_files_changed_together_5dcff7e}</h4>
+                <p>{data.history.selection_commits}{featureCopy.ordinary_commits_touched_this_file_in_a_sample_of_adb5f3b}{data.history.commits_scanned}{featureCopy.commits_up_to_d1bcc9d}{data.history.window_days}{featureCopy.days_Excluded_7b5482b}{data.history.merges_excluded}{featureCopy.merges_and_24d86ed}{data.history.mass_changes_excluded}{featureCopy.changes_touching_more_than_55998ca}{data.history.mass_change_threshold}{featureCopy.files_Rename_history_is_not_followed_a4d586c}</p>
+                <p>{featureCopy.Co_changes_are_historical_association_not_functional_dependency_o_5a90988}</p>
+                {data.history.cochanges.length === 0 && <p>{featureCopy.No_co_change_evidence_is_available_in_this_sample_0d22d45}</p>}
+                {data.history.cochanges.length > 0 && <p>{featureCopy.Showing_85a4af0}{Math.min(historyLimit, data.history.cochanges.length)}{featureCopy.of_607f2de}{data.history.cochanges.length}{featureCopy.returned_files_69c590f}{data.history.cochanges_omitted > 0 && ` ${data.history.cochanges_omitted} further co-change files were omitted by the server limit.`}</p>}
                 <ul className="selection-impact-history">{data.history.cochanges.slice(0, historyLimit).map(row => <li key={row.file_path}>
                     <button type="button" onClick={() => onOpen({ filePath: row.file_path, name: row.file_path })}>{row.file_path}</button>
-                    {' '}· {row.shared_commits} shared commit{row.shared_commits === 1 ? '' : 's'}
-                    <details><summary>Inspect local Git evidence</summary>
+                    {' '}· {row.shared_commits}{featureCopy.shared_commit_8c25b11}{row.shared_commits === 1 ? '' : 's'}
+                    <details><summary>{featureCopy.Inspect_local_Git_evidence_5483a9a}</summary>
                         {row.commit_refs.map(hash => {
                             const commit = data.history.commits.find(commit => commit.hash === hash);
-                            return <div className="selection-impact-commit" key={hash}><p><code>{hash}</code>{commit && <> · {stamp(commit.time)}<br />{commit.subject} · {commit.files} changed files</>}</p>
-                                <LocalEvidenceCommand command={localCommitCommand(hash, data.file_path, row.file_path)} label="Copy local Git evidence command" /></div>;
+                            return <div className="selection-impact-commit" key={hash}><p><code>{hash}</code>{commit && <> · {stamp(commit.time)}<br />{commit.subject} · {commit.files}{featureCopy.changed_files_556ffeb}</>}</p>
+                                <LocalEvidenceCommand command={localCommitCommand(hash, data.file_path, row.file_path)} label={featureCopy.Copy_local_Git_evidence_command_91f46ac} /></div>;
                         })}
                     </details>
                 </li>)}</ul>
                 {historyLimit < data.history.cochanges.length && <button type="button"
-                    onClick={() => setHistoryLimit(value => value + 5)}>
-                    Show more historical associations ({historyLimit} of {data.history.cochanges.length})
+                    onClick={() => setHistoryLimit(value => value + 5)}>{featureCopy.Show_more_historical_associations_a339d63}{historyLimit}{featureCopy.of_607f2de}{data.history.cochanges.length})
                 </button>}
             </section>
             <section role="tabpanel" id={`${panelId}-tests`} aria-labelledby={`${panelId}-tests-tab`} hidden={tab !== 'tests'}>
-                <h4>Tests to review</h4>
-                <p>{data.structural.test_candidates} test candidates reach the selection in the bounded graph walk. File-path classification is heuristic; a test relationship does not prove assertion coverage.</p>
-                {data.structural.test_candidates === 0 && <p>No test dependency was established. Search the test directories and add a focused regression check; missing evidence is not a passing test.</p>}
+                <h4>{featureCopy.Tests_to_review_e3f4218}</h4>
+                <p>{data.structural.test_candidates}{featureCopy.test_candidates_reach_the_selection_in_the_bounded_graph_walk_Fil_9d968b0}</p>
+                {data.structural.test_candidates === 0 && <p>{featureCopy.No_test_dependency_was_established_Search_the_test_directories_an_fb1e25e}</p>}
                 <ul className="selection-impact-tests">{data.structural.findings.filter(finding => finding.test_candidate).map(finding => <li key={finding.id}>
-                    <button type="button" onClick={() => onOpen(evidenceTarget(finding))}>Open test source: {finding.name}</button>
-                    <small>{finding.file_path}:{finding.line} · {finding.distance} indexed hop{finding.distance === 1 ? '' : 's'}</small>
-                    <details><summary>Inspect test dependency path</summary><ol>{finding.path.map(edge => <li key={edge.edge_id}>
+                    <button type="button" onClick={() => onOpen(evidenceTarget(finding))}>{featureCopy.Open_test_source_13bf57b}{finding.name}</button>
+                    <small>{finding.file_path}:{finding.line} · {finding.distance}{featureCopy.indexed_hop_9b7fe32}{finding.distance === 1 ? '' : 's'}</small>
+                    <details><summary>{featureCopy.Inspect_test_dependency_path_dce5eb9}</summary><ol>{finding.path.map(edge => <li key={edge.edge_id}>
                         <button type="button" onClick={() => onOpen(evidenceTarget(edge.from))}>{edge.from.name}</button>{' '}
                         <code>{edge.type}</code>{' '}<button type="button" onClick={() => onOpen(evidenceTarget(edge.to))}>{edge.to.name}</button>
-                        <small>Graph edge #{edge.edge_id} · source {edge.from.file_path}:{edge.from.line}</small>
+                        <small>{featureCopy.Graph_edge_6c5b3fb}{edge.edge_id}{featureCopy.source_c9b1c91}{edge.from.file_path}:{edge.from.line}</small>
                     </li>)}</ol></details>
                 </li>)}</ul>
                 {data.structural.test_candidates > data.structural.findings.filter(finding => finding.test_candidate).length
-                    && <p role="alert">Some test candidates are outside the returned evidence limit. Refine the selection to inspect their paths.</p>}
-                <h4>Next checks</h4><ol>{risk.next.map(next => <li key={next}>{next}</li>)}</ol>
+                    && <p role="alert">{featureCopy.Some_test_candidates_are_outside_the_returned_evidence_limit_Refi_78eea85}</p>}
+                <h4>{featureCopy.Next_checks_28d4370}</h4><ol>{risk.next.map(next => <li key={next}>{next}</li>)}</ol>
             </section>
             </div>
         </>}

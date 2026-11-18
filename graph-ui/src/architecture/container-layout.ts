@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import type { ContainerTopology } from './container-topology';
 import type { SemanticGraph } from './semantic-graph';
 import { SCENE_PALETTE } from './scene-palette';
@@ -47,10 +48,10 @@ export function layoutContainers(topology: ContainerTopology): { graph: Semantic
         offsetX += (columns - 1) * 28 + 34;
     }
     const graph: SemanticGraph = {
-        view: 'routes', scopeKey: services.map(service => service.id).join('|'), title: 'Container service map',
+        view: 'routes', scopeKey: services.map(service => service.id).join('|'), title: featureCopy.Container_service_map_0117288,
         positionMeaning: 'Squares represent declared services. Dependency layers advance left to right; peers and cycles share compact regions.',
         nodes: services.map(service => ({ id: service.id, kind: 'area', label: service.name,
-            detail: `${service.project} · ${service.image ?? 'built from source'}`, position: positions.get(service.id)!,
+            detail: `${service.project} · ${service.image ?? featureCopy.built_from_source_e14af8b}`, position: positions.get(service.id)!,
             count: service.sourcePaths.length, members: [], footprint: [18, 18],
             tint: service.sourcePaths.length ? SCENE_PALETTE.serviceSource : SCENE_PALETTE.serviceImage, kindLabel: 'Declared service' })),
         edges: [...topology.connections].sort((a, b) => a.id.localeCompare(b.id)).map(edge => {

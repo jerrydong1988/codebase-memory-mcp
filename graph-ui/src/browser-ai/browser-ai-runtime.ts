@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import type { BrowserAiProgress, BrowserAiRuntime, BrowserAiSource, BrowserChatMessage, BrowserChatOptions, BrowserChatRuntime, BrowserStopReason } from './browser-ai-controller';
 import { BROWSER_MODEL, getBrowserModel } from './model-policy';
 import { BrowserRuntimeFatalError, isFatalBrowserRuntimeError, isGpuRuntimeFailure, runtimeErrorDetail } from './runtime-fault';
@@ -64,7 +65,7 @@ export function createBrowserChatRuntime(modelId: string = BROWSER_MODEL.id): Br
         if (kind === 'progress') { pending.progress?.(event.data.progress ?? {}); return; }
         if (kind === 'token') { pending.onToken?.(event.data.output ?? ''); return; }
         const request = pending; pending = undefined;
-        if (kind === 'error') request.reject(new Error(event.data.error ?? 'Browser model failed.'));
+        if (kind === 'error') request.reject(new Error(event.data.error ?? featureCopy.Browser_model_failed_9ca6c77));
         else request.resolve(event.data);
     };
     worker.onerror = event => {
@@ -74,8 +75,8 @@ export function createBrowserChatRuntime(modelId: string = BROWSER_MODEL.id): Br
         payload: Omit<BrowserWorkerRequest, 'id' | 'modelId'>,
         callbacks: { progress?: (value: BrowserAiProgress) => void; onToken?: (chunk: string) => void } = {},
     ): Promise<BrowserWorkerResponse> => new Promise((resolve, reject) => {
-        if (disposed) { reject(fatalFailure ?? new Error('The browser model was unloaded. Load it again to continue.')); return; }
-        if (pending) { reject(new Error('The browser model is already busy.')); return; }
+        if (disposed) { reject(fatalFailure ?? new Error(featureCopy.The_browser_model_was_unloaded_Load_it_again_to_continue_ae8e3ee)); return; }
+        if (pending) { reject(new Error(featureCopy.The_browser_model_is_already_busy_0dcf291)); return; }
         const id = ++sequence;
         pending = { id, kind: payload.kind, resolve, reject, ...callbacks };
         try { worker.postMessage({ ...payload, id, modelId } satisfies BrowserWorkerRequest); }
@@ -88,7 +89,7 @@ export function createBrowserChatRuntime(modelId: string = BROWSER_MODEL.id): Br
         prepare: async (progress, options) => { await request({ kind: 'prepare', ...options?.cacheOnly ? { cacheOnly: true } : {} }, { progress }); },
         countTokens: async messages => {
             const response = await request({ kind: 'count', messages });
-            if (!Number.isSafeInteger(response.count) || response.count! < 0) throw new Error('The model returned an invalid token count.');
+            if (!Number.isSafeInteger(response.count) || response.count! < 0) throw new Error(featureCopy.The_model_returned_an_invalid_token_count_bcb9674);
             return response.count!;
         },
         chat: async (messages, onToken, options) => {
@@ -115,7 +116,7 @@ export function createBrowserChatRuntime(modelId: string = BROWSER_MODEL.id): Br
             if (disposed) return;
             disposed = true;
             worker.terminate();
-            pending?.reject(new Error('The browser model was unloaded.'));
+            pending?.reject(new Error(featureCopy.The_browser_model_was_unloaded_5c2bef0));
             pending = undefined;
         },
     };

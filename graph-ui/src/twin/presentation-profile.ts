@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/twin';
 /*
  * Herkunft: portiert am 2026-08-28 aus CodeAtlasIDE,
  * /Users/bernhard/Desktop/CodeAtlasIDE/theia-extensions/codeatlas-core/src/common/presentation-profile.ts
@@ -234,7 +235,7 @@ const IMPACT = 'codeatlas.impact';
 export const BUILTIN_PROFILES: readonly PresentationProfile[] = [
     {
         id: 'learning',
-        label: 'Learning',
+        label: featureCopy.Learning_1016fcb,
         depth: 0,
         facets: [Facet.Logic, Facet.Errors],
         terminology: 'plain',
@@ -248,7 +249,7 @@ export const BUILTIN_PROFILES: readonly PresentationProfile[] = [
     },
     {
         id: 'verification',
-        label: 'Verification',
+        label: featureCopy.Verification_03128be,
         depth: 2,
         facets: [Facet.Changes, Facet.Data, Facet.Tests, Facet.Errors],
         terminology: 'technical',
@@ -262,7 +263,7 @@ export const BUILTIN_PROFILES: readonly PresentationProfile[] = [
     },
     {
         id: 'understanding',
-        label: 'Understanding',
+        label: featureCopy.Understanding_7392170,
         depth: 1,
         facets: [Facet.Logic, Facet.Calls, Facet.Tests],
         terminology: 'plain',
@@ -277,7 +278,7 @@ export const BUILTIN_PROFILES: readonly PresentationProfile[] = [
     },
     {
         id: 'debug-impact',
-        label: 'Debug and impact',
+        label: featureCopy.Debug_and_impact_0b541b0,
         depth: 2,
         facets: [Facet.Calls, Facet.Errors, Facet.Runtime, Facet.Changes],
         terminology: 'technical',
@@ -295,7 +296,7 @@ export const BUILTIN_PROFILES: readonly PresentationProfile[] = [
         // Moved from 3 to 4 with the W13 ladder, and it is the same statement it
         // always was: this preset is the one whose reader is the architect, and
         // the architect is now a name on the scale rather than a position on it.
-        label: 'Architecture',
+        label: featureCopy.Architecture_b040b41,
         depth: 4,
         facets: [Facet.Calls, Facet.Data, Facet.Changes],
         terminology: 'technical',

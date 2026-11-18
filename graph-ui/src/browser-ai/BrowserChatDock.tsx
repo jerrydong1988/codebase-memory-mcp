@@ -1,3 +1,5 @@
+import { presentation, presentationLabel } from '../i18n/presentation';
+import { featureCopy } from '../i18n/features/browser-ai';
 import { useEffect, useMemo, useRef, useState, type FormEvent, type JSX, type ReactNode } from 'react';
 import type { BrowserAiProgress } from './browser-ai-controller';
 import { createBrowserChatRuntime, type BrowserChatRuntime } from './browser-ai-runtime';
@@ -111,15 +113,15 @@ function Attachment({ attachment, label }: { attachment: BrowserChatAttachment; 
     return <details className="cbm-chat-attachment">
         <summary><span aria-hidden="true">⌁</span> {label && `${label} · `}{selectionLocation(attachment)}</summary>
         <pre>{attachment.text}</pre>
-        <small>{attachment.project} · Source {attachment.sourceVersion}</small>
+        <small>{attachment.project}{featureCopy.Source_ef6850e}{attachment.sourceVersion}</small>
     </details>;
 }
 
 function SourceDisclosure({ children, title }: { children?: ReactNode; title?: string }): JSX.Element {
     return children ? <details className="cbm-chat-response-source">
-        <summary aria-label="Source for this answer"><span className="cbm-chat-speaker" title={title}>Agent</span><span className="cbm-chat-source-toggle">ⓘ Source</span></summary>
+        <summary aria-label={featureCopy.Source_for_this_answer_c6cd7f4}><span className="cbm-chat-speaker" title={title}>{featureCopy.Agent_5ce2e6f}</span><span className="cbm-chat-source-toggle">{featureCopy.Source_600e16c}</span></summary>
         <div className="cbm-chat-source-content">{children}</div>
-    </details> : <span className="cbm-chat-speaker" title={title}>Agent</span>;
+    </details> : <span className="cbm-chat-speaker" title={title}>{featureCopy.Agent_5ce2e6f}</span>;
 }
 
 /** Where an answer stopped and what can be changed: the limits it ran into, the way to
@@ -605,7 +607,7 @@ export default function BrowserChatDock({ proactiveSelection, selectionScope = "
         }
     };
     const stop = (): void => {
-        if (phase === 'preparing') { release(); setNotice('Download stopped. Cached files can be reused or deleted.'); return; }
+        if (phase === 'preparing') { release(); setNotice(featureCopy.Download_stopped_Cached_files_can_be_reused_or_deleted_36102eb); return; }
         if (manualRequest.current && autoRun.current) {
             manualRequest.current.cancelled = true; manualRequest.current = undefined; setQuestionQueued(false);
             lastAttempt.current = selectionRef.current?.key;
@@ -791,7 +793,7 @@ export default function BrowserChatDock({ proactiveSelection, selectionScope = "
                 if (epoch.current !== ticket || stopRequested.current) return;
             }
             if (count > limit) {
-                setError(`This prompt needs ${count.toLocaleString()} input tokens; the local working limit is ${limit.toLocaleString()}. Select less code or start a new conversation. Nothing was sent or shortened without disclosure.`);
+                setError(featureCopy.This_prompt_needs_0_input_tokens_the_local_working_limit_is_1_Sel_165ac8b(count.toLocaleString(), limit.toLocaleString()));
                 return;
             }
             // The model's answer to a listed, grounded or file answer is a turn of its own below it:
@@ -866,7 +868,7 @@ export default function BrowserChatDock({ proactiveSelection, selectionScope = "
             await removeCache(model.id);
             if (epoch.current !== ticket) return;
             setCached(previous => { const next = new Set(previous); next.delete(model.id); return next; });
-            setNotice('Cached model files deleted. Your conversation is still here.');
+            setNotice(featureCopy.Cached_model_files_deleted_Your_conversation_is_still_here_7b6ed98);
         } catch (failure) { if (epoch.current === ticket) setError(messageOf(failure)); }
         finally { if (epoch.current === ticket) { pending.current = false; setPhase('off'); } }
     };
@@ -881,15 +883,15 @@ export default function BrowserChatDock({ proactiveSelection, selectionScope = "
 
     return <>
         {settingsOpen && <AgentSettingsDialog onClose={() => setSettingsOpen(false)}>
-        <section id="cbm-chat-model-settings" className="cbm-chat-settings" aria-label="Local model settings">
-            {proactive && <label><input type="checkbox" checked={automatic} onChange={event => setPreferences({ automatic: event.target.checked })} /> Explain selections automatically</label>}
+        <section id="cbm-chat-model-settings" className="cbm-chat-settings" aria-label={featureCopy.Local_model_settings_e128016}>
+            {proactive && <label><input type="checkbox" checked={automatic} onChange={event => setPreferences({ automatic: event.target.checked })} />{featureCopy.Explain_selections_automatically_62fa65a}</label>}
             <label title={browserChatText.autoLoadNote}><input id="cbm-chat-auto-load" type="checkbox" checked={preferences.autoLoad} onChange={event => setPreferences({ autoLoad: event.target.checked })} /> {browserChatText.autoLoad}</label>
-            <span className="cbm-chat-status" role="status">{status}</span>
-            <label htmlFor="cbm-chat-model">Model</label>
+            <span className="cbm-chat-status" role="status">{presentationLabel(status)}</span>
+            <label htmlFor="cbm-chat-model">{featureCopy.Model_68c2cc7}</label>
             <select id="cbm-chat-model" value={modelId} disabled={busy} onChange={event => { release(); setPreferences({ modelId: event.target.value }); setError(undefined); setNotice(undefined); }}>
-                {BROWSER_MODELS.map(candidate => <option key={candidate.id} value={candidate.id}>{candidate.displayName} · {candidate.availability === 'unsupported' ? 'Requires runtime support' : candidate.id === model.id && phase === 'ready' ? 'Loaded' : cached.has(candidate.id) ? browserChatText.cached : 'Available'}</option>)}
+                {BROWSER_MODELS.map(candidate => <option key={candidate.id} value={candidate.id}>{candidate.displayName} · {candidate.availability === 'unsupported' ? featureCopy.Requires_runtime_support_8bc89e7 : candidate.id === model.id && phase === 'ready' ? featureCopy.Loaded_6db90a0 : cached.has(candidate.id) ? browserChatText.cached : featureCopy.Available_7c62a14}</option>)}
             </select>
-            <p>{sizeLabel(model.bytes)} download · {model.license}. Memory use is higher.</p>
+            <p>{sizeLabel(model.bytes)}{featureCopy.download_8882c28}{model.license.replace('(base model)', presentation.baseModel)}{presentation.memoryNote}</p>
             {model.compatibilityNote && <p>{model.compatibilityNote}</p>}
             <fieldset className="cbm-chat-token-limits">
                 <legend>{browserChatText.tokenLimits(model.displayName)}</legend>
@@ -899,44 +901,44 @@ export default function BrowserChatDock({ proactiveSelection, selectionScope = "
                     onCommit={outputTokens => setPreferences(current => ({ limits: { ...current.limits, [model.id]: clampTokenLimits(model, limits, { outputTokens }) } }))} />
                 <p>{browserChatText.limitsNote(autoInput, autoOutput)}</p>
             </fieldset>
-            <p><a href={model.modelCard} target="_blank" rel="noreferrer">Model details</a> · Downloads come from Hugging Face. No model downloads automatically.</p>
+            <p><a href={model.modelCard} target="_blank" rel="noreferrer">{featureCopy.Model_details_0b10896}</a>{featureCopy.Downloads_come_from_Hugging_Face_No_model_downloads_automatically_e7e97b5}</p>
             <div className="cbm-chat-model-actions">
-                {phase === 'off' && <button type="button" className="cbm-chat-primary" disabled={model.availability !== 'available'} onClick={() => { void prepare(); }}>{runtimeFailed ? 'Reload model' : cached.has(model.id) ? browserChatText.loadCached : 'Download & load'}</button>}
-                {(phase === 'ready' || phase === 'generating' || phase === 'counting') && <button type="button" onClick={() => { release(); setNotice('Model unloaded. Conversation and cached files retained.'); }}>Unload model</button>}
-                <button type="button" disabled={busy} onClick={() => { void deleteCache(); }}>Delete cached model</button>
+                {phase === 'off' && <button type="button" className="cbm-chat-primary" disabled={model.availability !== 'available'} onClick={() => { void prepare(); }}>{runtimeFailed ? featureCopy.Reload_model_264af14 : cached.has(model.id) ? browserChatText.loadCached : featureCopy.Download_load_cce2f71}</button>}
+                {(phase === 'ready' || phase === 'generating' || phase === 'counting') && <button type="button" onClick={() => { release(); setNotice(featureCopy.Model_unloaded_Conversation_and_cached_files_retained_fe96297); }}>{featureCopy.Unload_model_55a5f57}</button>}
+                <button type="button" disabled={busy} onClick={() => { void deleteCache(); }}>{featureCopy.Delete_cached_model_d149a8b}</button>
             </div>
         </section>
-        {historyKey && <section className="cbm-chat-settings" aria-label="Chat history settings">
-            <p>Chat history · 24 hours in this browser, per project. Expired history is removed on the next visit.</p>
-            <button type="button" disabled={busy || !historyReady || (!turns.length && !draft)} onClick={clear}>Clear history</button>
+        {historyKey && <section className="cbm-chat-settings" aria-label={featureCopy.Chat_history_settings_0c6560e}>
+            <p>{featureCopy.Chat_history_24_hours_in_this_browser_per_project_Expired_history_9bbec11}</p>
+            <button type="button" disabled={busy || !historyReady || (!turns.length && !draft)} onClick={clear}>{featureCopy.Clear_history_53b5158}</button>
             {historyNotice && <p role="status">{historyNotice}</p>}
         </section>}
-        {phase === 'preparing' && <div className="cbm-chat-loading" role="status"><progress max={100} value={progress?.progress} /><span>{progress?.file ?? 'Preparing browser model…'}</span><button type="button" onClick={stop}>Stop download</button></div>}
+        {phase === 'preparing' && <div className="cbm-chat-loading" role="status"><progress max={100} value={progress?.progress} /><span>{progress?.file ?? featureCopy.Preparing_browser_model_b12acc1}</span><button type="button" onClick={stop}>{featureCopy.Stop_download_9baa42b}</button></div>}
         {error && <div className="cbm-chat-error" role="alert">{error}</div>}
         {notice && <p className="cbm-chat-notice" role="status">{notice}</p>}
         </AgentSettingsDialog>}
-        {!open && showCollapsed ? <aside className="cbm-chat-dock is-collapsed" aria-label="Local chat">
-            <header className="cbm-chat-header"><h2>Chat</h2>
-                <button type="button" className="cbm-chat-primary" aria-expanded={false} onClick={onOpen}>Open chat</button>
+        {!open && showCollapsed ? <aside className="cbm-chat-dock is-collapsed" aria-label={featureCopy.Local_chat_38aa0f9}>
+            <header className="cbm-chat-header"><h2>{featureCopy.Chat_2ced57f}</h2>
+                <button type="button" className="cbm-chat-primary" aria-expanded={false} onClick={onOpen}>{featureCopy.Open_chat_d2104ca}</button>
             </header>
-        </aside> : <aside className="cbm-chat-dock" hidden={!open} aria-label="Local chat">
+        </aside> : <aside className="cbm-chat-dock" hidden={!open} aria-label={featureCopy.Local_chat_38aa0f9}>
         <header className="cbm-chat-header">
-            <h2>Chat</h2>
+            <h2>{featureCopy.Chat_2ced57f}</h2>
             {turns.length > 0 && <button type="button" className="cbm-chat-new" disabled={busy} onClick={clear}>{browserChatText.newConversation}</button>}
-            <button type="button" className="cbm-chat-icon" aria-label="Collapse local chat" title="Collapse chat; keep conversation" onClick={onClose}>›</button>
+            <button type="button" className="cbm-chat-icon" aria-label={featureCopy.Collapse_local_chat_9dbfd36} title={featureCopy.Collapse_chat_keep_conversation_7840d79} onClick={onClose}>›</button>
         </header>
-        {needsEnable && <div className="cbm-chat-enable"><p>Enable the local agent to explain selections and chat.</p><button type="button" onClick={() => setSettingsOpen(true)}>Enable agent</button></div>}
-        {(phase === 'preparing' || phase === 'removing') && <p className="cbm-chat-notice" role="status">Preparing agent…</p>}
+        {needsEnable && <div className="cbm-chat-enable"><p>{featureCopy.Enable_the_local_agent_to_explain_selections_and_chat_3b95de1}</p><button type="button" onClick={() => setSettingsOpen(true)}>{featureCopy.Enable_agent_97521a2}</button></div>}
+        {(phase === 'preparing' || phase === 'removing') && <p className="cbm-chat-notice" role="status">{featureCopy.Preparing_agent_593a36f}</p>}
         {error && !settingsOpen && <div className="cbm-chat-error" role="alert">{error}</div>}
-        {showConversation && <div className="cbm-chat-transcript" ref={transcript} role="log" aria-label="Conversation" aria-live="off" onScroll={() => {
+        {showConversation && <div className="cbm-chat-transcript" ref={transcript} role="log" aria-label={featureCopy.Conversation_2a20c75} aria-live="off" onScroll={() => {
             const element = transcript.current;
             if (!element) return;
             if (element.scrollTop > 48) followExplanation.current = false;
             followOutput.current = element.scrollHeight - element.scrollTop - element.clientHeight < 48;
             if (followOutput.current) setNewOutput(false);
         }}>
-            {showConversation && !needsEnable && phase !== 'preparing' && phase !== 'removing' && proactive && automatic && selected && <section className="cbm-chat-explanation" aria-label="Current selection explanation">
-                <SourceDisclosure title="Generated explanation; check source for exact behavior.">
+            {showConversation && !needsEnable && phase !== 'preparing' && phase !== 'removing' && proactive && automatic && selected && <section className="cbm-chat-explanation" aria-label={featureCopy.Current_selection_explanation_75cac40}>
+                <SourceDisclosure title={featureCopy.Generated_explanation_check_source_for_exact_behavior_2a04e04}>
                     {explanation?.key === selected.key && explanation.packet ? <PacketSource packet={explanation.packet} citation={explanation.citation} codeOnly={!selected.reader} /> : null}
                 </SourceDisclosure>
                 {explanation?.key === selected.key ? <>
@@ -947,56 +949,56 @@ export default function BrowserChatDock({ proactiveSelection, selectionScope = "
                     {explanation.status !== 'generating' && <button type="button" className="cbm-chat-retry" disabled={phase !== 'ready' || !!selected.waiting} onClick={() => {
                         if (explanation.askable) modelAsked.current.add(selected.key);
                         lastAttempt.current = undefined; explanations.current.delete(selected.key); setRetryExplanation(value => value + 1);
-                    }}>{explanation.askable ? relationshipWords.en.askModel : 'Explain again'}</button>}
+                    }}>{explanation.askable ? relationshipWords.en.askModel : featureCopy.Explain_again_1d0ce28}</button>}
                 </> : <p>{selected.waiting === 'loading' ? browserChatText.waitingForScope : selected.waiting === 'partial' ? browserChatText.partialScope
-                    : manualRequest.current ? 'This selection will be explained after your answer.' : 'Preparing explanation…'}</p>}
+                    : manualRequest.current ? featureCopy.This_selection_will_be_explained_after_your_answer_694ec6c : featureCopy.Preparing_explanation_c12c86a}</p>}
             </section>}
-            {turns.length === 0 && !(proactive && automatic && selected) && <div className="cbm-chat-empty"><span aria-hidden="true">⌁</span><h3>Ask about the code.</h3><p>{readerContext ? 'The current file is included automatically. Mark code to focus your next message on that exact selection.' : 'Ask a question, or add source and graph context to your next message.'}</p></div>}
+            {turns.length === 0 && !(proactive && automatic && selected) && <div className="cbm-chat-empty"><span aria-hidden="true">⌁</span><h3>{featureCopy.Ask_about_the_code_5be36ff}</h3><p>{readerContext ? featureCopy.The_current_file_is_included_automatically_Mark_code_to_focus_you_fce61fc : featureCopy.Ask_a_question_or_add_source_and_graph_context_to_your_next_messa_d70c87e}</p></div>}
             {turns.map((turn, index) => { const replyWords = relationshipWords[turn.replyLanguage === 'de' ? 'de' : 'en'];
                 // The model's own answers carry their note in the language of the question (B1).
                 const ownWords = chatRound3Text[turn.replyLanguage ?? questionLanguage(turn.prompt)];
                 const divider = topicDivider(turns, index);
                 return <article className="cbm-chat-turn" key={turn.id}>
                 {turn.topic && divider && <p className="cbm-chat-topic-break">{divider === 'back' ? ownWords.backTo(turn.topic.label) : topicText[turn.replyLanguage ?? questionLanguage(turn.prompt)].topicBreak(turn.topic.label)}</p>}
-                <div className="cbm-chat-question"><span className="cbm-chat-speaker">You</span><ChatMarkdown text={turn.prompt} />
+                <div className="cbm-chat-question"><span className="cbm-chat-speaker">{featureCopy.You_905cb32}</span><ChatMarkdown text={turn.prompt} />
                     {turn.askedModel && <small className="cbm-chat-asked-model">{ownWords.askedModel}</small>}</div>
                 <div className="cbm-chat-answer"><SourceDisclosure>
                     {turn.evidence || turn.attachment || turn.readerContext?.source || turn.context?.length ? <>
                         {turn.evidence ? <PacketSource packet={turn.evidence} language={turn.replyLanguage ?? questionLanguage(turn.prompt)} /> : <>
                             {turn.attachment && <Attachment attachment={turn.attachment} />}
-                            {turn.readerContext?.source && <><Attachment attachment={turn.readerContext.source} label={turn.readerContext.source.kind === 'selection' ? 'Selection snapshot' : 'File snapshot'} />{turn.readerContext.source.partial && <p className="cbm-chat-evidence-note">{turn.readerContext.source.partial}</p>}</>}
+                            {turn.readerContext?.source && <><Attachment attachment={turn.readerContext.source} label={turn.readerContext.source.kind === 'selection' ? featureCopy.Selection_snapshot_ce1abf5 : featureCopy.File_snapshot_33565af} />{turn.readerContext.source.partial && <p className="cbm-chat-evidence-note">{turn.readerContext.source.partial}</p>}</>}
                         </>}
                         {turn.context?.map(item => <ContextSnapshot key={item.id} context={item} />)}
                     </> : null}
                 </SourceDisclosure><div className="cbm-chat-answer-text"><ChatMarkdown text={turn.answer || (turn.status === 'generating' ? 'Thinking…' : turn.status === 'stopped' ? 'Stopped before an answer.' : '')} /></div>
-                    {turn.status === 'stopped' && turn.answer && <small>Stopped · partial answer</small>}
+                    {turn.status === 'stopped' && turn.answer && <small>{featureCopy.Stopped_partial_answer_92f3ce1}</small>}
                     {!turn.answeredFrom && !turn.echo && turn.answer && (turn.status === 'complete' || turn.status === 'stopped') && <small className="cbm-chat-model-note">{ownWords.modelNote}</small>}
                     {turn.status !== 'generating' && !turn.answeredFrom && !turn.echo && <AnswerNotes shortened={limitNote(turn.shortened, turn.limit)} packet={turn.evidence}
                         unsupported={turn.answer ? namesNotIn(turn.answer, turn.request.map(message => message.content).join('\n')) : []} model={BROWSER_MODELS.find(candidate => candidate.id === turn.modelId)?.displayName ?? turn.modelId} historyOmitted={turn.historyOmitted} />}
                     {turn.status === 'error' && <p className="cbm-chat-turn-error" role="alert">{turn.error}</p>}
                     {index === turns.length - 1 && turn.answeredFrom === 'suggestion' && turn.suggestion && <button type="button" className="cbm-chat-retry"
                         onClick={() => showSuggestedList(turn)}>{replyWords.showList}</button>}
-                    {index === turns.length - 1 && turn.status !== 'generating' && (!turn.answeredFrom || ASKABLE.has(turn.answeredFrom)) && <button type="button" className="cbm-chat-retry" disabled={phase !== 'ready'} onClick={() => { void send(turn); }}>{turn.answeredFrom ? replyWords.askModel : turn.status === 'error' ? 'Retry' : ownWords.askAgain}</button>}
+                    {index === turns.length - 1 && turn.status !== 'generating' && (!turn.answeredFrom || ASKABLE.has(turn.answeredFrom)) && <button type="button" className="cbm-chat-retry" disabled={phase !== 'ready'} onClick={() => { void send(turn); }}>{turn.answeredFrom ? replyWords.askModel : turn.status === 'error' ? featureCopy.Retry_9f5cd8a : ownWords.askAgain}</button>}
                 </div>
             </article>; })}
         </div>}
-        {newOutput && <button type="button" className="cbm-chat-jump" onClick={() => { followOutput.current = true; setNewOutput(false); if (transcript.current) transcript.current.scrollTop = transcript.current.scrollHeight; }}>Latest answer ↓</button>}
-        {newExplanation && proactive && automatic && selected && <button type="button" className="cbm-chat-jump" onClick={() => { followExplanation.current = true; setNewExplanation(false); if (transcript.current) transcript.current.scrollTop = 0; }}>Current selection ↑</button>}
+        {newOutput && <button type="button" className="cbm-chat-jump" onClick={() => { followOutput.current = true; setNewOutput(false); if (transcript.current) transcript.current.scrollTop = transcript.current.scrollHeight; }}>{featureCopy.Latest_answer_45842ea}</button>}
+        {newExplanation && proactive && automatic && selected && <button type="button" className="cbm-chat-jump" onClick={() => { followExplanation.current = true; setNewExplanation(false); if (transcript.current) transcript.current.scrollTop = 0; }}>{featureCopy.Current_selection_47c7f6b}</button>}
         <form className="cbm-chat-composer" onSubmit={submit}>
-            {questionQueued && <p className="cbm-chat-source-state" role="status">Your question is next…</p>}
-            {currentReader && !currentReader.source && <p className="cbm-chat-source-state" role="status" title={currentReader.path}>{currentReader.status === 'loading' ? 'Loading current file…' : currentReader.status === 'empty' ? 'Open a file to include its code.' : 'Current file source is unavailable.'}</p>}
-            {manualAttachment && <div className="cbm-chat-pending"><div className="cbm-chat-pending-title"><span>Attached to next message</span><button type="button" aria-label="Remove code attachment" disabled={!onAttachmentRemoved} onClick={() => onAttachmentRemoved?.(manualAttachment.id)}>×</button></div><Attachment attachment={manualAttachment} /></div>}
-            {graphSelection && <div className="cbm-chat-pending"><div className="cbm-chat-pending-title"><span>Graph selection for next message</span><button type="button" aria-label="Remove graph selection" onClick={() => { setHandledContextId(graphSelection.id); onContextRemoved?.(graphSelection.id); }}>×</button></div><ContextSnapshot context={graphSelection} /></div>}
-            {selectedContext.map(item => <div className="cbm-chat-pending" key={item.id}><div className="cbm-chat-pending-title"><span>Context for next message</span><button type="button" aria-label={`Remove ${item.label}`} onClick={() => setSelectedContext(previous => previous.filter(selected => selected.id !== item.id))}>×</button></div><ContextSnapshot context={item} /></div>)}
-            {context.length > 0 && <details className="cbm-chat-context-options"><summary>Add context</summary><fieldset><legend>Include in the next message</legend>{context.map(item => <label key={item.id}><input type="checkbox" checked={selectedContext.some(selected => selected.id === item.id)} onChange={event => {
+            {questionQueued && <p className="cbm-chat-source-state" role="status">{featureCopy.Your_question_is_next_2c5bb61}</p>}
+            {currentReader && !currentReader.source && <p className="cbm-chat-source-state" role="status" title={currentReader.path}>{currentReader.status === 'loading' ? featureCopy.Loading_current_file_2b56896 : currentReader.status === 'empty' ? featureCopy.Open_a_file_to_include_its_code_98978a1 : featureCopy.Current_file_source_is_unavailable_6515aa5}</p>}
+            {manualAttachment && <div className="cbm-chat-pending"><div className="cbm-chat-pending-title"><span>{featureCopy.Attached_to_next_message_ad54374}</span><button type="button" aria-label={featureCopy.Remove_code_attachment_343811a} disabled={!onAttachmentRemoved} onClick={() => onAttachmentRemoved?.(manualAttachment.id)}>×</button></div><Attachment attachment={manualAttachment} /></div>}
+            {graphSelection && <div className="cbm-chat-pending"><div className="cbm-chat-pending-title"><span>{featureCopy.Graph_selection_for_next_message_38716bf}</span><button type="button" aria-label={featureCopy.Remove_graph_selection_87f2c69} onClick={() => { setHandledContextId(graphSelection.id); onContextRemoved?.(graphSelection.id); }}>×</button></div><ContextSnapshot context={graphSelection} /></div>}
+            {selectedContext.map(item => <div className="cbm-chat-pending" key={item.id}><div className="cbm-chat-pending-title"><span>{featureCopy.Context_for_next_message_b9be693}</span><button type="button" aria-label={featureCopy.Remove_0_c9318bc(item.label)} onClick={() => setSelectedContext(previous => previous.filter(selected => selected.id !== item.id))}>×</button></div><ContextSnapshot context={item} /></div>)}
+            {context.length > 0 && <details className="cbm-chat-context-options"><summary>{featureCopy.Add_context_08dae0b}</summary><fieldset><legend>{featureCopy.Include_in_the_next_message_726b606}</legend>{context.map(item => <label key={item.id}><input type="checkbox" checked={selectedContext.some(selected => selected.id === item.id)} onChange={event => {
                 const checked = event.target.checked;
                 setSelectedContext(previous => checked ? [...previous.filter(selected => selected.id !== item.id), { ...item }] : previous.filter(selected => selected.id !== item.id));
             }} />{item.label}</label>)}</fieldset></details>}
-            {showConversation && <><label className="cbm-chat-visually-hidden" htmlFor="cbm-chat-prompt">Message local model</label>
-            <div className="cbm-chat-input-row"><textarea ref={input} id="cbm-chat-prompt" value={draft} placeholder="Ask about this code…" rows={1} onChange={event => setDraft(event.target.value)} onKeyDown={event => {
+            {showConversation && <><label className="cbm-chat-visually-hidden" htmlFor="cbm-chat-prompt">{featureCopy.Message_local_model_d1672be}</label>
+            <div className="cbm-chat-input-row"><textarea ref={input} id="cbm-chat-prompt" value={draft} placeholder={featureCopy.Ask_about_this_code_92d5c1d} rows={1} onChange={event => setDraft(event.target.value)} onKeyDown={event => {
                 if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void send(); }
             }} />
-                {(phase === 'counting' || phase === 'generating') && !(autoRun.current && !manualRequest.current && draft.trim() && !stopping) ? <button type="button" className="cbm-chat-send" aria-label={stopping ? 'Stopping…' : 'Stop'} title="Stop generating" disabled={stopping} onClick={stop}>■</button> : <button className="cbm-chat-primary cbm-chat-send" type="submit" aria-label="Send ↑" title="Send message" disabled={!historyReady || (!autoRun.current && phase !== 'ready') || !!manualRequest.current || !draft.trim() || readerContext?.status === 'loading'}>↑</button>}
+                {(phase === 'counting' || phase === 'generating') && !(autoRun.current && !manualRequest.current && draft.trim() && !stopping) ? <button type="button" className="cbm-chat-send" aria-label={stopping ? featureCopy.Stopping_827c972 : featureCopy.Stop_9e25347} title={featureCopy.Stop_generating_8b1e1a9} disabled={stopping} onClick={stop}>■</button> : <button className="cbm-chat-primary cbm-chat-send" type="submit" aria-label={featureCopy.Send_a1f6796} title={featureCopy.Send_message_c70a890} disabled={!historyReady || (!autoRun.current && phase !== 'ready') || !!manualRequest.current || !draft.trim() || readerContext?.status === 'loading'}>↑</button>}
             </div>
 
             </>}

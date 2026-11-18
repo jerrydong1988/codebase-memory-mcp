@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { featureLanguage } from './feature-language';
 
 export type UiLanguage = 'en' | 'zh';
 const UiLanguageContext = createContext<UiLanguage>('en');
@@ -9,9 +10,10 @@ export function useUiLanguage(): UiLanguage {
 
 export function UiLanguageProvider({ children }: { children: ReactNode }) {
     const [language, setLanguage] = useState<UiLanguage>(() =>
-        /^zh(?:-|$)/i.test(navigator.language) ? 'zh' : 'en');
+        featureLanguage() ?? (/^zh(?:-|$)/i.test(navigator.language) ? 'zh' : 'en'));
 
     useEffect(() => {
+        if (featureLanguage()) return;
         const controller = new AbortController();
         async function readLanguage() {
             try {

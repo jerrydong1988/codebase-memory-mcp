@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { useEffect, useState } from 'react';
 import { callToolJson } from '../provider/rpc-transport';
 import { readCodeSnippet, type CodeSnippetResult } from '../provider/rpc-schemas';
@@ -30,17 +31,17 @@ export default function BehaviorSourceEvidence({ project, generation, symbol, ca
                 if (controller.signal.aborted) return;
                 const path = source.file_path?.replaceAll('\\', '/');
                 if (source.qualified_name && source.qualified_name !== symbol.qualified_name)
-                    throw new Error('Source identity changed. Refresh the analysis before following this call.');
+                    throw new Error(featureCopy.Source_identity_changed_Refresh_the_analysis_before_following_thi_0cc2520);
                 if (!path || (path !== file && !path.endsWith(`/${file}`)))
-                    throw new Error('The returned source does not match this call location.');
-                if (source.source_mode && source.source_mode !== 'full') throw new Error('Full source is unavailable for this operation.');
+                    throw new Error(featureCopy.The_returned_source_does_not_match_this_call_location_ea898ec);
+                if (source.source_mode && source.source_mode !== 'full') throw new Error(featureCopy.Full_source_is_unavailable_for_this_operation_702beaf);
                 const lines = source.source.split('\n');
                 const count = source.end_line !== undefined && source.start_line !== undefined ? source.end_line - source.start_line + 1 : 0;
                 if (lines.at(-1) === '' && lines.length - 1 === count) lines.pop();
                 if (!source.start_line || !source.end_line || count < 1 || lines.length !== count)
-                    throw new Error('Source line range could not be verified. Open the definition to inspect it.');
+                    throw new Error(featureCopy.Source_line_range_could_not_be_verified_Open_the_definition_to_in_d34bba6);
                 if (line && (line < source.start_line || line > source.end_line))
-                    throw new Error('The indexed location is outside the current source window. The file may have changed.');
+                    throw new Error(featureCopy.The_indexed_location_is_outside_the_current_source_window_The_fil_379d970);
                 setReading({ key, source: { ...source, source: lines.join('\n') } });
             } catch (error) {
                 if (!controller.signal.aborted) setReading({ key, error: error instanceof Error ? error.message : 'Could not read this source.' });
@@ -48,17 +49,17 @@ export default function BehaviorSourceEvidence({ project, generation, symbol, ca
         })();
         return () => controller.abort();
     }, [project, generation, symbol.qualified_name, file, line, key, active]);
-    return <section className="behavior-source" aria-label="Behavior source evidence">
-        <div className="behavior-source-heading"><h4>{call?.callsite ? 'Code at this call' : 'Operation source'}</h4>
-            {file && <button onClick={() => onNavigate(file, line, symbol.name)}>Open source ↗</button>}</div>
-        {!file ? <p>Source location unavailable.</p> : <>
+    return <section className="behavior-source" aria-label={featureCopy.Behavior_source_evidence_ffaf282}>
+        <div className="behavior-source-heading"><h4>{call?.callsite ? featureCopy.Code_at_this_call_aa0e174 : featureCopy.Operation_source_a1e99b4}</h4>
+            {file && <button onClick={() => onNavigate(file, line, symbol.name)}>{featureCopy.Open_source_686a423}</button>}</div>
+        {!file ? <p>{featureCopy.Source_location_unavailable_3eceea0}</p> : <>
             <p className="behavior-source-location">{file}{line ? `:${line}` : ''}</p>
-            {current?.error ? <p role="status">{current.error}</p> : !current?.source ? <p role="status">{active ? 'Reading source…' : 'Source reading paused.'}</p>
-                : <pre aria-label="Code at selected operation"><code>{current.source.source.split('\n').map((text, index) => {
+            {current?.error ? <p role="status">{current.error}</p> : !current?.source ? <p role="status">{active ? featureCopy.Reading_source_124aaf1 : featureCopy.Source_reading_paused_dc00069}</p>
+                : <pre aria-label={featureCopy.Code_at_selected_operation_a68f978}><code>{current.source.source.split('\n').map((text, index) => {
                     const number = current.source!.start_line! + index;
                     return <span key={number} data-selected={number === line}><i aria-hidden="true">{number}</i>{text || ' '}{'\n'}</span>;
                 })}</code></pre>}
-            <small>Current local source · may differ from the indexed snapshot.</small>
+            <small>{featureCopy.Current_local_source_may_differ_from_the_indexed_snapshot_23352d2}</small>
         </>}
     </section>;
 }

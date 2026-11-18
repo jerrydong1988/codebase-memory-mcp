@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/llm';
 /**
  * Der Zustand des lokalen Modell-Sidecars, und was die Oberflaeche darueber
  * sagen darf.
@@ -408,7 +409,7 @@ export async function probeSidecar(
             state: 'ready',
             router: false,
             models: [],
-            detail: `die Auskunft ueber das Modell war nicht lesbar: ${error instanceof Error ? error.message : String(error)}`,
+            detail: featureCopy.die_Auskunft_ueber_das_Modell_war_nicht_lesbar_0_06b57f2(error instanceof Error ? error.message : String(error)),
         };
     }
 
@@ -442,7 +443,7 @@ export async function probeSidecar(
             state: 'ready',
             router,
             models,
-            detail: 'der Router fuehrt kein Modell in seinem Cache-Verzeichnis.',
+            detail: featureCopy.der_Router_fuehrt_kein_Modell_in_seinem_Cache_Verzeichnis_b3c32e0,
         };
     }
     try {

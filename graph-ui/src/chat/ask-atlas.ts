@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/chat';
 /**
  * One question, end to end: classify, fetch, compile, ask, check.
  *
@@ -240,7 +241,7 @@ export async function askAtlas(input: AskInput, id = 0): Promise<ChatTurn> {
         return {
             ...turn,
             status: 'failed',
-            message: `the cards could not be compiled: ${error instanceof Error ? error.message : String(error)}`,
+            message: featureCopy.the_cards_could_not_be_compiled_0_8e2520b(error instanceof Error ? error.message : String(error)),
         };
     }
 
@@ -286,7 +287,7 @@ export async function askAtlas(input: AskInput, id = 0): Promise<ChatTurn> {
              * a refusal. Only a real unavailable reason gets a visible note. */
             message: input.modelUnavailableReason === undefined
                 ? ''
-                : `model-${input.modelUnavailableReason}`,
+                : featureCopy.model_0_1f0595e(input.modelUnavailableReason),
         };
     }
 

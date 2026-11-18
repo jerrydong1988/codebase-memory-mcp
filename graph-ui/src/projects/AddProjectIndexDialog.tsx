@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/projects';
 import { useEffect, useRef, useState } from 'react';
 import type { JSX } from 'react';
 import type { ProjectEntry } from '../provider/rpc-schemas';
@@ -97,7 +98,7 @@ export default function AddProjectIndexDialog({ open, source, onClose, onOpenPro
             if (!alive.current || ticket !== browseTicket.current) return;
             setLevel(next); setPathInput(previous => previous === path ? next.path : previous);
         } catch {
-            if (alive.current && ticket === browseTicket.current) setBrowseError('Could not open this folder. Check the path and try again.');
+            if (alive.current && ticket === browseTicket.current) setBrowseError(featureCopy.Could_not_open_this_folder_Check_the_path_and_try_again_9a5b8d2);
         } finally {
             if (alive.current && ticket === browseTicket.current) setBrowsing(false);
         }
@@ -148,33 +149,33 @@ export default function AddProjectIndexDialog({ open, source, onClose, onOpenPro
             if (!current()) return;
             const found = jobs.find(candidate => candidate.slot === tracked.slot);
             if (!found || !samePath(found.path, tracked.path) || found.status === 'unknown') {
-                updateJob({ ...tracked, status: 'error', phase: 'lost', message: 'This job is no longer identifiable in the server status. Completion is unconfirmed.' });
+                updateJob({ ...tracked, status: 'error', phase: 'lost', message: featureCopy.This_job_is_no_longer_identifiable_in_the_server_status_Completio_f3d59e9 });
                 return;
             }
             if (found.status === 'error') {
-                updateJob({ ...tracked, status: 'error', phase: 'failed', message: found.error || 'The server reported an indexing failure.' });
+                updateJob({ ...tracked, status: 'error', phase: 'failed', message: found.error || featureCopy.The_server_reported_an_indexing_failure_e5825f6 });
                 return;
             }
             if (found.status === 'indexing') {
-                updateJob({ ...tracked, status: 'indexing', phase: 'running', message: 'Indexing source and relationships…' });
+                updateJob({ ...tracked, status: 'indexing', phase: 'running', message: featureCopy.Indexing_source_and_relationships_17665af });
                 return;
             }
-            updateJob({ ...tracked, status: 'indexing', phase: 'verifying', message: 'Indexing finished. Checking the project…' });
+            updateJob({ ...tracked, status: 'indexing', phase: 'verifying', message: featureCopy.Indexing_finished_Checking_the_project_7a6f3ce });
             const [projects, health] = await Promise.all([source.listProjects(), source.projectHealth(tracked.name)]);
             if (!current()) return;
             const project = projects.find(candidate => candidate.name === tracked.name);
             setEntries(projects); setListStatus('ready');
             if (project && samePath(project.root_path, tracked.path) && health.status === 'healthy') {
-                updateJob({ ...tracked, status: 'done', phase: 'finished', message: 'The project index is ready to explore.' });
+                updateJob({ ...tracked, status: 'done', phase: 'finished', message: featureCopy.The_project_index_is_ready_to_explore_e317eea });
             } else if ((project?.root_path && !samePath(project.root_path, tracked.path)) || health.status === 'corrupt') {
                 updateJob({ ...tracked, status: 'error', phase: 'failed', message: health.status === 'corrupt'
-                    ? 'The index could not be verified as healthy. Inspect its errors in System.'
-                    : 'The returned project belongs to a different folder. This index was not verified.' });
+                    ? featureCopy.The_index_could_not_be_verified_as_healthy_Inspect_its_errors_in__c921605
+                    : featureCopy.The_returned_project_belongs_to_a_different_folder_This_index_was_710a5ef });
             } else {
-                updateJob({ ...tracked, status: 'indexing', phase: 'unavailable', message: 'The job finished, but its project index could not be verified yet. Check again.' });
+                updateJob({ ...tracked, status: 'indexing', phase: 'unavailable', message: featureCopy.The_job_finished_but_its_project_index_could_not_be_verified_yet__9b24884 });
             }
         } catch {
-            if (current()) updateJob({ ...tracked, phase: 'unavailable', message: 'Status is unavailable. The job may still be running; retry the status check.' });
+            if (current()) updateJob({ ...tracked, phase: 'unavailable', message: featureCopy.Status_is_unavailable_The_job_may_still_be_running_retry_the_stat_97ec853 });
         } finally {
             pollPending.current = false;
             if (alive.current) setReadingStatus(false);
@@ -210,11 +211,11 @@ export default function AddProjectIndexDialog({ open, source, onClose, onOpenPro
             const valid = Number.isInteger(started.slot) && started.slot >= 0 && samePath(started.path, path);
             const tracked: TrackedIndex = { id: ++nextJob.current, name: projectName, path, slot: started.slot,
                 status: valid ? 'indexing' : 'error', phase: valid ? 'running' : 'lost', message: valid
-                    ? 'Indexing source and relationships…' : 'The server accepted the request without a matching job identifier. Completion is unconfirmed.' };
+                    ? featureCopy.Indexing_source_and_relationships_17665af : featureCopy.The_server_accepted_the_request_without_a_matching_job_identifier_ee2daa1 };
             updateJob(tracked); setStep('progress');
             if (valid) void pollRef.current();
         } catch {
-            if (alive.current) setSubmitError('The index request was not confirmed. Check the server in System before trying again.');
+            if (alive.current) setSubmitError(featureCopy.The_index_request_was_not_confirmed_Check_the_server_in_System_be_1463f1d);
         } finally { submitPending.current = false; if (alive.current) setSubmitting(false); }
     };
     const another = (): void => {
@@ -227,48 +228,48 @@ export default function AddProjectIndexDialog({ open, source, onClose, onOpenPro
 
     return <div className="add-index-backdrop" onPointerDown={event => { if (event.target === event.currentTarget) onClose(); }}>
         <section ref={panel} className="add-index-dialog" role="dialog" aria-modal="true" aria-labelledby="add-index-title" tabIndex={-1}>
-            <header><div><p>Local repository</p><h2 id="add-index-title">Add project index</h2></div><button type="button" className="add-index-close" aria-label="Close add project index" onClick={onClose}>×</button></header>
+            <header><div><p>{featureCopy.Local_repository_5b39f89}</p><h2 id="add-index-title">{featureCopy.Add_project_index_9108ede}</h2></div><button type="button" className="add-index-close" aria-label={featureCopy.Close_add_project_index_3957fea} onClick={onClose}>×</button></header>
             {step === 'browse' && <>
                 <form className="add-index-path" onSubmit={event => { event.preventDefault(); void browse(pathInput.trim()); }}>
-                    <label htmlFor="add-index-folder">Folder</label><div><input ref={pathField} id="add-index-folder" value={pathInput} spellCheck={false}
-                        placeholder="Enter a local folder path" onChange={event => setPathInput(event.target.value)} /><button type="submit">Go</button></div>
+                    <label htmlFor="add-index-folder">{featureCopy.Folder_30baa24}</label><div><input ref={pathField} id="add-index-folder" value={pathInput} spellCheck={false}
+                        placeholder={featureCopy.Enter_a_local_folder_path_52c0b01} onChange={event => setPathInput(event.target.value)} /><button type="submit">{featureCopy.Go_2e0b45f}</button></div>
                 </form>
-                <div className="add-index-folder-tools">{level && <button type="button" disabled={browsing || !level.parent || samePath(level.parent, level.path)} onClick={() => { void browse(level.parent); }}>↑ Up</button>}
+                <div className="add-index-folder-tools">{level && <button type="button" disabled={browsing || !level.parent || samePath(level.parent, level.path)} onClick={() => { void browse(level.parent); }}>{featureCopy.Up_6d58160}</button>}
                     {level?.roots.map(root => <button type="button" key={root} onClick={() => { void browse(root); }}>{root}</button>)}</div>
-                <div className="add-index-folders" aria-label="Folders" aria-busy={browsing}>
-                    {browsing && <p role="status">Opening folder…</p>}
+                <div className="add-index-folders" aria-label={featureCopy.Folders_19adc47} aria-busy={browsing}>
+                    {browsing && <p role="status">{featureCopy.Opening_folder_b456efd}</p>}
                     {browseError && <p role="alert">{browseError}</p>}
-                    {!browsing && !browseError && level?.dirs.length === 0 && <p>No visible subfolders.</p>}
-                    {!browseError && <ul>{level?.dirs.slice().sort((left, right) => left.localeCompare(right)).map(dir => <li key={dir}><button type="button" aria-label={`Open folder ${dir}`} disabled={browsing} onClick={() => { void browse(childPath(level, dir)); }}><span aria-hidden="true">▱</span>{dir}<span aria-hidden="true">›</span></button></li>)}</ul>}
+                    {!browsing && !browseError && level?.dirs.length === 0 && <p>{featureCopy.No_visible_subfolders_4c02395}</p>}
+                    {!browseError && <ul>{level?.dirs.slice().sort((left, right) => left.localeCompare(right)).map(dir => <li key={dir}><button type="button" aria-label={featureCopy.Open_folder_0_bf7c21d(dir)} disabled={browsing} onClick={() => { void browse(childPath(level, dir)); }}><span aria-hidden="true">▱</span>{dir}<span aria-hidden="true">›</span></button></li>)}</ul>}
                 </div>
-                <footer><span>Choose a folder to index. Nothing starts while browsing.</span><button type="button" className="add-index-primary" disabled={!level?.path || browsing || !!browseError || !samePath(pathInput.trim(), level.path)} onClick={useFolder}>Use this folder</button></footer>
+                <footer><span>{featureCopy.Choose_a_folder_to_index_Nothing_starts_while_browsing_d9eea54}</span><button type="button" className="add-index-primary" disabled={!level?.path || browsing || !!browseError || !samePath(pathInput.trim(), level.path)} onClick={useFolder}>{featureCopy.Use_this_folder_0e77d6d}</button></footer>
             </>}
             {step === 'confirm' && <form className="add-index-confirm" onSubmit={event => { event.preventDefault(); void start(); }}>
                 <p className="add-index-chosen-path">{selectedPath}</p>
-                <label htmlFor="add-index-name">Project name</label><input ref={nameField} id="add-index-name" value={name} spellCheck={false} disabled={submitting}
+                <label htmlFor="add-index-name">{featureCopy.Project_name_ab9773f}</label><input ref={nameField} id="add-index-name" value={name} spellCheck={false} disabled={submitting}
                     onChange={event => { setName(event.target.value); setSubmitError(''); }} aria-describedby="add-index-name-hint" />
                 <p id="add-index-name-hint" className="add-index-hint">{nameHint}</p>
-                {!validName(name.trim()) && <p role="status">Choose a valid project name before indexing.</p>}
-                {listStatus === 'loading' && <p role="status">Checking existing projects…</p>}
-                {listStatus === 'error' && <div className="add-index-warning" role="alert"><p>Could not check existing projects.</p><button type="button" onClick={() => { void loadProjects(); }}>Retry project check</button></div>}
-                {duplicate && <div className="add-index-warning" role="status"><p>{folderDuplicate ? `This folder is already indexed as ${duplicate.name}.` : `The name ${duplicate.name} is already in use. Choose another name.`}</p>
-                    {folderDuplicate && <button type="button" onClick={() => openProject(duplicate.name)}>Open project</button>}</div>}
+                {!validName(name.trim()) && <p role="status">{featureCopy.Choose_a_valid_project_name_before_indexing_ad15a51}</p>}
+                {listStatus === 'loading' && <p role="status">{featureCopy.Checking_existing_projects_3b1b2aa}</p>}
+                {listStatus === 'error' && <div className="add-index-warning" role="alert"><p>{featureCopy.Could_not_check_existing_projects_74964d8}</p><button type="button" onClick={() => { void loadProjects(); }}>{featureCopy.Retry_project_check_09d135d}</button></div>}
+                {duplicate && <div className="add-index-warning" role="status"><p>{folderDuplicate ? featureCopy.This_folder_is_already_indexed_as_0_5aeb6e3(duplicate.name) : featureCopy.The_name_0_is_already_in_use_Choose_another_name_3bf370a(duplicate.name)}</p>
+                    {folderDuplicate && <button type="button" onClick={() => openProject(duplicate.name)}>{featureCopy.Open_project_3a6a046}</button>}</div>}
                 {submitError && <p className="add-index-warning" role="alert">{submitError}</p>}
-                <footer><button type="button" disabled={submitting} onClick={() => setStep('browse')}>Choose another folder</button>
-                    <button type="submit" className="add-index-primary" disabled={submitting || !validName(name.trim()) || !!duplicate || listStatus !== 'ready'}>{submitting ? 'Starting…' : 'Start indexing'}</button></footer>
+                <footer><button type="button" disabled={submitting} onClick={() => setStep('browse')}>{featureCopy.Choose_another_folder_af3575d}</button>
+                    <button type="submit" className="add-index-primary" disabled={submitting || !validName(name.trim()) || !!duplicate || listStatus !== 'ready'}>{submitting ? featureCopy.Starting_e5f5809 : featureCopy.Start_indexing_4d09349}</button></footer>
             </form>}
             {step === 'progress' && job && <div className="add-index-progress" data-status={job.status}>
                 <span className="add-index-progress-icon" aria-hidden="true">{job.status === 'done' ? '✓' : job.status === 'error' || job.phase === 'unavailable' ? '!' : '◎'}</span>
-                <h3>{job.status === 'done' ? 'Ready to explore' : job.phase === 'failed' ? 'Indexing failed' : job.phase === 'lost' ? 'Tracking interrupted' : job.phase === 'unavailable' ? 'Status unavailable' : job.phase === 'verifying' ? 'Checking the index' : 'Indexing repository'}</h3>
+                <h3>{job.status === 'done' ? featureCopy.Ready_to_explore_4946a16 : job.phase === 'failed' ? featureCopy.Indexing_failed_c76d04d : job.phase === 'lost' ? featureCopy.Tracking_interrupted_c6d1d6b : job.phase === 'unavailable' ? featureCopy.Status_unavailable_f261ff7 : job.phase === 'verifying' ? featureCopy.Checking_the_index_9bad5aa : featureCopy.Indexing_repository_524cae3}</h3>
                 <strong>{job.name}</strong><p className="add-index-chosen-path">{job.path}</p>
-                {(job.phase === 'running' || job.phase === 'verifying') && <progress aria-label="Indexing progress" />}
+                {(job.phase === 'running' || job.phase === 'verifying') && <progress aria-label={featureCopy.Indexing_progress_b2c63b5} />}
                 <p role={job.status === 'error' || job.phase === 'unavailable' ? 'alert' : 'status'}>{job.message}</p>
-                {job.status === 'indexing' && <p className="add-index-hint">You can close this window. Indexing continues in the daemon.</p>}
+                {job.status === 'indexing' && <p className="add-index-hint">{featureCopy.You_can_close_this_window_Indexing_continues_in_the_daemon_548d303}</p>}
                 <div className="add-index-progress-actions">
-                    {(job.phase === 'unavailable' || job.phase === 'lost') && Number.isInteger(job.slot) && job.slot >= 0 && <button type="button" disabled={readingStatus} onClick={() => { void pollRef.current(); }}>{readingStatus ? 'Checking…' : 'Retry status'}</button>}
-                    {job.status === 'done' && <button type="button" className="add-index-primary" onClick={() => openProject(job.name)}>Open project</button>}
-                    {job.status !== 'indexing' && <button type="button" disabled={readingStatus} onClick={another}>Add another project</button>}
-                    {job.status === 'indexing' && <button type="button" onClick={onClose}>Close for now</button>}
+                    {(job.phase === 'unavailable' || job.phase === 'lost') && Number.isInteger(job.slot) && job.slot >= 0 && <button type="button" disabled={readingStatus} onClick={() => { void pollRef.current(); }}>{readingStatus ? featureCopy.Checking_820d600 : featureCopy.Retry_status_8c3370b}</button>}
+                    {job.status === 'done' && <button type="button" className="add-index-primary" onClick={() => openProject(job.name)}>{featureCopy.Open_project_3a6a046}</button>}
+                    {job.status !== 'indexing' && <button type="button" disabled={readingStatus} onClick={another}>{featureCopy.Add_another_project_b7ce399}</button>}
+                    {job.status === 'indexing' && <button type="button" onClick={onClose}>{featureCopy.Close_for_now_4a92f57}</button>}
                 </div>
             </div>}
         </section>

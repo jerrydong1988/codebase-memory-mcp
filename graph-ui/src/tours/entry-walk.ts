@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/tours';
 /**
  * The walk that starts where the maintainer said, and goes forward.
  *
@@ -131,8 +132,8 @@ export function entryWalkTour(closure: ClosureResult): ActiveTour {
         steps.push({
             id,
             title: node.hop === 0
-                ? `Start here: ${node.symbol.name}`
-                : `Hop ${node.hop}: ${node.symbol.name}`,
+                ? featureCopy.Start_here_0_457e98c(node.symbol.name)
+                : featureCopy.Hop_0_1_f2b3b22(node.hop, node.symbol.name),
             description: sentences.join(' '),
             order: steps.length,
             primary: qualifiedName === undefined
@@ -165,7 +166,7 @@ export function entryWalkTour(closure: ClosureResult): ActiveTour {
         document: {
             schemaVersion: TOUR_SCHEMA_VERSION,
             id: entryTourId(closure.root.qualifiedName ?? rootName),
-            title: `Forward from ${rootName}`,
+            title: featureCopy.Forward_from_0_0750bae(rootName),
             generated: {
                 strategy: 'forward-walk',
                 ...(closure.truncated ? { truncated: true } : {}),

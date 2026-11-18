@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import { galaxyScopeEvidence, selectionEvidenceContext, type GalaxyScope, type SelectionEvidence } from '../galaxy/selection-evidence';
 import type { GraphEdge, GraphNode } from '../galaxy/types';
 import type { BrowserChatContext } from './chat-model';
@@ -44,7 +45,7 @@ export function jsonbAggRenderLimited(): BrowserChatContext {
 
 /** A folder of 40 documented symbols with five incoming and five outgoing edge types of 30 symbols each. */
 export function largeFolderScope(): SelectionEvidence {
-    const node = (id: number, name: string, file: string, documentation?: string): GraphNode => ({ id, name, label: 'Function', qualified_name: `pkg.${file}.${name}`,
+    const node = (id: number, name: string, file: string, documentation?: string): GraphNode => ({ id, name, label: featureCopy.Function_f1e410a, qualified_name: `pkg.${file}.${name}`,
         file_path: `django/contrib/postgres/aggregates/${file}.py`, start_line: 10, end_line: 20, documentation, x: 0, y: 0, z: 0, size: 1, color: '#999' });
     const roots = Array.from({ length: 40 }, (_, index) => node(index + 1, `postgres_member_${index}`, 'members', 'd'.repeat(1500)));
     const types = ['CALLS', 'TESTS', 'USAGE', 'IMPORTS', 'DEFINES_METHOD'];
@@ -63,10 +64,10 @@ export function largeFolderScope(): SelectionEvidence {
 /** `.github` in django-demo at one layer, as the hand test of 2026-10-04 showed it in the hierarchy:
  * the branch node of the detached checkout above it, four files and the workflows folder below it. */
 export function githubFolderEvidence(display?: 'galaxy' | 'hierarchy', overrides: { depth?: number; direction?: string; nodes?: GraphNode[]; edges?: GraphEdge[] } = {}): BrowserChatContext {
-    const folder = (id: number, name: string, path: string): GraphNode => ({ id, name, label: 'Folder', file_path: path, qualified_name: `django-demo.${path}`, x: 0, y: 0, z: 0, size: 1, color: '#999' });
-    const file = (id: number, name: string): GraphNode => ({ id, name, label: 'File', file_path: `.github/${name}`, qualified_name: `django-demo..github.${name}`, x: 0, y: 0, z: 0, size: 1, color: '#999' });
+    const folder = (id: number, name: string, path: string): GraphNode => ({ id, name, label: featureCopy.Folder_30baa24, file_path: path, qualified_name: `django-demo.${path}`, x: 0, y: 0, z: 0, size: 1, color: '#999' });
+    const file = (id: number, name: string): GraphNode => ({ id, name, label: featureCopy.File_2c3cafa, file_path: `.github/${name}`, qualified_name: `django-demo..github.${name}`, x: 0, y: 0, z: 0, size: 1, color: '#999' });
     const root = folder(1, '.github', '.github');
-    const branch: GraphNode = { id: 2, name: 'DETACHED', label: 'Branch', qualified_name: 'django-demo.__branch__.detached', x: 0, y: 0, z: 0, size: 1, color: '#999' };
+    const branch: GraphNode = { id: 2, name: 'DETACHED', label: featureCopy.Branch_1627510, qualified_name: 'django-demo.__branch__.detached', x: 0, y: 0, z: 0, size: 1, color: '#999' };
     const files = ['CODE_OF_CONDUCT.md', 'FUNDING.yml', 'pull_request_template.md', 'SECURITY.md'].map((name, index) => file(10 + index, name));
     const workflows = folder(20, 'workflows', '.github/workflows');
     const edges: GraphEdge[] = [{ source: branch.id, target: root.id, type: 'CONTAINS_FOLDER' }, ...files.map(item => ({ source: root.id, target: item.id, type: 'CONTAINS_FILE' })),

@@ -1,3 +1,4 @@
+import { featureCopy } from './i18n/features/app';
 /**
  * Die Verdrahtung: Projekt aus der Adresszeile, Baum aus dem Graphen, Datei in
  * den Reader.
@@ -855,7 +856,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
             : undefined);
     }, [selectionScope]);
     useEffect(() => { setProactiveSelection(undefined); setChatGraphSelection(undefined); setChatAttachment(undefined); }, [project]);
-    const [projectDetail, setProjectDetail] = useState('resolving project ...');
+    const [projectDetail, setProjectDetail] = useState(featureCopy.resolving_project_b01e1f4);
     const [serverOk, setServerOk] = useState<boolean | undefined>(undefined);
     const [counts, setCounts] = useState<{ nodes?: number; edges?: number }>({});
 
@@ -884,7 +885,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
     const [document, setDocument] = useState<ReaderDocument | undefined>(undefined);
     const [documentOrigin, setDocumentOrigin] = useState<ReaderSourceOrigin>();
     const [readerStatus, setReaderStatus] = useState<ReaderStatus>('idle');
-    const [readerMessage, setReaderMessage] = useState('pick a file in the explorer');
+    const [readerMessage, setReaderMessage] = useState(featureCopy.pick_a_file_in_the_explorer_af49b80);
     const [command, setCommand] = useState('');
 
     useEffect(() => { setPinnedCode(undefined); }, [project]);
@@ -927,7 +928,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
     const [twinStatus, setTwinStatus] = useState<TwinStatus>('empty');
     const [twinMessage, setTwinMessage] = useState(TWIN_EMPTY_MESSAGE);
     const [twinHint, setTwinHint] = useState(TWIN_EMPTY_HINT);
-    const [twinName, setTwinName] = useState('no symbol');
+    const [twinName, setTwinName] = useState(featureCopy.no_symbol_9a0962d);
     const [caretLine, setCaretLine] = useState<number | undefined>(undefined);
     const [settledCaret, setSettledCaret] = useState<number | undefined>(undefined);
     const [pointedLine, setPointedLine] = useState<number | undefined>(undefined);
@@ -3416,7 +3417,7 @@ function ProjectWindowView({ projectWindow }: { projectWindow: ProjectWindow<Win
             // sonst eine Kopie der Regel statt der Regel.
             validateRefine: (answer: string) => {
                 if (pseudocode === undefined) {
-                    return { applied: false, reason: 'no block is shown' };
+                    return { applied: false, reason: featureCopy.no_block_is_shown_cfb3a07 };
                 }
                 const outcome = applyRefinement(pseudocode, answer);
                 return outcome.kind === 'applied'

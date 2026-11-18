@@ -1,3 +1,5 @@
+import { presentation } from '../i18n/presentation';
+import { featureCopy } from '../i18n/features/architecture';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { behaviorJourney } from './behavior-journey-model';
 import { projectionLimits, type SystemSceneModel } from './system-architecture-model';
@@ -168,10 +170,10 @@ export default function BehaviorJourney({ project, generation, data, entries, ta
         const operation = allNodes.find(node => node.id === id)?.symbol;
         if (operation && operation.id !== entryId) request(operation, undefined, from ?? entry);
     }
-    return <section className="system-architecture behavior-journey" aria-label="Behavior" data-testid="behavior-journey" aria-busy={pending}>
-        <header className="behavior-heading"><div><span className="system-eyebrow">Behavior · source-guided exploration</span>
-            <h2>{targetId !== undefined ? `${entry?.name ?? 'Operation'} → ${selectedTarget?.name ?? 'destination'}` : `What can ${entry?.name ?? 'this operation'} call?`}</h2>
-            <p>{path ? 'Follow one recorded call chain across the parts it touches.' : 'Choose a starting operation. Explore its calls, or follow a path to a destination.'}</p></div>
+    return <section className="system-architecture behavior-journey" aria-label={featureCopy.Behavior_70cb647} data-testid="behavior-journey" aria-busy={pending}>
+        <header className="behavior-heading"><div><span className="system-eyebrow">{featureCopy.Behavior_source_guided_exploration_57b9028}</span>
+            <h2>{targetId !== undefined ? `${entry?.name ?? featureCopy.Operation_430d320} → ${selectedTarget?.name ?? featureCopy.destination_0cf1bc8}` : featureCopy.What_can_0_call_72bff4e(entry?.name ?? presentation.operation)}</h2>
+            <p>{path ? featureCopy.Follow_one_recorded_call_chain_across_the_parts_it_touches_d7bfa9a : featureCopy.Choose_a_starting_operation_Explore_its_calls_or_follow_a_path_to_010465f}</p></div>
             <RefreshControl labels={text.refreshFeedback.behavior} feedback={refresh} onRefresh={onRefresh} /></header>
         <div className="behavior-requests">
             {navigation}
@@ -190,69 +192,68 @@ export default function BehaviorJourney({ project, generation, data, entries, ta
                         {startQuery.trim() && !startChoices.matching && <option disabled value="-1">{startText.none(startQuery.trim())}</option>}
                     </optgroup>
                 </select></label>
-            <label>Reach <select aria-label="Behavior destination" value={targetId ?? ''} disabled={!entry || pending} onChange={event => request(entry, event.target.value ? Number(event.target.value) : undefined, from)}>
-                <option value="">Explore immediate calls</option>{targetOptions.map(item => <option key={item.id} value={item.id}>{item.name} · {item.file_path ?? ''}</option>)}
+            <label>{featureCopy.Reach_558434e}<select aria-label={featureCopy.Behavior_destination_c0a7451} value={targetId ?? ''} disabled={!entry || pending} onChange={event => request(entry, event.target.value ? Number(event.target.value) : undefined, from)}>
+                <option value="">{featureCopy.Explore_immediate_calls_ef50619}</option>{targetOptions.map(item => <option key={item.id} value={item.id}>{item.name} · {item.file_path ?? ''}</option>)}
             </select></label>
         </div>
-        <div className="behavior-navigation">{targetId !== undefined && <button onClick={() => request(entry, undefined, from)}>Immediate calls</button>}
-            <span>{pending ? 'Updating this journey…' : path ? `${path.edges.length} call-chain hops · ${new Set(path.nodes.map(item => item.component_id)).size} components`
+        <div className="behavior-navigation">{targetId !== undefined && <button onClick={() => request(entry, undefined, from)}>{featureCopy.Immediate_calls_ea82fcb}</button>}
+            <span>{pending ? featureCopy.Updating_this_journey_3d72aa2 : path ? featureCopy.message_0_call_chain_hops_1_components_3140209(path.edges.length, new Set(path.nodes.map(item => item.component_id)).size)
                 : text.directCallees(journey?.counts.directChoices ?? 0, journey?.counts.selfCalls ?? false)}</span>
-            <span className="behavior-static-badge" title="Graph relationships describe possible calls. They do not prove execution order, path feasibility or actual runtime values.">Static evidence</span>
+            <span className="behavior-static-badge" title={featureCopy.Graph_relationships_describe_possible_calls_They_do_not_prove_exe_05123cb}>{featureCopy.Static_evidence_c13f485}</span>
         </div>
-        {error && <p role="alert">{error} <button onClick={onRefresh}>Try again</button></p>}
-        {pending ? <div className="behavior-loading" role="status">Preparing the selected operation…</div> : !scene || !journey ? <div className="behavior-loading">Choose an operation to explore.</div> : <>
-            {journey.paths.length > 1 && <div className="behavior-paths" role="group" aria-label="Indexed paths">{journey.paths.map((item, index) => <button key={index} aria-pressed={pathIndex === index} onClick={() => { changePlace({ path: index, step: 0 }); setSelection(undefined); }}>
-                Path {index + 1}<small>{item.edges.length} hops{new Set(item.nodes.map(node => node.id)).size < item.nodes.length ? ' · revisits a symbol' : ''}</small></button>)}</div>}
+        {error && <p role="alert">{error} <button onClick={onRefresh}>{featureCopy.Try_again_042c862}</button></p>}
+        {pending ? <div className="behavior-loading" role="status">{featureCopy.Preparing_the_selected_operation_cde1373}</div> : !scene || !journey ? <div className="behavior-loading">{featureCopy.Choose_an_operation_to_explore_3a3491a}</div> : <>
+            {journey.paths.length > 1 && <div className="behavior-paths" role="group" aria-label={featureCopy.Indexed_paths_7dbde56}>{journey.paths.map((item, index) => <button key={index} aria-pressed={pathIndex === index} onClick={() => { changePlace({ path: index, step: 0 }); setSelection(undefined); }}>{featureCopy.Path_31fbfea}{index + 1}<small>{item.edges.length}{featureCopy.hops_05b1923}{new Set(item.nodes.map(node => node.id)).size < item.nodes.length ? featureCopy.revisits_a_symbol_ed152cd : ''}</small></button>)}</div>}
             <div className="behavior-stage"><div className="behavior-visual" ref={visual}>
-                <div className="behavior-visual-toolbar"><span>{path ? 'CALL CHAIN →' : 'DIRECT CALLS · UNORDERED'}</span>
-                    <div className="system-view-switch" role="group" aria-label="Behavior camera"><button aria-pressed={!planar} onClick={() => changePlace({ planar: false })}>3D</button><button aria-pressed={planar} onClick={() => changePlace({ planar: true })}>Plan</button></div>
-                    <button onClick={() => setResetKey(value => value + 1)}>Fit</button></div>
+                <div className="behavior-visual-toolbar"><span>{path ? featureCopy.CALL_CHAIN_6cd9241 : featureCopy.DIRECT_CALLS_UNORDERED_9957773}</span>
+                    <div className="system-view-switch" role="group" aria-label={featureCopy.Behavior_camera_1f9ce2a}><button aria-pressed={!planar} onClick={() => changePlace({ planar: false })}>3D</button><button aria-pressed={planar} onClick={() => changePlace({ planar: true })}>{featureCopy.Plan_ae2f98a}</button></div>
+                    <button onClick={() => setResetKey(value => value + 1)}>{featureCopy.Fit_dab564d}</button></div>
                 <div className="system-map behavior-map">
-                    {scene.nodes.length ? <Suspense fallback={<div className="behavior-loading">Preparing the journey…</div>}><Scene model={scene}
+                    {scene.nodes.length ? <Suspense fallback={<div className="behavior-loading">{featureCopy.Preparing_the_journey_5e0e2dc}</div>}><Scene model={scene}
                         selectedNode={selectedEdge ? undefined : selectedNode?.id} selectedEdge={selectedEdge?.id}
                         onSelectNode={selectNode} onSelectEdge={selectEdge} onExpandNode={follow} onClearSelection={clearSelection}
                         resetKey={resetKey} planar={planar} active={active} showConnectionLoad={false} presentation="journey" /></Suspense>
                         : limits.length ? <div className="behavior-loading" role="status"><div className="behavior-limited"><strong>{text.behaviorLimited}</strong>{limits.map(limit => <p key={limit}>{limit}</p>)}</div></div>
-                        : <div className="behavior-loading">{filter ? 'No connected path matches this filter.' : targetId !== undefined ? 'No connected call-chain witness was returned for this destination.' : 'No direct call witnesses were returned for this operation.'}</div>}
-                    <div className="system-map-caption"><span>{path ? `Showing operations ${(scene.nodes[0]?.depth ?? 0) + 1} to ${(scene.nodes.at(-1)?.depth ?? 0) + 1} of ${path.nodes.length}` : 'Branches are possible calls, not an execution sequence.'}</span>
-                        <span>Double-click an operation to follow its calls</span></div>
+                        : <div className="behavior-loading">{filter ? featureCopy.No_connected_path_matches_this_filter_fc7aae9 : targetId !== undefined ? featureCopy.No_connected_call_chain_witness_was_returned_for_this_destination_6bdfc0b : featureCopy.No_direct_call_witnesses_were_returned_for_this_operation_acde284}</div>}
+                    <div className="system-map-caption"><span>{path ? featureCopy.Showing_operations_0_to_1_of_2_e7f042b((scene.nodes[0]?.depth ?? 0) + 1, (scene.nodes.at(-1)?.depth ?? 0) + 1, path.nodes.length) : featureCopy.Branches_are_possible_calls_not_an_execution_sequence_001357e}</span>
+                        <span>{featureCopy.Double_click_an_operation_to_follow_its_calls_7dcfc05}</span></div>
                 </div>
-                {path && <nav className="behavior-walk" aria-label="Walk the call chain"><button disabled={activeStep === 0} onClick={() => selectStep(activeStep - 1)}>← Previous</button>
-                    <input type="range" aria-label="Call-chain position" min={0} max={path.nodes.length - 1} value={activeStep} onChange={event => selectStep(Number(event.target.value))} />
-                    <span>{activeStep + 1} / {path.nodes.length}</span><button disabled={activeStep >= path.nodes.length - 1} onClick={() => selectStep(activeStep + 1)}>Next →</button></nav>}
-                {!path && journey.scene.nodes.length > 5 && <nav className="behavior-walk" aria-label="Direct call pages"><button disabled={branchPage === 0} onClick={() => { changePlace({ page: branchPage - 1 }); setSelection(undefined); }}>← Earlier calls</button>
+                {path && <nav className="behavior-walk" aria-label={featureCopy.Walk_the_call_chain_1a94289}><button disabled={activeStep === 0} onClick={() => selectStep(activeStep - 1)}>{featureCopy.Previous_471492a}</button>
+                    <input type="range" aria-label={featureCopy.Call_chain_position_0d64851} min={0} max={path.nodes.length - 1} value={activeStep} onChange={event => selectStep(Number(event.target.value))} />
+                    <span>{activeStep + 1} / {path.nodes.length}</span><button disabled={activeStep >= path.nodes.length - 1} onClick={() => selectStep(activeStep + 1)}>{featureCopy.Next_2f04eb1}</button></nav>}
+                {!path && journey.scene.nodes.length > 5 && <nav className="behavior-walk" aria-label={featureCopy.Direct_call_pages_f486e4f}><button disabled={branchPage === 0} onClick={() => { changePlace({ page: branchPage - 1 }); setSelection(undefined); }}>{featureCopy.Earlier_calls_ddf639d}</button>
                     <span>{text.callPage(branchPage * 4 + 1, Math.min(branchPage * 4 + 4, journey.scene.nodes.length - 1), journey.scene.nodes.length - 1,
                         journey.counts.omittedNodes, Boolean(filter.trim()) && journey.scene.nodes.length - 1 + journey.counts.omittedNodes < journey.counts.directChoices)}</span>
-                    <button disabled={(branchPage + 1) * 4 >= journey.scene.nodes.length - 1} onClick={() => { changePlace({ page: branchPage + 1 }); setSelection(undefined); }}>More calls →</button></nav>}
-            </div><aside className="behavior-inspector" aria-label="Behavior evidence inspector">
-                {caller ? <><span className="system-eyebrow">{call ? call.type.replaceAll('_', ' ') : path ? `Operation ${activeStep + 1}` : 'Starting operation'}</span>
+                    <button disabled={(branchPage + 1) * 4 >= journey.scene.nodes.length - 1} onClick={() => { changePlace({ page: branchPage + 1 }); setSelection(undefined); }}>{featureCopy.More_calls_44ca838}</button></nav>}
+            </div><aside className="behavior-inspector" aria-label={featureCopy.Behavior_evidence_inspector_7a51db1}>
+                {caller ? <><span className="system-eyebrow">{call ? call.type.replaceAll('_', ' ') : path ? featureCopy.Operation_0_d04497a(activeStep + 1) : featureCopy.Starting_operation_c1b3263}</span>
                     <h3>{caller.name}{callee && <><span className="behavior-call-arrow">↓</span>{callee.name}</>}</h3>
-                    <p>{call && callee ? caller.component_id === callee.component_id ? 'A call within the same component.' : `Crosses from ${components.get(caller.component_id)?.label ?? caller.component_id} into ${components.get(callee.component_id)?.label ?? callee.component_id}.`
+                    <p>{call && callee ? caller.component_id === callee.component_id ? featureCopy.A_call_within_the_same_component_540223b : featureCopy.Crosses_from_0_into_1_2692bf8(components.get(caller.component_id)?.label ?? caller.component_id, components.get(callee.component_id)?.label ?? callee.component_id)
                         : components.get(caller.component_id)?.label ?? caller.file_path}</p>
-                    {call?.resolution && <p className="behavior-resolution">{call.resolution.strategy?.replaceAll('_', ' ') ?? 'Indexed resolution'}{call.resolution.candidates && call.resolution.candidates > 1 ? ` · ${call.resolution.candidates} candidate targets` : ''}</p>}
-                    <div className="behavior-inspector-actions">{symbol && symbol.id !== entryId && <button onClick={() => request(symbol, undefined, from ?? entry)}>Follow calls from here</button>}
-                        {symbol?.file_path && <button onClick={() => onNavigate(symbol.file_path!, symbol.start_line, symbol.name)}>Open definition ↗</button>}</div>
-                    <div className="behavior-contract" aria-label="Indexed call contract">
-                        {call?.arguments && <section><h4>Passed expressions</h4>{call.arguments.length ? <ol>{call.arguments.map((argument, index) => <li key={`${argument.i}:${index}`}><code>{argument.e}</code>
-                            {argument.v !== undefined && <small>Resolved string: <code>{JSON.stringify(argument.v)}</code></small>}</li>)}</ol> : <p>No argument expressions were captured.</p>}
-                            <small>Indexed expressions{call.argument_limit ? ` · up to ${call.argument_limit}` : ''}. Parameter binding is not established.</small></section>}
-                        {(callee ?? symbol)?.signature && <section><h4>{callee ? 'Called declaration' : 'Declaration'}</h4><code className="behavior-signature">{(callee ?? symbol)!.signature}</code></section>}
-                        {(callee ?? symbol)?.parameters && <section><h4>Declared parameters</h4><ul>{(callee ?? symbol)!.parameters!.names.map((name, index) => <li key={`${index}:${name}`}><code>{name}{(callee ?? symbol)!.parameters!.types[index] ? `: ${(callee ?? symbol)!.parameters!.types[index]}` : ''}</code></li>)}</ul>
-                            <small>{(callee ?? symbol)!.parameters!.count} reported parameters</small></section>}
-                        {(callee ?? symbol)?.return_type && <section><h4>Declared return type</h4><code>{(callee ?? symbol)!.return_type}</code></section>}
+                    {call?.resolution && <p className="behavior-resolution">{call.resolution.strategy?.replaceAll('_', ' ') ?? featureCopy.Indexed_resolution_de4fa49}{call.resolution.candidates && call.resolution.candidates > 1 ? featureCopy.message_0_candidate_targets_59d5ff2(call.resolution.candidates) : ''}</p>}
+                    <div className="behavior-inspector-actions">{symbol && symbol.id !== entryId && <button onClick={() => request(symbol, undefined, from ?? entry)}>{featureCopy.Follow_calls_from_here_32c7f22}</button>}
+                        {symbol?.file_path && <button onClick={() => onNavigate(symbol.file_path!, symbol.start_line, symbol.name)}>{featureCopy.Open_definition_787fad5}</button>}</div>
+                    <div className="behavior-contract" aria-label={featureCopy.Indexed_call_contract_dfefec1}>
+                        {call?.arguments && <section><h4>{featureCopy.Passed_expressions_6e89a27}</h4>{call.arguments.length ? <ol>{call.arguments.map((argument, index) => <li key={`${argument.i}:${index}`}><code>{argument.e}</code>
+                            {argument.v !== undefined && <small>{featureCopy.Resolved_string_3d53a91}<code>{JSON.stringify(argument.v)}</code></small>}</li>)}</ol> : <p>{featureCopy.No_argument_expressions_were_captured_32847c2}</p>}
+                            <small>{featureCopy.Indexed_expressions_d3c743d}{call.argument_limit ? featureCopy.up_to_0_5475b67(call.argument_limit) : ''}. Parameter binding is not established.</small></section>}
+                        {(callee ?? symbol)?.signature && <section><h4>{callee ? featureCopy.Called_declaration_2b5c05e : featureCopy.Declaration_d6f3772}</h4><code className="behavior-signature">{(callee ?? symbol)!.signature}</code></section>}
+                        {(callee ?? symbol)?.parameters && <section><h4>{featureCopy.Declared_parameters_553e150}</h4><ul>{(callee ?? symbol)!.parameters!.names.map((name, index) => <li key={`${index}:${name}`}><code>{name}{(callee ?? symbol)!.parameters!.types[index] ? `: ${(callee ?? symbol)!.parameters!.types[index]}` : ''}</code></li>)}</ul>
+                            <small>{(callee ?? symbol)!.parameters!.count}{featureCopy.reported_parameters_3c07d21}</small></section>}
+                        {(callee ?? symbol)?.return_type && <section><h4>{featureCopy.Declared_return_type_e802b5e}</h4><code>{(callee ?? symbol)!.return_type}</code></section>}
                     </div>
                     <BehaviorSourceEvidence project={project} generation={generation} symbol={caller} call={call} active={active} onNavigate={onNavigate} onSourceEvidence={setSourceEvidence} />
-                    {callee && <div className="behavior-next-operation"><span>Continues into</span><button onClick={() => { const node = allNodes.find(node => node.symbol?.id === callee.id && (node.depth ?? 0) > activeStep) ?? allNodes.find(node => node.symbol?.id === callee.id); if (node) selectNode(node.id); }}>{callee.name} →</button></div>}
-                    {!path && related.length > 0 && <div className="behavior-immediate-list"><h4>Calls from this operation</h4>{related.map(edge => <button key={edge.id} onClick={() => selectEdge(edge.id)}>
-                        {allNodes.find(node => node.id === edge.target)?.symbol?.name ?? edge.target}<small>{edge.pathEdge?.callsite ? `line ${edge.pathEdge.callsite.line}` : edge.type.toLowerCase().replaceAll('_', ' ')}</small></button>)}</div>}
-                </> : <p>Select an operation or a call to inspect its evidence.</p>}
+                    {callee && <div className="behavior-next-operation"><span>{featureCopy.Continues_into_fe39aed}</span><button onClick={() => { const node = allNodes.find(node => node.symbol?.id === callee.id && (node.depth ?? 0) > activeStep) ?? allNodes.find(node => node.symbol?.id === callee.id); if (node) selectNode(node.id); }}>{callee.name} →</button></div>}
+                    {!path && related.length > 0 && <div className="behavior-immediate-list"><h4>{featureCopy.Calls_from_this_operation_fc3eeb8}</h4>{related.map(edge => <button key={edge.id} onClick={() => selectEdge(edge.id)}>
+                        {allNodes.find(node => node.id === edge.target)?.symbol?.name ?? edge.target}<small>{edge.pathEdge?.callsite ? featureCopy.line_0_6c8409e(edge.pathEdge.callsite.line) : edge.type.toLowerCase().replaceAll('_', ' ')}</small></button>)}</div>}
+                </> : <p>{featureCopy.Select_an_operation_or_a_call_to_inspect_its_evidence_ad87752}</p>}
             </aside></div>
-            {path && <details className="behavior-limits"><summary>Call chain · {path.nodes.length} operations</summary><ol className="behavior-operation-strip" aria-label="All operations in this call chain">{path.nodes.map((item, index) => <li key={`${index}:${item.id}`}>
-                <button aria-label={`Select step ${index + 1}: ${item.name}`} aria-pressed={!overview && activeStep === index} onClick={() => selectStep(index)}><span>{index + 1}</span><strong>{item.name}</strong><small>{item.file_path}</small></button></li>)}</ol></details>}
-            <details className="behavior-limits"><summary>Evidence and limits{journey.limits.sampled ? ' · partial analysis' : ''}</summary>
-                <p>Each arrow is a recorded invocation. Component lanes provide orientation; numbered operations follow call-chain depth. Neither proves execution order, branch feasibility, data transformation or runtime values. Opening a call reads its current local source.</p>
-                <p>{journey.counts.omittedChoices} choices, {journey.counts.omittedNodes} nodes and {journey.counts.omittedEdges} edges omitted by display limits. {journey.counts.invalidPaths} disconnected or unsupported paths excluded.</p>
-                {(data?.behavior?.totals.omitted_targets ?? 0) > 0 && <p>{data!.behavior!.totals.omitted_targets} reachable destinations are outside the returned catalog.</p>}
+            {path && <details className="behavior-limits"><summary>{featureCopy.Call_chain_fab4f56}{path.nodes.length}{featureCopy.operations_a1ea7f6}</summary><ol className="behavior-operation-strip" aria-label={featureCopy.All_operations_in_this_call_chain_a2dbe78}>{path.nodes.map((item, index) => <li key={`${index}:${item.id}`}>
+                <button aria-label={featureCopy.Select_step_0_1_56c3fe1(index + 1, item.name)} aria-pressed={!overview && activeStep === index} onClick={() => selectStep(index)}><span>{index + 1}</span><strong>{item.name}</strong><small>{item.file_path}</small></button></li>)}</ol></details>}
+            <details className="behavior-limits"><summary>{featureCopy.Evidence_and_limits_9dfb0e5}{journey.limits.sampled ? featureCopy.partial_analysis_222c1fa : ''}</summary>
+                <p>{featureCopy.Each_arrow_is_a_recorded_invocation_Component_lanes_provide_orien_d2adc0f}</p>
+                <p>{journey.counts.omittedChoices}{featureCopy.choices_f4adfdf}{journey.counts.omittedNodes}{featureCopy.nodes_and_cf5b4ad}{journey.counts.omittedEdges}{featureCopy.edges_omitted_by_display_limits_1bc7c1f}{journey.counts.invalidPaths}{featureCopy.disconnected_or_unsupported_paths_excluded_fe47500}</p>
+                {(data?.behavior?.totals.omitted_targets ?? 0) > 0 && <p>{data!.behavior!.totals.omitted_targets}{featureCopy.reachable_destinations_are_outside_the_returned_catalog_4097893}</p>}
                 {journey.limits.hit.length > 0 && <p>{journey.limits.hit.join(' · ')}</p>}
                 {data?.warnings.map((warning, index) => <p key={index}>{warning}</p>)}
             </details>

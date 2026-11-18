@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { GraphData, GraphNode } from '../galaxy/types';
 import { useSelectionEvidence, type SelectionEvidenceListener } from '../galaxy/selection-evidence';
@@ -58,7 +59,7 @@ function UnavailableProjection({ limits }: { limits: string[] }) {
 
 function EvidenceSource({ symbol, onOpen }: { symbol: SystemSymbol; onOpen: (symbol: SystemSymbol) => void }) {
     return <div className="system-source"><button disabled={!symbol.file_path} onClick={() => onOpen(symbol)} title={symbol.qualified_name}>{symbol.name}</button>
-        <small>{symbol.file_path ? `${symbol.file_path}${symbol.start_line ? `:${symbol.start_line}` : ''}` : 'Source location unavailable'}</small></div>;
+        <small>{symbol.file_path ? `${symbol.file_path}${symbol.start_line ? `:${symbol.start_line}` : ''}` : featureCopy.Source_location_unavailable_f73beb0}</small></div>;
 }
 
 /**
@@ -326,7 +327,7 @@ export default function SystemArchitecture({ project, generation, view, filter, 
     const limitationCount = data ? Object.entries(data.limits).filter(([key, value]) => (key.startsWith('omitted_') || key.endsWith('_truncated')) && Boolean(value)).length : 0;
     useSelectionEvidence(onSelectionEvidence, !queryPending && (selectedComponent || selectedGroup || edge) ? {
         project, generation: projectionGeneration, view: 'architecture-structure', source: 'get_architecture system projection',
-        label: edge ? `${edge.source} → ${edge.target}` : selectedComponent?.label ?? selectedGroup?.label ?? 'System component',
+        label: edge ? `${edge.source} → ${edge.target}` : selectedComponent?.label ?? selectedGroup?.label ?? featureCopy.System_component_cf0ee5d,
         selected: edge ? { source: edge.source, target: edge.target, type: edge.type, dependencies: selectedDependencies }
             : { component: selectedComponent, group: selectedGroup },
         relationships: selectedComponent ? { incoming: [...neighbors.incoming].map(([id, types]) => ({ id, types: [...types] })),
@@ -358,117 +359,116 @@ export default function SystemArchitecture({ project, generation, view, filter, 
                 ...(targetId !== undefined && detail?.targetName ? { targetName: detail.targetName } : {}), ...(detail?.from ? { from: detail.from } : {}) });
         }} /> : undefined;
     if (behaviorPage) return behaviorPage;
-    return <section className="system-architecture" data-testid="system-architecture" aria-label={view === 'structure' ? 'System structure' : 'Behavior'} aria-busy={active && pending}>
+    return <section className="system-architecture" data-testid="system-architecture" aria-label={view === 'structure' ? featureCopy.System_structure_200d1f0 : featureCopy.Behavior_70cb647} aria-busy={active && pending}>
         <div className="system-toolbar">
-            <p>{view === 'structure' ? 'Inspect the parts and the code that connects them.' : 'Follow a question through the same system map.'}</p>
+            <p>{view === 'structure' ? featureCopy.Inspect_the_parts_and_the_code_that_connects_them_469a86f : featureCopy.Follow_a_question_through_the_same_system_map_67ea380}</p>
             <RefreshControl className="atlas-arch-action system-refresh" labels={text.refreshFeedback.structure} feedback={refresh.feedback}
                 onRefresh={() => { refreshAnalysis(); setResetKey(value => value + 1); }} />
         </div><div className="system-controls">
-            <div className="system-scope-actions atlas-arch-context">{navigation}<button disabled={!focusId} onClick={clearSelection}>Whole system</button>{place.focus && <span title={place.focus.label}>/ {place.focus.label}</span>}</div>
-            {view === 'structure' && <label>Connections <select aria-label="Connection view" value={connectionView} onChange={event => { setConnectionView(event.target.value as ConnectionView); setCyclesOnly(false); }}>
-                <option value="calls">Calls &amp; imports</option><option value="types">Type relationships</option><option value="all">All relationships</option>
+            <div className="system-scope-actions atlas-arch-context">{navigation}<button disabled={!focusId} onClick={clearSelection}>{featureCopy.Whole_system_7f38e7b}</button>{place.focus && <span title={place.focus.label}>/ {place.focus.label}</span>}</div>
+            {view === 'structure' && <label>{featureCopy.Connections_9b06c3f}<select aria-label={featureCopy.Connection_view_1378558} value={connectionView} onChange={event => { setConnectionView(event.target.value as ConnectionView); setCyclesOnly(false); }}>
+                <option value="calls">{featureCopy.Calls_amp_imports_a359d3a}</option><option value="types">{featureCopy.Type_relationships_712780a}</option><option value="all">{featureCopy.All_relationships_c8e8e43}</option>
             </select></label>}
-            {view === 'structure' && <label title="Cycles in the displayed relationship lens; aggregate cycles do not establish symbol recursion."><input type="checkbox" checked={cyclesOnly} onChange={event => { setCyclesOnly(event.target.checked); setSelection(undefined); }} />{data?.overview ? 'Group cycles' : 'Component cycles'}</label>}
-            {view === 'structure' && <label title="Include components with no connection in the returned projection. Analysis limits can hide relationships."><input type="checkbox" checked={includeUnconnected} onChange={event => setIncludeUnconnected(event.target.checked)} />Include unconnected</label>}
-            {view === 'structure' && <label><input type="checkbox" checked={includeTests} onChange={event => { setIncludeTests(event.target.checked); setSelection(undefined); }} />Include test components</label>}
-            {view === 'behavior' && <span className="system-small">Calls &amp; imports · all code groups</span>}
-            {view === 'behavior' && <label>From <select aria-label="Behavior entry point" value={requestedEntry ?? ''} onChange={event => setEntryChoice({ project, generation,
+            {view === 'structure' && <label title={featureCopy.Cycles_in_the_displayed_relationship_lens_aggregate_cycles_do_not_a139f4d}><input type="checkbox" checked={cyclesOnly} onChange={event => { setCyclesOnly(event.target.checked); setSelection(undefined); }} />{data?.overview ? featureCopy.Group_cycles_5b33ab8 : featureCopy.Component_cycles_b5dc45c}</label>}
+            {view === 'structure' && <label title={featureCopy.Include_components_with_no_connection_in_the_returned_projection__b490964}><input type="checkbox" checked={includeUnconnected} onChange={event => setIncludeUnconnected(event.target.checked)} />{featureCopy.Include_unconnected_371d23f}</label>}
+            {view === 'structure' && <label><input type="checkbox" checked={includeTests} onChange={event => { setIncludeTests(event.target.checked); setSelection(undefined); }} />{featureCopy.Include_test_components_76820ca}</label>}
+            {view === 'behavior' && <span className="system-small">{featureCopy.Calls_amp_imports_all_code_groups_ef2ab94}</span>}
+            {view === 'behavior' && <label>{featureCopy.From_6e9b4e1}<select aria-label={featureCopy.Behavior_entry_point_8ee799e} value={requestedEntry ?? ''} onChange={event => setEntryChoice({ project, generation,
                 expectedGeneration: entryChoices?.analysisGeneration ?? current?.response?.generation, id: event.target.value ? Number(event.target.value) : undefined,
                 name: entries.find(item => item.id === Number(event.target.value))?.name })}>
-                <option value="">{path ? `Suggested · ${path.nodes[0].name}${path.nodes[0].file_path ? ` · ${path.nodes[0].file_path}` : ''}` : 'Choose an entry point'}</option>{entries.map(entry => <option key={entry.id} value={entry.id}>{entry.name}{entry.file_path ? ` · ${entry.file_path}` : ''}</option>)}
+                <option value="">{path ? featureCopy.Suggested_0_1_d564209(path.nodes[0].name, path.nodes[0].file_path ? ` · ${path.nodes[0].file_path}` : '') : featureCopy.Choose_an_entry_point_c3c7b4d}</option>{entries.map(entry => <option key={entry.id} value={entry.id}>{entry.name}{entry.file_path ? ` · ${entry.file_path}` : ''}</option>)}
             </select></label>}
-            {view === 'behavior' && (data?.behavior || requestedEntry !== undefined) && <label>To <select aria-label="Behavior destination" disabled={requestedEntry === undefined || (!targets.length && queryPending)} value={requestedTarget ?? ''}
+            {view === 'behavior' && (data?.behavior || requestedEntry !== undefined) && <label>{featureCopy.To_19e9dab}<select aria-label={featureCopy.Behavior_destination_c0a7451} disabled={requestedEntry === undefined || (!targets.length && queryPending)} value={requestedTarget ?? ''}
                 onChange={event => setEntryChoice({ project, generation, id: requestedEntry, name: entryChoice?.name, targetId: event.target.value ? Number(event.target.value) : undefined,
                     targetName: targets.find(item => item.id === Number(event.target.value))?.name, expectedGeneration: matchingTargetCatalog?.analysisGeneration ?? sourceGeneration })}>
-                <option value="">Choose a reachable operation…</option>{targets.map(target => <option key={target.id} value={target.id}>{target.name} · {target.file_path}</option>)}
+                <option value="">{featureCopy.Choose_a_reachable_operation_84d2db8}</option>{targets.map(target => <option key={target.id} value={target.id}>{target.name} · {target.file_path}</option>)}
             </select></label>}
         </div>
-        {error && !data ? <div className="system-analysis-state" role="alert"><strong>Could not analyze this project.</strong><p>{error}</p><button className="atlas-arch-action" onClick={() => setRevision(value => value + 1)}>Try again</button></div>
-            : pending ? <div className="system-analysis-state" role="status"><span className="system-progress" /><strong>{active ? 'Analyzing interactions…' : 'Analysis paused'}</strong><p>The workspace stays available while the server prepares this view.</p></div>
+        {error && !data ? <div className="system-analysis-state" role="alert"><strong>{featureCopy.Could_not_analyze_this_project_3f5e4eb}</strong><p>{error}</p><button className="atlas-arch-action" onClick={() => setRevision(value => value + 1)}>{featureCopy.Try_again_042c862}</button></div>
+            : pending ? <div className="system-analysis-state" role="status"><span className="system-progress" /><strong>{active ? featureCopy.Analyzing_interactions_3267d5b : featureCopy.Analysis_paused_b372bbc}</strong><p>{featureCopy.The_workspace_stays_available_while_the_server_prepares_this_view_ca7c319}</p></div>
                 : data && <>
-                    {error && <p className="system-small" role="alert">{error} <button onClick={() => setRevision(value => value + 1)}>Try again</button></p>}
-                    <div className="system-reading-status"><span>{queryPending ? 'Updating path…' : view === 'structure'
-                        ? data.overview ? `${data.overview.groups.length} groups · ${model.nodes.filter(item => !item.parentId).length} shown · ${data.overview.totals.components ?? data.overview.components.length} components accounted for`
-                            : `${data.components.length} components returned · ${model.nodes.length} shown · ${structureData?.dependencies.length} of ${data.dependencies.length} returned connections`
-                        : behavior?.mode === 'corridor' ? `${behavior.nodes.length} symbols · ${behavior.edges.length} calls in this corridor`
-                        : data.behavior ? 'Choose a destination to reveal its call paths' : `${paths.length} indexed paths`}</span>
-                        <span>{(view === 'structure' && completeOverview === true) || (view === 'behavior' && (behavior?.mode === 'corridor' ? behavior.corridor_complete ?? behavior.complete : behavior?.complete)) || (!data.overview && data.complete && !limitationCount) ? 'Indexed snapshot' : 'Partial analysis'} · <button onClick={revealEvidence}>Evidence and limits</button></span></div>
+                    {error && <p className="system-small" role="alert">{error} <button onClick={() => setRevision(value => value + 1)}>{featureCopy.Try_again_042c862}</button></p>}
+                    <div className="system-reading-status"><span>{queryPending ? featureCopy.Updating_path_7bc8dde : view === 'structure'
+                        ? data.overview ? featureCopy.message_0_groups_1_shown_2_components_accounted_for_35bb7a3(data.overview.groups.length, model.nodes.filter(item => !item.parentId).length, data.overview.totals.components ?? data.overview.components.length)
+                            : featureCopy.message_0_components_returned_1_shown_2_of_3_returned_connections_ebd4130(data.components.length, model.nodes.length, structureData?.dependencies.length, data.dependencies.length)
+                        : behavior?.mode === 'corridor' ? featureCopy.message_0_symbols_1_calls_in_this_corridor_b7ba5d5(behavior.nodes.length, behavior.edges.length)
+                        : data.behavior ? featureCopy.Choose_a_destination_to_reveal_its_call_paths_6fee4c8 : featureCopy.message_0_indexed_paths_6670fd7(paths.length)}</span>
+                        <span>{(view === 'structure' && completeOverview === true) || (view === 'behavior' && (behavior?.mode === 'corridor' ? behavior.corridor_complete ?? behavior.complete : behavior?.complete)) || (!data.overview && data.complete && !limitationCount) ? featureCopy.Indexed_snapshot_307c1a3 : featureCopy.Partial_analysis_2d83d2c} · <button onClick={revealEvidence}>{featureCopy.Evidence_and_limits_9dfb0e5}</button></span></div>
                     <div className="system-display-controls">
-                        <span className="system-layout-hint" title="Directory ancestry determines placement. Connections still come from the indexed graph. Representatives provide location hints when no directory group is reported.">{data.overview || view === 'structure' ? 'Grouped by source location' : 'Ordered by call paths'}</span>
-                        <label title="Ring area follows log(1 + visible links), relative to the busiest item in this view. Each directed relationship type counts once; this is visual load, not runtime activity."><input type="checkbox" checked={showConnectionLoad} onChange={event => setShowConnectionLoad(event.target.checked)} />Connection load</label>
-                        <div className="system-view-switch" role="group" aria-label="System camera"><button aria-pressed={!planar} onClick={() => changePlace({ structurePlanar: false })}>3D</button><button aria-pressed={planar} onClick={() => changePlace({ structurePlanar: true })}>Plan</button></div>
+                        <span className="system-layout-hint" title={featureCopy.Directory_ancestry_determines_placement_Connections_still_come_fr_a61bca5}>{data.overview || view === 'structure' ? featureCopy.Grouped_by_source_location_fc4264a : featureCopy.Ordered_by_call_paths_b4f673e}</span>
+                        <label title={featureCopy.Ring_area_follows_log_1_visible_links_relative_to_the_busiest_ite_50d53a8}><input type="checkbox" checked={showConnectionLoad} onChange={event => setShowConnectionLoad(event.target.checked)} />{featureCopy.Connection_load_b0d2899}</label>
+                        <div className="system-view-switch" role="group" aria-label={featureCopy.System_camera_09823a2}><button aria-pressed={!planar} onClick={() => changePlace({ structurePlanar: false })}>3D</button><button aria-pressed={planar} onClick={() => changePlace({ structurePlanar: true })}>{featureCopy.Plan_ae2f98a}</button></div>
                     </div>
                     <div className="system-workspace"><div className="system-map">
                         {/* The reason for an empty projection outranks any filter that would also find nothing. */}
-                        {model.nodes.length ? <Suspense fallback={<div className="system-scene-empty">Preparing 3D view…</div>}><Scene model={model} selectedNode={selectedSceneNode} selectedEdge={selection?.edge}
+                        {model.nodes.length ? <Suspense fallback={<div className="system-scene-empty">{featureCopy.Preparing_3D_view_894d1e0}</div>}><Scene model={model} selectedNode={selectedSceneNode} selectedEdge={selection?.edge}
                             onSelectNode={selectNode} onSelectEdge={selectEdge} onExpandNode={id => focus(id, toggled(id))} onClearSelection={clearSelection} highlightedPathIndex={view === 'behavior' ? highlightedPathIndex : undefined} resetKey={resetKey} planar={planar} active={active} showConnectionLoad={showConnectionLoad} /></Suspense>
                             : view === 'structure' && projectionUnavailable(data) ? <UnavailableProjection limits={projectionLimits(data)} />
-                            : <div className="system-scene-empty">{view === 'behavior' ? filter ? 'No source paths match this filter. Clear it to see the entry point’s returned paths.' : 'No connected source path is available for this entry point.' : cyclesOnly ? 'No component cycles match the current filters in the returned analysis.' : filter ? 'No matching components. Try a broader filter or include unconnected components.' : data.components.length && !includeUnconnected ? 'No connected components match the current view. Change the connection filter or include unconnected components.' : text.projectionEmpty}</div>}
-                        <div className="system-map-caption"><span>{view === 'behavior' ? 'Arrows are indexed calls, not an execution timeline.' : 'Select to inspect · expand a group for its members'}{showConnectionLoad ? ' · rings show link load' : ''}</span>
-                            <button onClick={() => setResetKey(value => value + 1)}>Fit view</button></div>
-                    </div><aside className="system-inspector" aria-label="System evidence inspector">
+                            : <div className="system-scene-empty">{view === 'behavior' ? filter ? featureCopy.No_source_paths_match_this_filter_Clear_it_to_see_the_entry_point_4ca7fc6 : featureCopy.No_connected_source_path_is_available_for_this_entry_point_c0b1edd : cyclesOnly ? featureCopy.No_component_cycles_match_the_current_filters_in_the_returned_ana_a941d07 : filter ? featureCopy.No_matching_components_Try_a_broader_filter_or_include_unconnecte_40c717a : data.components.length && !includeUnconnected ? featureCopy.No_connected_components_match_the_current_view_Change_the_connect_f468997 : text.projectionEmpty}</div>}
+                        <div className="system-map-caption"><span>{view === 'behavior' ? featureCopy.Arrows_are_indexed_calls_not_an_execution_timeline_1b70a0c : featureCopy.Select_to_inspect_expand_a_group_for_its_members_8c8f84a}{showConnectionLoad ? featureCopy.rings_show_link_load_6824e50 : ''}</span>
+                            <button onClick={() => setResetKey(value => value + 1)}>{featureCopy.Fit_view_4e0331a}</button></div>
+                    </div><aside className="system-inspector" aria-label={featureCopy.System_evidence_inspector_5528e4f}>
                         {edge ? <><span className="system-eyebrow">{edge.type.replaceAll('_', ' ')}</span><h3>{model.nodes.find(item => item.id === edge.source)?.label ?? data.components.find(item => item.id === edge.source)?.label ?? edge.source} → {model.nodes.find(item => item.id === edge.target)?.label ?? data.components.find(item => item.id === edge.target)?.label ?? edge.target}</h3>
-                            {corridorWitnesses.length > 0 && <><p>{corridorWitnesses.length} calls in the selected corridor.</p>{corridorWitnesses.slice(0, listLimit).map(witness => <CallWitness key={witness.edge_id} witness={witness} type={edge.behaviorEdges?.find(item => item.id === witness.edge_id)?.type ?? edge.type} onOpen={open} onNavigate={onNavigate} />)}
-                                {corridorWitnesses.length > listLimit && <button onClick={() => setListLimit(value => value + 20)}>More call sites</button>}</>}
-                            {selectedDependencies.length > 0 && <><p>{selectedDependencies.reduce((sum, item) => sum + item.count, 0).toLocaleString()} indexed relationships · {selectedDependencies.reduce((sum, item) => sum + item.witnesses.length, 0)} source examples.</p>
+                            {corridorWitnesses.length > 0 && <><p>{corridorWitnesses.length}{featureCopy.calls_in_the_selected_corridor_a070b13}</p>{corridorWitnesses.slice(0, listLimit).map(witness => <CallWitness key={witness.edge_id} witness={witness} type={edge.behaviorEdges?.find(item => item.id === witness.edge_id)?.type ?? edge.type} onOpen={open} onNavigate={onNavigate} />)}
+                                {corridorWitnesses.length > listLimit && <button onClick={() => setListLimit(value => value + 20)}>{featureCopy.More_call_sites_6f5a5f8}</button>}</>}
+                            {selectedDependencies.length > 0 && <><p>{selectedDependencies.reduce((sum, item) => sum + item.count, 0).toLocaleString()}{featureCopy.indexed_relationships_20bb0fe}{selectedDependencies.reduce((sum, item) => sum + item.witnesses.length, 0)}{featureCopy.source_examples_571bfa5}</p>
                                 {selectedDependencies.map(dependency => <div key={`${dependency.source}:${dependency.target}:${dependency.type}`} className="system-connection-evidence"><h4>{dependency.type.replaceAll('_', ' ')} <span>{dependency.count}</span></h4>
                                     {dependency.witnesses.map(witness => <CallWitness key={witness.edge_id} witness={witness} type={dependency.type} onOpen={open} onNavigate={onNavigate} />)}
-                                    {!dependency.witnesses.length && <p className="system-small">No source example returned for this relationship.</p>}
-                                </div>)}<p className="system-small">Counts describe indexed relationships. Examples may be a sample.</p></>}
+                                    {!dependency.witnesses.length && <p className="system-small">{featureCopy.No_source_example_returned_for_this_relationship_79f8eda}</p>}
+                                </div>)}<p className="system-small">{featureCopy.Counts_describe_indexed_relationships_Examples_may_be_a_sample_9b71047}</p></>}
                             {pathSource && pathTarget && edge.pathEdge && <CallWitness witness={{ ...edge.pathEdge, edge_id: edge.pathEdge.id, source: pathSource, target: pathTarget }} type={edge.type} onOpen={open} onNavigate={onNavigate} />}
-                            {edge.type === 'CALL_REFERENCE' && <p>A callable reference does not establish invocation.</p>}
-                        </> : selectedSymbol ? <><span className="system-eyebrow">Step {activeStep + 1} of {path?.nodes.length} · selected path</span><h3>{selectedSymbol.name}</h3><EvidenceSource symbol={selectedSymbol} onOpen={open} />
-                            <p>{data.components.find(item => item.id === selectedSymbol.component_id)?.label ?? selectedSymbol.file_path ?? 'Component outside returned summary'}</p>
+                            {edge.type === 'CALL_REFERENCE' && <p>{featureCopy.A_callable_reference_does_not_establish_invocation_7f86b22}</p>}
+                        </> : selectedSymbol ? <><span className="system-eyebrow">{featureCopy.Step_37d11c8}{activeStep + 1}{featureCopy.of_607f2de}{path?.nodes.length}{featureCopy.selected_path_ab15555}</span><h3>{selectedSymbol.name}</h3><EvidenceSource symbol={selectedSymbol} onOpen={open} />
+                            <p>{data.components.find(item => item.id === selectedSymbol.component_id)?.label ?? selectedSymbol.file_path ?? featureCopy.Component_outside_returned_summary_e76598f}</p>
                             {path?.edges[activeStep] && <CallEvidence evidence={path.edges[activeStep]} caller={selectedSymbol} onNavigate={onNavigate} />}
-                            <div className="system-step-controls"><button disabled={activeStep <= 0} onClick={() => selectStep(activeStep - 1)}>← Previous step</button><button disabled={!path || activeStep >= path.nodes.length - 1} onClick={() => selectStep(activeStep + 1)}>Next step →</button></div>
-                            {path && <p className="system-small">{handoffs(path.nodes)} component handoffs. This is a connected static witness; execution conditions are not established.</p>}</>
+                            <div className="system-step-controls"><button disabled={activeStep <= 0} onClick={() => selectStep(activeStep - 1)}>{featureCopy.Previous_step_c2cbdc9}</button><button disabled={!path || activeStep >= path.nodes.length - 1} onClick={() => selectStep(activeStep + 1)}>{featureCopy.Next_step_8482d0f}</button></div>
+                            {path && <p className="system-small">{handoffs(path.nodes)}{featureCopy.component_handoffs_This_is_a_connected_static_witness_execution_c_fb62ac6}</p>}</>
                             : selectedComponent ? <><span className="system-eyebrow">{componentBasis(selectedComponent.basis)}</span><h3>{selectedComponent.label}</h3>
-                                {selectedComponent.role === 'test' && <span className="system-test-badge" title={selectedComponent.role_basis}>Test code</span>}
-                                <div className="system-selection-actions">{selectedGroup && <button onClick={() => toggleGroup(selectedGroup.id)}>{expandedGroups.includes(selectedGroup.id) ? 'Collapse group' : 'Expand group'}</button>}
-                                    <button onClick={() => focus(selectedComponent.id)}>Focus here</button></div>
-                                {showConnectionLoad && node && <p className="system-small">{loads.get(node.id)?.links ?? 0} visible links · {loads.get(node.id)?.neighbors ?? 0} connected items in this view.</p>}
-                                {selectedGroup && <p className="system-small">{selectedGroup.component_count} code groups share this boundary. Grouping follows source organization; functional responsibilities are not inferred from its name.</p>}
-                                {selectedGroup && <label className="system-member-picker">Browse members <select aria-label="Group member" value="" onChange={event => {
+                                {selectedComponent.role === 'test' && <span className="system-test-badge" title={selectedComponent.role_basis}>{featureCopy.Test_code_d983c17}</span>}
+                                <div className="system-selection-actions">{selectedGroup && <button onClick={() => toggleGroup(selectedGroup.id)}>{expandedGroups.includes(selectedGroup.id) ? featureCopy.Collapse_group_6260f42 : featureCopy.Expand_group_f639fe5}</button>}
+                                    <button onClick={() => focus(selectedComponent.id)}>{featureCopy.Focus_here_0a5f6c3}</button></div>
+                                {showConnectionLoad && node && <p className="system-small">{loads.get(node.id)?.links ?? 0}{featureCopy.visible_links_fd3ef62}{loads.get(node.id)?.neighbors ?? 0}{featureCopy.connected_items_in_this_view_61abee0}</p>}
+                                {selectedGroup && <p className="system-small">{selectedGroup.component_count}{featureCopy.code_groups_share_this_boundary_Grouping_follows_source_organizat_23e15d0}</p>}
+                                {selectedGroup && <label className="system-member-picker">{featureCopy.Browse_members_ab6123a}<select aria-label={featureCopy.Group_member_0f2517a} value="" onChange={event => {
                                     const id = event.target.value; if (!id) return;
                                     focus(id, expandedGroups.includes(selectedGroup.id) ? expandedGroups : [...expandedGroups, selectedGroup.id]); setSelection({ node: `member:${selectedGroup.id}:${id}` });
-                                }}><option value="">Choose a component…</option>{(data.overview?.components ?? []).filter(item => selectedGroup.component_ids.includes(item.id)).map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>}
-                                <p>{selectedComponent.member_count.toLocaleString()} symbols across {selectedComponent.file_count.toLocaleString()} files.</p>
-                                {(['incoming', 'outgoing'] as const).map(direction => <div className="system-neighbors" key={direction}><h4>{direction === 'incoming' ? 'Used by' : 'Uses'} <span>{neighbors[direction].size}</span></h4>
+                                }}><option value="">{featureCopy.Choose_a_component_1350e70}</option>{(data.overview?.components ?? []).filter(item => selectedGroup.component_ids.includes(item.id)).map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>}
+                                <p>{selectedComponent.member_count.toLocaleString()}{featureCopy.symbols_across_9a12a92}{selectedComponent.file_count.toLocaleString()}{featureCopy.files_26a186b}</p>
+                                {(['incoming', 'outgoing'] as const).map(direction => <div className="system-neighbors" key={direction}><h4>{direction === 'incoming' ? featureCopy.Used_by_f5060ab : featureCopy.Uses_62be473} <span>{neighbors[direction].size}</span></h4>
                                     {neighbors[direction].size ? [...neighbors[direction]].slice(0, 8).map(([id, types]) => <div className="system-neighbor-row" key={id}>
                                         <button onClick={() => selectNode(id)} title={model.nodes.find(item => item.id === id)?.label}><strong>{model.nodes.find(item => item.id === id)?.label ?? id}</strong><small>{[...types].map(type => type.toLowerCase().replaceAll('_', ' ')).join(' · ')}</small></button>
-                                        <button className="system-neighbor-evidence" aria-label={`Inspect ${direction} connection ${direction === 'incoming' ? 'from' : 'to'} ${model.nodes.find(item => item.id === id)?.label ?? id}`} onClick={() => {
+                                        <button className="system-neighbor-evidence" aria-label={featureCopy.Inspect_0_connection_1_2_b3d17c3(direction, direction === 'incoming' ? 'from' : 'to', model.nodes.find(item => item.id === id)?.label ?? id)} onClick={() => {
                                             const connection = model.edges.find(item => direction === 'incoming' ? item.source === id && item.target === selectedComponent.id : item.source === selectedComponent.id && item.target === id);
                                             if (connection) selectEdge(connection.id);
-                                        }}>Evidence</button>
-                                    </div>) : <p className="system-small">None in the current view.</p>}
-                                    {neighbors[direction].size > 8 && <small>{neighbors[direction].size - 8} more in the dependency list below.</small>}
+                                        }}>{featureCopy.Evidence_7ea014d}</button>
+                                    </div>) : <p className="system-small">{featureCopy.None_in_the_current_view_9bff6ac}</p>}
+                                    {neighbors[direction].size > 8 && <small>{neighbors[direction].size - 8}{featureCopy.more_in_the_dependency_list_below_621976a}</small>}
                                 </div>)}
-                                <details className="system-representatives"><summary>Representative sources</summary>{selectedComponent.representatives.map(symbol => <EvidenceSource key={symbol.id} symbol={symbol} onOpen={open} />)}
-                                    <p className="system-small">Sources shown are examples; the membership count includes the whole returned group.</p></details>
-                            </> : <><span className="system-eyebrow">Inspect the evidence</span><h3>{view === 'structure' ? 'How the parts connect' : 'A path through the system'}</h3>
-                                <p>Select a component, symbol or connection to inspect its source evidence.</p><p>{view === 'structure' ? 'Collaboration groups are inferred from indexed interactions. They do not establish deployment boundaries.' : 'Each arrow follows a recorded relationship. Static paths describe possible interactions, not observed execution.'}</p></>}
+                                <details className="system-representatives"><summary>{featureCopy.Representative_sources_507a644}</summary>{selectedComponent.representatives.map(symbol => <EvidenceSource key={symbol.id} symbol={symbol} onOpen={open} />)}
+                                    <p className="system-small">{featureCopy.Sources_shown_are_examples_the_membership_count_includes_the_whol_50697cf}</p></details>
+                            </> : <><span className="system-eyebrow">{featureCopy.Inspect_the_evidence_2f9aa50}</span><h3>{view === 'structure' ? featureCopy.How_the_parts_connect_10c6fd5 : featureCopy.A_path_through_the_system_f581193}</h3>
+                                <p>{featureCopy.Select_a_component_symbol_or_connection_to_inspect_its_source_evi_2a3ebdf}</p><p>{view === 'structure' ? featureCopy.Collaboration_groups_are_inferred_from_indexed_interactions_They__1a97b70 : featureCopy.Each_arrow_follows_a_recorded_relationship_Static_paths_describe__533e54f}</p></>}
                     </aside></div>
-                    {(model.omittedNodes > 0 || model.omittedEdges > 0) && <p className="system-limit">{view === 'structure' ? 'This scope has additional detail.' : 'Additional detail is outside this scene.'} {model.omittedNodes} nodes and {model.omittedEdges} connections are outside this scene. Returned findings remain available below.</p>}
-                    {view === 'structure' && !data.overview ? <details className="system-findings"><summary>Browse components · {allComponents.length}</summary>
+                    {(model.omittedNodes > 0 || model.omittedEdges > 0) && <p className="system-limit">{view === 'structure' ? featureCopy.This_scope_has_additional_detail_d04efd2 : featureCopy.Additional_detail_is_outside_this_scene_ddcd967} {model.omittedNodes}{featureCopy.nodes_and_cf5b4ad}{model.omittedEdges}{featureCopy.connections_are_outside_this_scene_Returned_findings_remain_avail_d884cf6}</p>}
+                    {view === 'structure' && !data.overview ? <details className="system-findings"><summary>{featureCopy.Browse_components_f8266ab}{allComponents.length}</summary>
                         <div className="system-component-list">{allComponents.slice(0, listLimit).map(item => <button key={item.id} aria-pressed={model.focusId === item.id} onClick={() => selectNode(item.id)}>
-                            <strong>{item.label}</strong><span>{componentBasis(item.basis)}{item.role === 'test' && <> · <span title={item.role_basis}>Test code</span></>}</span><small>{item.member_count.toLocaleString()} symbols · {item.file_count.toLocaleString()} files</small></button>)}</div>
-                        {allComponents.length > listLimit && <button className="atlas-arch-action" onClick={() => setListLimit(value => value + 20)}>More components</button>}
-                        <details><summary>Directed dependencies · {listedDependencies.length}</summary><div className="system-dependency-list">{listedDependencies.slice(0, listLimit).map(({ dependency: item, index }) => <button key={index} onClick={() => {
+                            <strong>{item.label}</strong><span>{componentBasis(item.basis)}{item.role === 'test' && <> · <span title={item.role_basis}>{featureCopy.Test_code_d983c17}</span></>}</span><small>{item.member_count.toLocaleString()}{featureCopy.symbols_6b51d10}{item.file_count.toLocaleString()}{featureCopy.files_052118b}</small></button>)}</div>
+                        {allComponents.length > listLimit && <button className="atlas-arch-action" onClick={() => setListLimit(value => value + 20)}>{featureCopy.More_components_4a1ac70}</button>}
+                        <details><summary>{featureCopy.Directed_dependencies_8b2a3c8}{listedDependencies.length}</summary><div className="system-dependency-list">{listedDependencies.slice(0, listLimit).map(({ dependency: item, index }) => <button key={index} onClick={() => {
                             const visible = model.edges.find(candidate => candidate.dependency === item);
                             if (visible) setSelection({ edge: visible.id }); else setSelection({ dependencyIndex: index });
                         }}>{model.nodes.find(component => component.id === item.source)?.label ?? item.source} → {model.nodes.find(component => component.id === item.target)?.label ?? item.target}<small>{item.type} · {item.count}</small></button>)}</div>
-                            {listedDependencies.length > listLimit && <button className="atlas-arch-action" onClick={() => setListLimit(value => value + 20)}>More dependencies</button>}
+                            {listedDependencies.length > listLimit && <button className="atlas-arch-action" onClick={() => setListLimit(value => value + 20)}>{featureCopy.More_dependencies_30d3efe}</button>}
                         </details>
-                    </details> : view === 'behavior' && path && <><div className="system-branch-list" role="group" aria-label="Indexed paths">{paths.map((item, index) => <button key={index} aria-pressed={activePathIndex === index} onClick={() => selectPath(index)}>
-                        <span>Path {index + 1}</span><strong>{item.nodes.at(-1)?.name}</strong><small>{item.edges.length} calls · {handoffs(item.nodes)} handoffs</small>
-                    </button>)}</div><details className="system-findings"><summary>Connected source path · {path.nodes.length} symbols</summary><ol className="system-path-list">{path.nodes.map((symbol, index) => <li key={`${symbol.id}:${index}`} data-selected={activeStep === index}>
-                        <button className="system-step-select" aria-label={`Select step ${index + 1}: ${symbol.name}`} aria-pressed={activeStep === index} onClick={() => selectStep(index)}>{index + 1}</button>
-                        <EvidenceSource symbol={symbol} onOpen={open} />{path.edges[index] && <span>↓ {path.edges[index].type.replaceAll('_', ' ')}{symbol.component_id !== path.nodes[index + 1].component_id ? ' · component handoff' : ''}</span>}</li>)}</ol></details></>}
-                    {view === 'behavior' && data.behavior && !queryPending && !requestedTarget && <p className="system-small">The destination list shows reachable indexed symbols within {data.behavior.max_hops} calls.
-                        {(data.behavior.totals.omitted_targets ?? 0) > 0 && <> This bounded list omits {data.behavior.totals.omitted_targets.toLocaleString()} reachable targets.</>} Select an operation to see its connecting paths and source evidence.</p>}
+                    </details> : view === 'behavior' && path && <><div className="system-branch-list" role="group" aria-label={featureCopy.Indexed_paths_7dbde56}>{paths.map((item, index) => <button key={index} aria-pressed={activePathIndex === index} onClick={() => selectPath(index)}>
+                        <span>{featureCopy.Path_31fbfea}{index + 1}</span><strong>{item.nodes.at(-1)?.name}</strong><small>{item.edges.length}{featureCopy.calls_58e2632}{handoffs(item.nodes)}{featureCopy.handoffs_2ffca70}</small>
+                    </button>)}</div><details className="system-findings"><summary>{featureCopy.Connected_source_path_bbf4dd7}{path.nodes.length}{featureCopy.symbols_f2f2a6a}</summary><ol className="system-path-list">{path.nodes.map((symbol, index) => <li key={`${symbol.id}:${index}`} data-selected={activeStep === index}>
+                        <button className="system-step-select" aria-label={featureCopy.Select_step_0_1_56c3fe1(index + 1, symbol.name)} aria-pressed={activeStep === index} onClick={() => selectStep(index)}>{index + 1}</button>
+                        <EvidenceSource symbol={symbol} onOpen={open} />{path.edges[index] && <span>↓ {path.edges[index].type.replaceAll('_', ' ')}{symbol.component_id !== path.nodes[index + 1].component_id ? featureCopy.component_handoff_21a9cbc : ''}</span>}</li>)}</ol></details></>}
+                    {view === 'behavior' && data.behavior && !queryPending && !requestedTarget && <p className="system-small">{featureCopy.The_destination_list_shows_reachable_indexed_symbols_within_0cf1052}{data.behavior.max_hops}{featureCopy.calls_7655f7c}{(data.behavior.totals.omitted_targets ?? 0) > 0 && <>{featureCopy.This_bounded_list_omits_0eb4e61}{data.behavior.totals.omitted_targets.toLocaleString()}{featureCopy.reachable_targets_a140007}</>}{featureCopy.Select_an_operation_to_see_its_connecting_paths_and_source_eviden_af69693}</p>}
                     {view === 'behavior' && behavior?.mode === 'corridor' && !paths.length && <p className="system-small" role="status">{returnedPaths.length
-                        ? 'No source paths match this filter. The returned call corridor remains visible; clear the filter to inspect its witnesses.'
-                        : 'No connected witness was returned within this query’s limits. This does not establish that the operation is unreachable.'}</p>}
+                        ? featureCopy.No_source_paths_match_this_filter_The_returned_call_corridor_rema_f720aee
+                        : featureCopy.No_connected_witness_was_returned_within_this_query_s_limits_This_9ea73e0}</p>}
                     <EvidenceDetails data={data} view={view} invalidPaths={data.paths.filter(item => !isContiguousPath(item)).length} />
                 </>}
     </section>;
@@ -477,20 +477,20 @@ export default function SystemArchitecture({ project, generation, view, filter, 
 function EvidenceDetails({ data, view, invalidPaths }: { data: SystemProjection; view: string; invalidPaths: number }) {
     const omitted = Object.entries(data.limits).filter(([key, value]) => (key.startsWith('omitted_') || key.endsWith('_truncated')) && Boolean(value));
     return <details className="system-findings" id={`system-evidence-${view}`} open={invalidPaths > 0}>
-        <summary>Evidence and limits</summary><p>This view uses indexed source relationships. Definition links point to indexed declarations; call-site links use recorded invocation locations where available. Changes since indexing are not included. Group boundaries may follow declared modules, inferred interactions or common source directories; the inspector identifies their basis. Component dependency cycles can involve different symbols at each boundary; they do not establish function recursion, runtime loops or a design defect. Behavior paths separately require connected source relationships. Missing relationships can reflect indexing coverage or unresolved bindings.</p>
-        <p>{data.totals.accounted_nodes?.toLocaleString() ?? 'Unknown'} nodes assigned to components; {data.totals.structural_nodes?.toLocaleString() ?? 'Unknown'} structural nodes reported separately.</p>
+        <summary>{featureCopy.Evidence_and_limits_9dfb0e5}</summary><p>{featureCopy.This_view_uses_indexed_source_relationships_Definition_links_poin_7af1523}</p>
+        <p>{data.totals.accounted_nodes?.toLocaleString() ?? featureCopy.Unknown_bc7819b}{featureCopy.nodes_assigned_to_components_9ae3654}{data.totals.structural_nodes?.toLocaleString() ?? featureCopy.Unknown_bc7819b}{featureCopy.structural_nodes_reported_separately_e144adb}</p>
         {omitted.map(([key, value]) => <p key={key}>{key.replaceAll('_', ' ')}: {String(value)}</p>)}
-        {data.overview && <p>Overview: {data.overview.totals.components ?? data.overview.components.length} components across {data.overview.groups.length} groups. {data.overview.complete ? 'All analyzed components are represented at this level.' : 'This overview is limited.'} {Object.entries(data.overview.limits).filter(([, value]) => Boolean(value)).map(([key, value]) => `${key.replaceAll('_', ' ')}: ${value}`).join(' · ')}</p>}
-        {data.behavior && <p>Static query limited to {data.behavior.max_hops} calls. {data.behavior.limits_hit.join(' · ')}</p>}
+        {data.overview && <p>{featureCopy.Overview_135e479}{data.overview.totals.components ?? data.overview.components.length}{featureCopy.components_across_df9c38b}{data.overview.groups.length}{featureCopy.groups_d8c5d09}{data.overview.complete ? featureCopy.All_analyzed_components_are_represented_at_this_level_8d27425 : featureCopy.This_overview_is_limited_e04f259} {Object.entries(data.overview.limits).filter(([, value]) => Boolean(value)).map(([key, value]) => `${key.replaceAll('_', ' ')}: ${value}`).join(' · ')}</p>}
+        {data.behavior && <p>{featureCopy.Static_query_limited_to_b1d7405}{data.behavior.max_hops}{featureCopy.calls_d0061d7}{data.behavior.limits_hit.join(' · ')}</p>}
         {data.warnings.map((warning, index) => <p key={index}>{warning}</p>)}
-        {invalidPaths > 0 && <p>{invalidPaths} disconnected path responses were excluded because their source relationships did not join.</p>}
+        {invalidPaths > 0 && <p>{invalidPaths}{featureCopy.disconnected_path_responses_were_excluded_because_their_source_re_d6ffe17}</p>}
     </details>;
 }
 
 function CallEvidence({ evidence, caller, onNavigate }: { evidence: SystemCallEvidence; caller: SystemSymbol; onNavigate: SystemArchitectureProps['onNavigate'] }) {
-    return <div className="system-call-evidence">{evidence.callsite ? <button onClick={() => onNavigate(evidence.callsite!.file_path, evidence.callsite!.line, caller.name)}>Open call site · {evidence.callsite.file_path}:{evidence.callsite.line}</button>
-        : <span>Call site unavailable · definition links below</span>}
-        {evidence.resolution?.strategy && <small>Resolved by {evidence.resolution.strategy.replaceAll('_', ' ')}{evidence.resolution.candidates !== undefined ? ` · ${evidence.resolution.candidates} candidate${evidence.resolution.candidates === 1 ? '' : 's'}` : ''}</small>}</div>;
+    return <div className="system-call-evidence">{evidence.callsite ? <button onClick={() => onNavigate(evidence.callsite!.file_path, evidence.callsite!.line, caller.name)}>{featureCopy.Open_call_site_6f65a81}{evidence.callsite.file_path}:{evidence.callsite.line}</button>
+        : <span>{featureCopy.Call_site_unavailable_definition_links_below_a8d788d}</span>}
+        {evidence.resolution?.strategy && <small>{featureCopy.Resolved_by_6b1b739}{evidence.resolution.strategy.replaceAll('_', ' ')}{evidence.resolution.candidates !== undefined ? featureCopy.message_0_candidate_1_951cfb2(evidence.resolution.candidates, evidence.resolution.candidates === 1 ? '' : 's') : ''}</small>}</div>;
 }
 function CallWitness({ witness, type, onOpen, onNavigate }: { witness: SystemWitness; type: string; onOpen: (symbol: SystemSymbol) => void; onNavigate: SystemArchitectureProps['onNavigate'] }) {
     return <article className="system-witness"><CallEvidence evidence={witness} caller={witness.source} onNavigate={onNavigate} /><EvidenceSource symbol={witness.source} onOpen={onOpen} /><span>→ {type.replaceAll('_', ' ')}</span><EvidenceSource symbol={witness.target} onOpen={onOpen} /></article>;

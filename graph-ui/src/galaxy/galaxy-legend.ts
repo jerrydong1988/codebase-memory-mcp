@@ -1,3 +1,5 @@
+import { featureLanguage } from '../i18n/feature-language';
+import { featureCopy } from '../i18n/features/galaxy';
 /**
  * Was in der Galaxie zu sehen ist, in Worten, die der Server deckt.
  *
@@ -179,6 +181,7 @@ export function edgeKindNote(total: number, hidden: number): string {
     if (total <= 0) {
         return '';
     }
+    if (featureLanguage() === 'zh') return `${total} 种关系${hidden > 0 ? `，已隐藏 ${hidden} 种` : ''}`;
     const head = `${total} edge ${total === 1 ? 'kind' : 'kinds'}`;
     return hidden <= 0 ? head : `${head}, ${hidden} of ${total} hidden`;
 }
@@ -220,41 +223,37 @@ export function galaxyLegendEntries(data: GraphData | undefined): LegendEntry[] 
     return [
         {
             key: 'edge-color',
-            title: 'edge colour',
+            title: featureCopy.edge_colour_caba799,
             detail: edgeDetail,
             swatches,
             filterable: true,
         },
         {
             key: 'node-color',
-            title: 'node colour',
+            title: featureCopy.node_colour_afffb9c,
             detail:
-                'the server maps a symbol degree to a stellar spectral colour (layout3d.c, stellar_color): '
-                + 'few edges give a red dwarf, many a blue giant. This panel paints what the layout sent.',
+                featureCopy.the_server_maps_a_symbol_degree_to_a_stellar_spectral_colour_layo_f377f6e,
             swatches: [],
         },
         {
             key: 'node-size',
-            title: 'node size',
+            title: featureCopy.node_size_e3bf53e,
             detail:
-                'a base size per node label plus a boost from the same degree, both computed by the server. '
-                + 'A bigger dot means more edges, not more importance.',
+                featureCopy.a_base_size_per_node_label_plus_a_boost_from_the_same_degree_both_a8a8d86,
             swatches: [],
         },
         {
             key: 'focus',
-            title: 'focus',
+            title: featureCopy.focus_78918dc,
             detail:
-                'the focused symbol and its direct neighbours stay bright, everything else dims. '
-                + 'The focus follows the twin, and a click in the sky sends it back.',
+                featureCopy.the_focused_symbol_and_its_direct_neighbours_stay_bright_everythi_6de3423,
             swatches: [],
         },
         {
             key: 'positions',
-            title: 'positions',
+            title: featureCopy.positions_4c0bba0,
             detail:
-                'a deterministic layout computed by the server, not by this browser: '
-                + 'the same index gives the same sky.',
+                featureCopy.a_deterministic_layout_computed_by_the_server_not_by_this_browser_f54c4d1,
             swatches: [],
         },
         /*
@@ -271,12 +270,9 @@ export function galaxyLegendEntries(data: GraphData | undefined): LegendEntry[] 
          */
         {
             key: 'agent-trail',
-            title: 'agent trail (dashed)',
+            title: featureCopy.agent_trail_dashed_1aeab78,
             detail:
-                'a dashed line behind a live agent is the path it walked: the last symbols one actor '
-                + 'touched, newest first, drawn UNDER the real edges. It is not a relation in the '
-                + 'code. The solid coloured lines above come from the index and stay; this one comes '
-                + 'from events and fades with the window picked at the timeline.',
+                featureCopy.a_dashed_line_behind_a_live_agent_is_the_path_it_walked_the_last__961635f,
             swatches: [],
         },
     ];
@@ -302,7 +298,7 @@ export function hierarchyLegendEntries(data: GraphData | undefined, fileRelation
     return [
         {
             key: 'edge-color',
-            title: 'edges',
+            title: featureCopy.edges_7283b98,
             /*
              * Drei Zeilen, und die Zahl ist gemessen: in der Hierarchie steht
              * ueber diesem Satz eine Zeile mit den Arten, und die Legende
@@ -314,64 +310,51 @@ export function hierarchyLegendEntries(data: GraphData | undefined, fileRelation
              * Punkt selbst (`title`).
              */
             detail: scoped
-                ? 'Every relationship of this scope, its type and an arrow from source to target written at the line. Edge colours keep their types; this is not a runtime trace.'
+                ? featureCopy.Every_relationship_of_this_scope_its_type_and_an_arrow_from_sourc_b42f4f9
                 : fileRelationships
-                ? 'Recorded relationships touching the selected file or marked code. Edge colours retain their original types; this is not a complete call trace.'
-                : 'one line per call on this walk, cycles included rather than hidden. '
-                + 'What else the index records between these symbols is drawn in its own colour: '
-                + 'the calls make the columns.',
+                ? featureCopy.Recorded_relationships_touching_the_selected_file_or_marked_code__f13a1ae
+                : featureCopy.one_line_per_call_on_this_walk_cycles_included_rather_than_hidden_9e9858a,
             swatches,
             filterable: true,
         },
         {
             key: 'positions',
-            title: 'positions',
+            title: featureCopy.positions_4c0bba0,
             detail: scoped
-                ? 'Incoming relationships on the left, the root in the middle, outgoing relationships on the right; each column is one layer further in the same direction. '
-                + 'Nodes reached through both directions, such as a callee of a caller, stand in the band below. '
-                + 'Inside a column: by the neighbour that leads there, calls before other types, calls by call-site line.'
+                ? featureCopy.Incoming_relationships_on_the_left_the_root_in_the_middle_outgoin_82ac745
                 : fileRelationships
-                ? 'Incoming relationships on the left, selected definitions in the middle, outgoing relationships on the right. Recorded containment orders the definition columns; source paths and lines order each column.'
-                : 'columns are the call depth from the entry point, and inside a column the symbols '
-                + 'are ordered by name. A deterministic projection of the walk, not the server layout: '
-                + 'the same walk always draws the same picture.',
+                ? featureCopy.Incoming_relationships_on_the_left_selected_definitions_in_the_mi_e84e3f1
+                : featureCopy.columns_are_the_call_depth_from_the_entry_point_and_inside_a_colu_510ffed,
             swatches: [],
         },
         {
             key: 'node-color',
-            title: 'node colour',
+            title: featureCopy.node_colour_afffb9c,
             detail:
-                'taken from the loaded galaxy layout, where the server maps a symbol degree to a '
-                + 'stellar spectral colour (layout3d.c, stellar_color). A symbol the layout does not '
-                + `carry stays neutral grey (${HIERARCHY_DEFAULT_COLOR}): nothing here knows its degree.`,
-            swatches: [{ label: 'no layout entry', color: HIERARCHY_DEFAULT_COLOR }],
+                featureCopy.taken_from_the_loaded_galaxy_layout_where_the_server_maps_a_symbo_51b5b98
+                + featureCopy.carry_stays_neutral_grey_0_nothing_here_knows_its_degree_a50155b(HIERARCHY_DEFAULT_COLOR),
+            swatches: [{ label: featureCopy.no_layout_entry_4f24227, color: HIERARCHY_DEFAULT_COLOR }],
         },
         {
             key: 'node-size',
-            title: 'node size',
+            title: featureCopy.node_size_e3bf53e,
             detail:
-                'from the same layout entry, so a bigger dot means more edges in the whole graph, '
-                + 'not more importance and not a deeper place in this walk. Sizes are held inside a '
-                + 'band, so that one very large dot cannot push its own name into its neighbour\'s.',
+                featureCopy.from_the_same_layout_entry_so_a_bigger_dot_means_more_edges_in_th_44b2643,
             swatches: [],
         },
         {
             key: 'focus',
-            title: 'focus',
+            title: featureCopy.focus_78918dc,
             detail: fileRelationships
-                ? 'Opening a file shows its definitions, including isolated nodes. Marking code narrows to the matching symbols and their direct relationships; clearing the mark restores the file.'
-                : 'the symbol the reader stands on carries a ring that follows every step of the walk. '
-                + 'Nothing else dims here: the whole subgraph is the answer. A click on a node opens '
-                + 'its file and takes the twin with it, exactly as in the galaxy.',
+                ? featureCopy.Opening_a_file_shows_its_definitions_including_isolated_nodes_Mar_c333068
+                : featureCopy.the_symbol_the_reader_stands_on_carries_a_ring_that_follows_every_fe4588c,
             swatches: [],
         },
         {
             key: 'agent-trail',
-            title: 'agent trail (dashed)',
+            title: featureCopy.agent_trail_dashed_1aeab78,
             detail:
-                'a dashed line behind a live agent is the path it walked, drawn under the real '
-                + 'edges. It is not a relation in the code: the solid lines come from the index, '
-                + 'this one comes from events and fades with the window picked at the timeline.',
+                featureCopy.a_dashed_line_behind_a_live_agent_is_the_path_it_walked_drawn_und_7f020ff,
             swatches: [],
         },
     ];

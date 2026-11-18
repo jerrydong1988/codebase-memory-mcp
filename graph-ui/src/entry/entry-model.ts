@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/entry';
 /**
  * What the entry-point dialog offers, as a plain list.
  *
@@ -65,8 +66,7 @@ export function entryHeadline(total: number, shown: number): string {
  * is nothing to explain.
  */
 export const NO_ROUTES_NOTE =
-    'no route is listed: the index reported none for this project, and this surface reads no source '
-    + 'files of its own, so an unreported route cannot be recovered here';
+    featureCopy.no_route_is_listed_the_index_reported_none_for_this_project_and_t_cab03c4;
 
 /** The sentence under the list, or empty when the list needs no sentence. */
 export function routeNote(

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/app';
 /**
  * Die Saetze, mit denen der Explorer und der Reader ueber Coverage sprechen.
  *
@@ -26,15 +27,15 @@ import type { CoverageState } from './tree-model';
  * keiner der drei Quellen und kann darum auch hier nicht stehen.
  */
 export const COVERAGE_SOURCE_NOTE =
-    'files as the index discovery saw them; files it never met are invisible until the server lists directories';
+    featureCopy.files_as_the_index_discovery_saw_them_files_it_never_met_are_invi_31eb082;
 
 /** Das kurze Wort einer Stufe, so wie es in der Legende steht. */
 export const COVERAGE_LABELS: Record<CoverageState, string> = {
-    indexed: 'indexed',
-    partial: 'partially parsed',
-    skipped: 'skipped',
-    'not-indexed': 'not indexed',
-    ignored: 'ignored',
+    indexed: featureCopy.indexed_243dd40,
+    partial: featureCopy.partially_parsed_66ca620,
+    skipped: featureCopy.skipped_413a932,
+    'not-indexed': featureCopy.not_indexed_bdf75e5,
+    ignored: featureCopy.ignored_0121bc0,
 };
 
 /**
@@ -56,11 +57,11 @@ export const COVERAGE_FOLDER_MARK = '●';
 
 /** Was die Legende zu einer Stufe sagt. */
 export const COVERAGE_DESCRIPTIONS: Record<CoverageState, string> = {
-    indexed: 'in the graph, no recorded issue',
-    partial: 'indexed, but constructs in the listed line ranges may be missing',
-    skipped: 'the indexer gave up on it, with its own reason',
-    'not-indexed': 'excluded by design (gitignore/.cbmignore), with the rule as the reason',
-    ignored: 'the coverage store lists it as ignored',
+    indexed: featureCopy.in_the_graph_no_recorded_issue_9361b61,
+    partial: featureCopy.indexed_but_constructs_in_the_listed_line_ranges_may_be_missing_14646c2,
+    skipped: featureCopy.the_indexer_gave_up_on_it_with_its_own_reason_4ea478d,
+    'not-indexed': featureCopy.excluded_by_design_gitignore_cbmignore_with_the_rule_as_the_reaso_8ec434a,
+    ignored: featureCopy.the_coverage_store_lists_it_as_ignored_4e88b89,
 };
 
 /**
@@ -74,34 +75,34 @@ export const COVERAGE_DESCRIPTIONS: Record<CoverageState, string> = {
 export function coverageTooltip(state: CoverageState, reason = ''): string {
     const trimmed = reason.trim();
     if (state === 'indexed') {
-        return 'indexed: the graph carries this file and no source recorded an issue';
+        return featureCopy.indexed_the_graph_carries_this_file_and_no_source_recorded_an_iss_f89cf90;
     }
     if (state === 'partial') {
         return trimmed.length > 0
-            ? `partially parsed: constructs inside lines ${trimmed} may be missing from the graph`
-            : 'partially parsed: constructs inside the flagged ranges may be missing from the graph';
+            ? featureCopy.partially_parsed_constructs_inside_lines_0_may_be_missing_from_th_a30c32c(trimmed)
+            : featureCopy.partially_parsed_constructs_inside_the_flagged_ranges_may_be_miss_2e5aad1;
     }
     if (state === 'skipped') {
         return trimmed.length > 0
-            ? `skipped by the indexer: ${trimmed}. Nothing of it is in the graph.`
-            : 'skipped by the indexer, which named no reason. Nothing of it is in the graph.';
+            ? featureCopy.skipped_by_the_indexer_0_Nothing_of_it_is_in_the_graph_013bfe4(trimmed)
+            : featureCopy.skipped_by_the_indexer_which_named_no_reason_Nothing_of_it_is_in__ffe3ff2;
     }
     if (state === 'ignored') {
         return trimmed.length > 0
-            ? `ignored by the coverage store: ${trimmed}`
-            : 'ignored by the coverage store, which named no reason';
+            ? featureCopy.ignored_by_the_coverage_store_0_41808af(trimmed)
+            : featureCopy.ignored_by_the_coverage_store_which_named_no_reason_43a8e5d;
     }
     return trimmed.length > 0
-        ? `not indexed by design: ${trimmed}. Change the ignore rules and re-index to include it.`
-        : 'not indexed by design, and the server named no rule. Nothing of it is in the graph.';
+        ? featureCopy.not_indexed_by_design_0_Change_the_ignore_rules_and_re_index_to_i_97f781d(trimmed)
+        : featureCopy.not_indexed_by_design_and_the_server_named_no_rule_Nothing_of_it__9c1ac7d;
 }
 
 /** Der Tooltip eines Ordners: was seine schlechteste Stufe bedeutet. */
 export function folderTooltip(worst: CoverageState): string {
     if (worst === 'indexed') {
-        return 'every file below it is in the graph without a recorded issue';
+        return featureCopy.every_file_below_it_is_in_the_graph_without_a_recorded_issue_86e1343;
     }
-    return `worst stage below this folder: ${COVERAGE_LABELS[worst]} (${COVERAGE_DESCRIPTIONS[worst]})`;
+    return featureCopy.worst_stage_below_this_folder_0_1_1f7caf1(COVERAGE_LABELS[worst], COVERAGE_DESCRIPTIONS[worst]);
 }
 
 /**
@@ -118,20 +119,20 @@ export function readerUnavailableNote(path: string, state: CoverageState, reason
     const why =
         state === 'skipped'
             ? trimmed.length > 0
-                ? `the indexer skipped it (${trimmed})`
-                : 'the indexer skipped it and named no reason'
+                ? featureCopy.the_indexer_skipped_it_0_d455ffb(trimmed)
+                : featureCopy.the_indexer_skipped_it_and_named_no_reason_7aa55d4
             : state === 'ignored'
                 ? trimmed.length > 0
-                    ? `the coverage store lists it as ignored (${trimmed})`
-                    : 'the coverage store lists it as ignored'
+                    ? featureCopy.the_coverage_store_lists_it_as_ignored_0_c71d98c(trimmed)
+                    : featureCopy.the_coverage_store_lists_it_as_ignored_4e88b89
                 : trimmed.length > 0
-                    ? `it is excluded by design (${trimmed})`
-                    : 'it is excluded by design and the server named no rule';
+                    ? featureCopy.it_is_excluded_by_design_0_d3ff56c(trimmed)
+                    : featureCopy.it_is_excluded_by_design_and_the_server_named_no_rule_86d6cf7;
     return (
-        `${path} has no content here: ${why}, so the index holds no module node for it. `
-        + 'This server delivers file content only through get_code_snippet on an indexed symbol, '
-        + 'so there is nothing to read until a file endpoint exists (Upstream-Ask 1). '
-        + 'The file itself is on disk; this surface simply cannot show it.'
+        featureCopy.message_0_has_no_content_here_1_so_the_index_holds_no_module_node_for_it_a4bb27d(path, why)
+        + featureCopy.This_server_delivers_file_content_only_through_get_code_snippet_o_5332809
+        + featureCopy.so_there_is_nothing_to_read_until_a_file_endpoint_exists_Upstream_794e5de
+        + featureCopy.The_file_itself_is_on_disk_this_surface_simply_cannot_show_it_9116be3
     );
 }
 
@@ -139,10 +140,10 @@ export function readerUnavailableNote(path: string, state: CoverageState, reason
 export function partialFileNote(path: string, reason = ''): string {
     const trimmed = reason.trim();
     return trimmed.length > 0
-        ? `${path} is only partially parsed: constructs inside lines ${trimmed} may be missing from the graph. `
-          + 'The text below is the file; the graph around it is incomplete.'
-        : `${path} is only partially parsed: constructs inside the flagged ranges may be missing from the graph. `
-          + 'The text below is the file; the graph around it is incomplete.';
+        ? featureCopy.message_0_is_only_partially_parsed_constructs_inside_lines_1_may_be_missi_b3b1e5f(path, trimmed)
+          + featureCopy.The_text_below_is_the_file_the_graph_around_it_is_incomplete_266f80e
+        : featureCopy.message_0_is_only_partially_parsed_constructs_inside_the_flagged_ranges_m_0297a3f(path)
+          + featureCopy.The_text_below_is_the_file_the_graph_around_it_is_incomplete_266f80e;
 }
 
 /**
@@ -159,7 +160,7 @@ export function freshnessNoteNeeded(status: string, freshness: string): boolean 
 
 /** Was in der Statusleiste steht, wenn eine Frische-Notiz noetig ist. */
 export function freshnessNote(status: string, freshness: string, action: string): string {
-    const parts = [freshness.length > 0 ? freshness : 'unknown'];
+    const parts = [freshness.length > 0 ? freshness : featureCopy.unknown_50d8b4a];
     if (status.length > 0) {
         parts.push(status);
     }

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/impact';
 import { callToolJson } from '../provider/rpc-transport';
 import type { SelectionImpactTarget } from './selection-impact';
 
@@ -27,7 +28,7 @@ export function validChangeRef(value: string): boolean {
 /** Read file pages separately from graph impact so one cannot consume the other's budget. */
 export async function loadChangeSet(project: string, base: string, signal?: AbortSignal,
     read: ChangeSetRequest = request): Promise<ChangeSetReading> {
-    if (!project || !validChangeRef(base)) throw new Error('Choose a project and a valid local Git revision.');
+    if (!project || !validChangeRef(base)) throw new Error(featureCopy.Choose_a_project_and_a_valid_local_Git_revision_11f40ba);
     const files = new Set<string>();
     let cursor: string | undefined;
     const cursors = new Set<string>();
@@ -42,15 +43,15 @@ export async function loadChangeSet(project: string, base: string, signal?: Abor
         if (payload.base !== base || typeof payload.merge_base !== 'string' || !Array.isArray(payload.changed_files)
             || !Number.isSafeInteger(payload.changed_total) || Number(payload.changed_total) < 0
             || typeof payload.changed_has_more !== 'boolean') {
-            throw new Error('The daemon returned an incomplete change-set response. No empty or safe result was inferred.');
+            throw new Error(featureCopy.The_daemon_returned_an_incomplete_change_set_response_No_empty_or_a8b6e28);
         }
         if (total >= 0 && (total !== payload.changed_total || mergeBase !== payload.merge_base)) {
-            throw new Error('The Git change set moved while its pages were loading. Refresh to read one snapshot.');
+            throw new Error(featureCopy.The_Git_change_set_moved_while_its_pages_were_loading_Refresh_to__731a069);
         }
         total = Number(payload.changed_total); mergeBase = payload.merge_base;
         const entries = payload.changed_files;
         if (entries.some(file => typeof file !== 'string' || !file || file.startsWith('/') || file.split('/').includes('..'))) {
-            throw new Error('The daemon returned an invalid repository-relative changed path.');
+            throw new Error(featureCopy.The_daemon_returned_an_invalid_repository_relative_changed_path_1b7572c);
         }
         if (entries.length === 0 && payload.changed_has_more && payload.changed_continuation_requires_higher_budget && budget < 24000) {
             budget = 24000; continue;

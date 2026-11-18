@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { Component, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { RpcIntelligenceClient } from '../provider/rpc-client';
 import type { ProjectEntry } from '../provider/rpc-schemas';
@@ -22,7 +23,7 @@ type Discovery = keyof typeof text.serviceMap | undefined;
 class ContainerSceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
     state = { failed: false };
     static getDerivedStateFromError() { return { failed: true }; }
-    render() { return this.state.failed ? <p className="spatial-unavailable">3D is unavailable. Use the service and connection lists to inspect the same evidence.</p> : this.props.children; }
+    render() { return this.state.failed ? <p className="spatial-unavailable">{featureCopy.message_3D_is_unavailable_Use_the_service_and_connection_lists_to_inspect_0d1de57}</p> : this.props.children; }
 }
 const evidenceLabel = (kind: string) => kind === 'startup' ? 'Startup dependency' : kind === 'configuration' ? 'Configured destination' : 'Call found in source';
 const relativeSource = (absolute: string, selection: ContainerSelection) => {
@@ -55,7 +56,7 @@ export default function ContainerMap({ project, generation, active, filter, onNa
         void client.listProjects().then(async response => {
             const projects = response.projects;
             const current = projects.find(entry => entry.name === project);
-            if (!current) throw new Error('Project is no longer indexed.');
+            if (!current) throw new Error(featureCopy.Project_is_no_longer_indexed_a377bb6);
             const inventory = await loadContainerInventory(current, client);
             if (controller.signal.aborted) return;
             setAvailable(projects); setSelections([{ inventory, manifest: inventory.manifests[0] ?? '' }]);
@@ -146,61 +147,61 @@ export default function ContainerMap({ project, generation, active, filter, onNa
         limitations: { warnings, unresolvedDestinations: topology?.unresolved.length, omittedNodes: graph?.omittedNodes, omittedEdges: graph?.omittedEdges,
             interpretation: 'Static declarations, not live containers. Startup dependencies are not calls. Configured destinations do not prove execution; source ownership is inferred from build inputs.' },
     } : undefined, active);
-    return <section className="spatial-architecture container-map" aria-label="Container service map">
-        <header className="spatial-heading"><div><span className="spatial-eyebrow">Routes / Services</span><h2>How the services connect</h2>
-            <p>One square per declared service. Follow a connection to see the configuration and code behind it.</p></div>
-            <div className="spatial-camera-controls"><button aria-pressed={!planar} onClick={() => setPlanar(false)}>3D</button><button aria-pressed={planar} onClick={() => setPlanar(true)}>Plan</button>
+    return <section className="spatial-architecture container-map" aria-label={featureCopy.Container_service_map_0117288}>
+        <header className="spatial-heading"><div><span className="spatial-eyebrow">{featureCopy.Routes_Services_dc78ea9}</span><h2>{featureCopy.How_the_services_connect_e1cacee}</h2>
+            <p>{featureCopy.One_square_per_declared_service_Follow_a_connection_to_see_the_co_e63af2c}</p></div>
+            <div className="spatial-camera-controls"><button aria-pressed={!planar} onClick={() => setPlanar(false)}>3D</button><button aria-pressed={planar} onClick={() => setPlanar(true)}>{featureCopy.Plan_ae2f98a}</button>
                 <button onClick={() => setResetKey(value => value + 1)}>{text.fitMap}</button><RefreshControl labels={text.refreshFeedback.services} feedback={refresh.feedback} onRefresh={() => {
                     refresh.begin();
                     setRevision(value => value + 1);
                     if (!selections.length || !selections[0].inventory.manifests.length) setDiscoveryRevision(value => value + 1);
                 }} /></div></header>
-        <div className="container-projects" aria-label="Deployment sources">{selections.map((selection, index) => <label key={selection.inventory.project}><span>{selection.inventory.project}</span>
-            <select aria-label={`Compose file for ${selection.inventory.project}`} value={selection.manifest} onChange={event => setSelections(current => current.map((item, i) => i === index ? { ...item, manifest: event.target.value } : item))}>
-                <option value="">Source only</option>{selection.inventory.manifests.map(path => <option key={path}>{path}</option>)}</select>
-            {index > 0 && <button aria-label={`Remove ${selection.inventory.project}`} onClick={() => setSelections(current => current.filter((_, i) => i !== index))}>×</button>}</label>)}
-            {selections.length < 4 && <select aria-label="Compare indexed project" value="" disabled={adding} onChange={event => { void addProject(event.target.value); }}><option value="">{adding ? 'Reading project…' : '+ Compare project'}</option>
+        <div className="container-projects" aria-label={featureCopy.Deployment_sources_1f1cca7}>{selections.map((selection, index) => <label key={selection.inventory.project}><span>{selection.inventory.project}</span>
+            <select aria-label={featureCopy.Compose_file_for_0_585eefe(selection.inventory.project)} value={selection.manifest} onChange={event => setSelections(current => current.map((item, i) => i === index ? { ...item, manifest: event.target.value } : item))}>
+                <option value="">{featureCopy.Source_only_d5790ee}</option>{selection.inventory.manifests.map(path => <option key={path}>{path}</option>)}</select>
+            {index > 0 && <button aria-label={featureCopy.Remove_0_c9318bc(selection.inventory.project)} onClick={() => setSelections(current => current.filter((_, i) => i !== index))}>×</button>}</label>)}
+            {selections.length < 4 && <select aria-label={featureCopy.Compare_indexed_project_577c0c7} value="" disabled={adding} onChange={event => { void addProject(event.target.value); }}><option value="">{adding ? featureCopy.Reading_project_68617b1 : featureCopy.Compare_project_3badb20}</option>
                 {available.filter(entry => !selections.some(selection => selection.inventory.project === entry.name)).map(entry => <option key={entry.name} value={entry.name}>{entry.name}</option>)}</select>}</div>
-        <div className="spatial-controls"><div className="atlas-arch-context">{navigation}<nav aria-label="Service navigation"><button onClick={clearSelection}>All services</button>{focus && <span> / {servicesById.get(focus)?.name} and neighbors</span>}</nav></div>
-            <div className="container-edge-key"><span><i className="container-call-key" />Calls</span><label><input type="checkbox" checked={configured} onChange={event => setConfigured(event.target.checked)} />Configured destinations</label>
-                <label><input type="checkbox" checked={startup} onChange={event => setStartup(event.target.checked)} />Startup dependencies</label></div></div>
+        <div className="spatial-controls"><div className="atlas-arch-context">{navigation}<nav aria-label={featureCopy.Service_navigation_390ce37}><button onClick={clearSelection}>{featureCopy.All_services_53840e9}</button>{focus && <span> / {servicesById.get(focus)?.name}{featureCopy.and_neighbors_0f1d780}</span>}</nav></div>
+            <div className="container-edge-key"><span><i className="container-call-key" />{featureCopy.Calls_0a19b7e}</span><label><input type="checkbox" checked={configured} onChange={event => setConfigured(event.target.checked)} />{featureCopy.Configured_destinations_743cbd3}</label>
+                <label><input type="checkbox" checked={startup} onChange={event => setStartup(event.target.checked)} />{featureCopy.Startup_dependencies_6b86ba1}</label></div></div>
         {discovery && <div role="status" className="spatial-notice container-discovery" data-discovery={discovery}><p>{text.serviceMap[discovery]}</p>
             {discovery === 'none' && onShowEndpoints && <button className="spatial-primary" onClick={onShowEndpoints}>{text.showEndpoints}</button>}</div>}
-        {!discovery && selections.length > 0 && !selections.some(selection => selection.manifest) && <p className="spatial-notice">Select a Compose file to show its declared services.</p>}
-        {reading?.key === key && !result && <p role="status" className="spatial-notice">{reading.error ?? 'Reading deployment definitions and bounded source evidence…'}</p>}
+        {!discovery && selections.length > 0 && !selections.some(selection => selection.manifest) && <p className="spatial-notice">{featureCopy.Select_a_Compose_file_to_show_its_declared_services_df03ef8}</p>}
+        {reading?.key === key && !result && <p role="status" className="spatial-notice">{reading.error ?? featureCopy.Reading_deployment_definitions_and_bounded_source_evidence_4e8756a}</p>}
         {graph && topology && <><div className="spatial-map-layout"><div className="spatial-map">
             {graph.nodes.length ? <ContainerSceneBoundary key={key}><ArchitectureScene model={graph} active={active} planar={planar} resetKey={resetKey} adaptiveLabels={graph.nodes.length > 16}
                 selectedId={selectedService?.id} selectedEdgeId={selectedEdge?.id} onSelect={selectService} onSelectEdge={id => { setSelected({ key, edge: id }); setSource(undefined); }}
-                onClearSelection={clearSelection} onOpen={id => { selectService(id); setFocus(id); }} /></ContainerSceneBoundary> : <p className="spatial-unavailable">No matching service declarations in the selected files.</p>}
-            <div className="spatial-map-caption"><span>Static declarations · not live containers</span><span>Double-click a square to focus · select an arrow for evidence</span></div></div>
-            <aside className="spatial-inspector" aria-label="Service inspector">
-                {selectedService ? <><span className="spatial-eyebrow">Declared service</span><h3>{selectedService.name}</h3><p className="spatial-muted">{selectedService.project}</p>
-                    <button className="spatial-primary" onClick={() => setFocus(selectedService.id)}>Focus service</button>
-                    <button onClick={() => inspect({ project: selectedService.project, path: selectedService.manifest, line: selectedService.line, summary: 'Service declaration' })}>Open declaration</button>
-                    <dl className="container-facts"><dt>Image</dt><dd>{selectedService.image ?? 'Built locally'}</dd><dt>Networks</dt><dd>{selectedService.networks.map(network => network.split(':').at(-1)).join(', ') || 'No resolved network'}</dd>
-                        <dt>Ports</dt><dd>{selectedService.ports.join(', ') || 'Not declared'}</dd>{Boolean(selectedService.profiles?.length) && <><dt>Profiles</dt><dd>{selectedService.profiles!.join(', ')} · optional</dd></>}
-                        <dt>Source</dt><dd>{selectedService.sourcePaths.length ? `${selectedService.sourcePaths.length} candidate files` : 'Image-only or unresolved ownership'}</dd></dl>
-                    <div className="spatial-members"><h4>Connections</h4>{incident.length ? incident.map(edge => <button key={edge.id} onClick={() => setSelected({ key, edge: edge.id })}>{servicesById.get(edge.source)?.name} → {servicesById.get(edge.target)?.name}<small>{evidenceLabel(edge.kind)} · {edge.protocol}</small></button>) : <p>No detected connections with the current filters.</p>}
-                        <h4>Source files</h4>{selectedService.sourcePaths.slice(0, memberLimit).map(absolute => {
+                onClearSelection={clearSelection} onOpen={id => { selectService(id); setFocus(id); }} /></ContainerSceneBoundary> : <p className="spatial-unavailable">{featureCopy.No_matching_service_declarations_in_the_selected_files_c2a6b44}</p>}
+            <div className="spatial-map-caption"><span>{featureCopy.Static_declarations_not_live_containers_96e2707}</span><span>{featureCopy.Double_click_a_square_to_focus_select_an_arrow_for_evidence_368bf7c}</span></div></div>
+            <aside className="spatial-inspector" aria-label={featureCopy.Service_inspector_ab4b28a}>
+                {selectedService ? <><span className="spatial-eyebrow">{featureCopy.Declared_service_95d770a}</span><h3>{selectedService.name}</h3><p className="spatial-muted">{selectedService.project}</p>
+                    <button className="spatial-primary" onClick={() => setFocus(selectedService.id)}>{featureCopy.Focus_service_a9b127b}</button>
+                    <button onClick={() => inspect({ project: selectedService.project, path: selectedService.manifest, line: selectedService.line, summary: featureCopy.Service_declaration_5490e5a })}>{featureCopy.Open_declaration_ef6a0ad}</button>
+                    <dl className="container-facts"><dt>{featureCopy.Image_50e19fd}</dt><dd>{selectedService.image ?? featureCopy.Built_locally_c1c5d3c}</dd><dt>{featureCopy.Networks_e931cb5}</dt><dd>{selectedService.networks.map(network => network.split(':').at(-1)).join(', ') || featureCopy.No_resolved_network_f11b80a}</dd>
+                        <dt>{featureCopy.Ports_16c2eb4}</dt><dd>{selectedService.ports.join(', ') || featureCopy.Not_declared_c5d7de5}</dd>{Boolean(selectedService.profiles?.length) && <><dt>{featureCopy.Profiles_0c2a930}</dt><dd>{selectedService.profiles!.join(', ')}{featureCopy.optional_cc946d4}</dd></>}
+                        <dt>{featureCopy.Source_6da13ad}</dt><dd>{selectedService.sourcePaths.length ? featureCopy.message_0_candidate_files_b1d4297(selectedService.sourcePaths.length) : featureCopy.Image_only_or_unresolved_ownership_3ccdf0d}</dd></dl>
+                    <div className="spatial-members"><h4>{featureCopy.Connections_8f3509b}</h4>{incident.length ? incident.map(edge => <button key={edge.id} onClick={() => setSelected({ key, edge: edge.id })}>{servicesById.get(edge.source)?.name} → {servicesById.get(edge.target)?.name}<small>{evidenceLabel(edge.kind)} · {edge.protocol}</small></button>) : <p>{featureCopy.No_detected_connections_with_the_current_filters_1d52a68}</p>}
+                        <h4>{featureCopy.Source_files_e660d20}</h4>{selectedService.sourcePaths.slice(0, memberLimit).map(absolute => {
                             const owner = selections.find(selection => { const path = relativeSource(absolute, selection); return path !== undefined && selection.inventory.files.has(path); });
                             const path = owner && relativeSource(absolute, owner);
-                            return path && owner ? <button key={absolute} onClick={() => inspect({ project: owner.inventory.project, path, line: 1, summary: 'Candidate source file' })}>{path}<small>{owner.inventory.project}</small></button> : <span key={absolute}>{absolute}</span>;
-                        })}{selectedService.sourcePaths.length > memberLimit && <button onClick={() => setMemberLimit(value => value + 24)}>Show more files</button>}</div></>
+                            return path && owner ? <button key={absolute} onClick={() => inspect({ project: owner.inventory.project, path, line: 1, summary: featureCopy.Candidate_source_file_9fc75e6 })}>{path}<small>{owner.inventory.project}</small></button> : <span key={absolute}>{absolute}</span>;
+                        })}{selectedService.sourcePaths.length > memberLimit && <button onClick={() => setMemberLimit(value => value + 24)}>{featureCopy.Show_more_files_9044aec}</button>}</div></>
                     : selectedEdge ? <><span className="spatial-eyebrow">{evidenceLabel(selectedEdge.kind)}</span><h3>{servicesById.get(selectedEdge.source)?.name} → {servicesById.get(selectedEdge.target)?.name}</h3><p>{selectedEdge.protocol}</p>
-                        <p className="spatial-muted">{selectedEdge.kind === 'startup' ? 'The deployment declares a startup dependency. This does not establish a network call.' : selectedEdge.kind === 'configuration' ? 'Configuration names this destination. An executed call has not been established.' : 'Static source identifies this destination. The arrow shows the caller, not the direction of every payload.'}</p>
+                        <p className="spatial-muted">{selectedEdge.kind === 'startup' ? featureCopy.The_deployment_declares_a_startup_dependency_This_does_not_establ_90c5997 : selectedEdge.kind === 'configuration' ? featureCopy.Configuration_names_this_destination_An_executed_call_has_not_bee_4c90465 : featureCopy.Static_source_identifies_this_destination_The_arrow_shows_the_cal_5e9d153}</p>
                         <div className="spatial-members">{selectedEdge.evidence.map(evidenceButton)}</div></>
-                        : <><span className="spatial-eyebrow">Service map</span><h3>{topology.services.length} declared services</h3><p>Select a service or connection to inspect its source. Double-click a service to focus its neighbors.</p></>}
-                {source?.key === key && <div className="container-source"><h4>{source.evidence.project} / {source.evidence.path}:{source.evidence.line}</h4><button onClick={() => setSource(undefined)}>Close source</button><pre>{source.error ?? source.text ?? 'Reading source…'}</pre></div>}
+                        : <><span className="spatial-eyebrow">{featureCopy.Service_map_a2e9a24}</span><h3>{topology.services.length}{featureCopy.declared_services_8d7c6da}</h3><p>{featureCopy.Select_a_service_or_connection_to_inspect_its_source_Double_click_8d16b0c}</p></>}
+                {source?.key === key && <div className="container-source"><h4>{source.evidence.project} / {source.evidence.path}:{source.evidence.line}</h4><button onClick={() => setSource(undefined)}>{featureCopy.Close_source_f5b6349}</button><pre>{source.error ?? source.text ?? 'Reading source…'}</pre></div>}
             </aside></div>
-            <div className="spatial-bottom"><span>{graph.nodes.length} / {topology.services.length} services · {graph.edges.length} connections shown</span>{!!topology.unresolved.length && <span>{topology.unresolved.length} unresolved destinations</span>}</div>
-            <details className="spatial-map-details"><summary>Browse services and connection evidence</summary>
-            <div className="container-service-list" aria-label="All declared services">{topology.services.map(service => <button key={service.id} aria-pressed={selectedService?.id === service.id} onClick={() => selectService(service.id)} onDoubleClick={() => { selectService(service.id); setFocus(service.id); }}>{service.name}<small>{service.project}{service.profiles?.length ? ' · optional' : ''}</small></button>)}</div>
-            {!!layout?.cycles.length && <details className="spatial-coverage"><summary>Dependency cycles · {layout.cycles.length}</summary>{layout.cycles.map(cycle => <p key={cycle.join('|')}>{cycle.map(id => servicesById.get(id)?.name).join(' ↔ ')} · mutually reachable through detected calls or configured destinations</p>)}</details>}
-            <details className="spatial-relationship-list"><summary>All connections · {shownEdges.length}</summary><div>{shownEdges.map(edge => <button key={edge.id} onClick={() => setSelected({ key, edge: edge.id })}>{servicesById.get(edge.source)?.name} → {servicesById.get(edge.target)?.name}<small>{evidenceLabel(edge.kind)} · {edge.protocol}</small></button>)}</div></details>
-            {!!topology.unresolved.length && <details className="spatial-coverage"><summary>Unresolved destinations · {topology.unresolved.length}</summary><div className="spatial-members">{topology.unresolved.map(evidenceButton)}</div></details>}
+            <div className="spatial-bottom"><span>{graph.nodes.length} / {topology.services.length}{featureCopy.services_85a8e8b}{graph.edges.length}{featureCopy.connections_shown_e91022a}</span>{!!topology.unresolved.length && <span>{topology.unresolved.length}{featureCopy.unresolved_destinations_59ba2c9}</span>}</div>
+            <details className="spatial-map-details"><summary>{featureCopy.Browse_services_and_connection_evidence_7a09c34}</summary>
+            <div className="container-service-list" aria-label={featureCopy.All_declared_services_bd4a671}>{topology.services.map(service => <button key={service.id} aria-pressed={selectedService?.id === service.id} onClick={() => selectService(service.id)} onDoubleClick={() => { selectService(service.id); setFocus(service.id); }}>{service.name}<small>{service.project}{service.profiles?.length ? featureCopy.optional_cc946d4 : ''}</small></button>)}</div>
+            {!!layout?.cycles.length && <details className="spatial-coverage"><summary>{featureCopy.Dependency_cycles_1536c8a}{layout.cycles.length}</summary>{layout.cycles.map(cycle => <p key={cycle.join('|')}>{cycle.map(id => servicesById.get(id)?.name).join(' ↔ ')}{featureCopy.mutually_reachable_through_detected_calls_or_configured_destinati_53b661d}</p>)}</details>}
+            <details className="spatial-relationship-list"><summary>{featureCopy.All_connections_234f953}{shownEdges.length}</summary><div>{shownEdges.map(edge => <button key={edge.id} onClick={() => setSelected({ key, edge: edge.id })}>{servicesById.get(edge.source)?.name} → {servicesById.get(edge.target)?.name}<small>{evidenceLabel(edge.kind)} · {edge.protocol}</small></button>)}</div></details>
+            {!!topology.unresolved.length && <details className="spatial-coverage"><summary>{featureCopy.Unresolved_destinations_2ddb9ab}{topology.unresolved.length}</summary><div className="spatial-members">{topology.unresolved.map(evidenceButton)}</div></details>}
             </details>
         </>}
-        <details className="spatial-coverage"><summary>Coverage and interpretation{warnings.length ? ` · ${warnings.length} notes` : ''}</summary><p>One selected Compose file per project. Overrides, includes, host environment values, and running-container state are not evaluated. Source grouping is inferred from build inputs, not guaranteed exclusive ownership.</p>
+        <details className="spatial-coverage"><summary>{featureCopy.Coverage_and_interpretation_17362cf}{warnings.length ? featureCopy.message_0_notes_50dd846(warnings.length) : ''}</summary><p>{featureCopy.One_selected_Compose_file_per_project_Overrides_includes_host_env_537fb11}</p>
             {warnings.map(warning => <p key={warning}>{warning}</p>)}</details>
     </section>;
 }

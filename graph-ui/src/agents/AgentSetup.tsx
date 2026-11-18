@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/agents';
 import { useEffect, useState } from 'react';
 import type { AtlasApi } from '../app/atlas-api';
 import hookSource from '../../agents/hooks/atlas-trace.py?raw';
@@ -30,21 +31,20 @@ export default function AgentSetup({ api, project, port }: { api?: Pick<AtlasApi
         anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
     return <details className="cbm-agent-setup" onToggle={event => setOpen(event.currentTarget.open)}>
-        <summary>Connect your agent</summary>
-        <p>Claude Code on macOS/Linux · Python 3 required. This installs a project-local PostToolUse hook. Connecting the browser only reads history; it does not configure your coding client.</p>
-        {!project || !api ? <p>Select an indexed project to generate its setup command.</p> : <>
+        <summary>{featureCopy.Connect_your_agent_cf286ca}</summary>
+        <p>{featureCopy.setupHookRequirements}</p>
+        {!project || !api ? <p>{featureCopy.Select_an_indexed_project_to_generate_its_setup_command_dd81f74}</p> : <>
             <ol>
-                <li><button type="button" onClick={download}>Download hook</button> Save <code>cbm-atlas-trace.py</code> in Downloads, or adjust its path in the command below.</li>
-                <li>Review and run this command in your terminal. It copies the hook into <code>.claude/hooks/</code> and adds it to <code>.claude/settings.local.json</code>, preserving unrelated settings. Conflicting existing hooks are refused.
-                    {current?.error ? <p role="alert">Setup unavailable: {current.error}</p> : command ? <>
-                        <pre>{command}</pre><button type="button" onClick={() => { void navigator.clipboard.writeText(command).then(() => setCopied('Command copied')).catch(() => setCopied('Clipboard unavailable; select and copy the command.')); }}>Copy setup command</button> <span role="status">{copied}</span>
-                    </> : <p>Reading the indexed repository root…</p>}
+                <li><button type="button" onClick={download}>{featureCopy.Download_hook_bf829e7}</button>{featureCopy.Save_6bf6e85}<code>cbm-atlas-trace.py</code>{featureCopy.in_Downloads_or_adjust_its_path_in_the_command_below_9371dda}</li>
+                <li>{featureCopy.Review_and_run_this_command_in_your_terminal_It_copies_the_hook_i_22d71ab}<code>.claude/hooks/</code>{featureCopy.and_adds_it_to_20a04a8}<code>.claude/settings.local.json</code>{featureCopy.preserving_unrelated_settings_Conflicting_existing_hooks_are_refu_fb9a958}{current?.error ? <p role="alert">{featureCopy.Setup_unavailable_3e0e1ce}{current.error}</p> : command ? <>
+                        <pre>{command}</pre><button type="button" onClick={() => { void navigator.clipboard.writeText(command).then(() => setCopied('Command copied')).catch(() => setCopied('Clipboard unavailable; select and copy the command.')); }}>{featureCopy.Copy_setup_command_cb6ffe8}</button> <span role="status">{copied}</span>
+                    </> : <p>{featureCopy.Reading_the_indexed_repository_root_3bf59cb}</p>}
                 </li>
-                <li>Start a new Claude Code session in that repository and perform a tool call. Then choose <strong>Load recorded activity</strong> here. A new recorded event is the evidence that the hook reached this daemon.</li>
+                <li>{featureCopy.setupSessionStep}<strong>{featureCopy.Load_recorded_activity_07c6bd6}</strong>{featureCopy.here_A_new_recorded_event_is_the_evidence_that_the_hook_reached_t_19829bc}</li>
             </ol>
-            <p>Destination: <code>http://127.0.0.1:{port}/api/agent-events</code> · Project: <code>{project}</code>. No bridge or extra listener. Pending events retry on the next tool call.</p>
+            <p>{featureCopy.Destination_1d90c07}<code>http://127.0.0.1:{port}/api/agent-events</code>{featureCopy.Project_3d40c02}<code>{project}</code>. No bridge or extra listener. Pending events retry on the next tool call.</p>
         </>}
-        <p>The hook records tool names, paths, timestamps, optional line spans and up to 180 characters of a command or search pattern. It records no file contents or tool results. Metadata stays in the local daemon; commands and paths can still contain sensitive information.</p>
-        <p>To remove it, delete only the entry referencing <code>cbm-atlas-trace.py</code> from this project's <code>PostToolUse</code> hooks. Other coding clients need their own event adapter; their activity is not inferred.</p>
+        <p>{featureCopy.The_hook_records_tool_names_paths_timestamps_optional_line_spans__887f4f0}</p>
+        <p>{featureCopy.To_remove_it_delete_only_the_entry_referencing_9e13c91}<code>cbm-atlas-trace.py</code>{featureCopy.from_this_project_s_8322851}<code>PostToolUse</code>{featureCopy.hooks_Other_coding_clients_need_their_own_event_adapter_their_act_efac63b}</p>
     </details>;
 }

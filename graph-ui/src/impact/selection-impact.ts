@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/impact';
 /** Selection impact deliberately keeps graph evidence and Git association apart. */
 export interface SelectionImpactTarget {
     filePath: string;
@@ -81,24 +82,24 @@ export type SelectionImpactReply = SelectionImpact | { status: 'pending' | 'busy
 
 function object(value: unknown): Record<string, unknown> {
     if (typeof value !== 'object' || value === null || Array.isArray(value))
-        throw new Error('Invalid impact response');
+        throw new Error(featureCopy.Invalid_impact_response_3b31997);
     return value as Record<string, unknown>;
 }
 function text(value: unknown): string {
-    if (typeof value !== 'string') throw new Error('Invalid impact text');
+    if (typeof value !== 'string') throw new Error(featureCopy.Invalid_impact_text_ec1c750);
     return value;
 }
 function count(value: unknown): number {
     if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 0)
-        throw new Error('Invalid impact count');
+        throw new Error(featureCopy.Invalid_impact_count_0354d84);
     return value;
 }
 function flag(value: unknown): boolean {
-    if (typeof value !== 'boolean') throw new Error('Invalid impact flag');
+    if (typeof value !== 'boolean') throw new Error(featureCopy.Invalid_impact_flag_584f26a);
     return value;
 }
 function list(value: unknown): unknown[] {
-    if (!Array.isArray(value)) throw new Error('Invalid impact evidence list');
+    if (!Array.isArray(value)) throw new Error(featureCopy.Invalid_impact_evidence_list_80b7baa);
     return value;
 }
 function node(value: unknown): ImpactEvidenceNode {
@@ -113,7 +114,7 @@ export function readSelectionImpact(value: unknown): SelectionImpactReply {
     if (row.status === 'pending' || row.status === 'busy') return { status: row.status };
     if (row.status === 'failed') return { status: 'failed', error: text(row.error) };
     if (row.status !== 'ready' || (row.scope !== 'symbol' && row.scope !== 'file'))
-        throw new Error('Invalid impact snapshot');
+        throw new Error(featureCopy.Invalid_impact_snapshot_bc01913);
     const snapshot = object(row.snapshot), structural = object(row.structural), history = object(row.history);
     const result: SelectionImpact = {
         status: 'ready', project: text(row.project), file_path: text(row.file_path), scope: row.scope,
@@ -137,7 +138,7 @@ export function readSelectionImpact(value: unknown): SelectionImpactReply {
                 const item = object(value);
                 const path = list(item.path).map(value => {
                     const edge = object(value);
-                    if (edge.type !== 'CALLS' && edge.type !== 'IMPORTS') throw new Error('Unknown impact relation');
+                    if (edge.type !== 'CALLS' && edge.type !== 'IMPORTS') throw new Error(featureCopy.Unknown_impact_relation_ca2a457);
                     return { edge_id: count(edge.edge_id), type: edge.type,
                         from: node(edge.from), to: node(edge.to) } as ImpactEvidenceEdge;
                 });
@@ -145,7 +146,7 @@ export function readSelectionImpact(value: unknown): SelectionImpactReply {
                     test_candidate: flag(item.test_candidate), path };
                 if (path.length === 0 || path.length !== finding.distance || path[0]?.from.id !== finding.id
                     || path.some((edge, i) => i > 0 && path[i - 1]?.to.id !== edge.from.id))
-                    throw new Error('Disconnected impact evidence path');
+                    throw new Error(featureCopy.Disconnected_impact_evidence_path_c741721);
                 return finding;
             }),
         },
@@ -223,8 +224,8 @@ export function selectionRisk(data: SelectionImpact): SelectionRisk {
         'Compare the local change with the indexed source and reindex before relying on absence of downstream findings.',
     ];
     if (history.cochanges.length > 0) next.push('Inspect the linked local commit evidence for repeated co-changes; shared commits alone do not establish a dependency.');
-    return { level, label: level === 'high' ? 'Broad impact · high review priority'
-        : level === 'elevated' ? 'Review needed · elevated change risk' : 'Risk unresolved', reasons, uncertainties, next };
+    return { level, label: level === 'high' ? featureCopy.Broad_impact_high_review_priority_0456b66
+        : level === 'elevated' ? featureCopy.Review_needed_elevated_change_risk_b76ed43 : featureCopy.Risk_unresolved_bc2dff7, reasons, uncertainties, next };
 }
 
 export function evidenceTarget(node: ImpactEvidenceNode): SelectionImpactTarget {
@@ -246,9 +247,9 @@ export async function fetchSelectionImpact(project: string, target: SelectionImp
     else if (target.id !== undefined) query.set('node', `#${target.id}`);
     if (refresh) query.set('refresh', '1');
     const response = await doFetch(`/api/impact-analysis?${query}`, { signal });
-    if (!response.ok) throw new Error(`Impact analysis returned HTTP ${response.status}`);
+    if (!response.ok) throw new Error(featureCopy.Impact_analysis_returned_HTTP_0_02406de(response.status));
     const reply = readSelectionImpact(await response.json());
     if (reply.status === 'ready' && (reply.project !== project || reply.file_path !== target.filePath))
-        throw new Error('Impact response belongs to a different selection');
+        throw new Error(featureCopy.Impact_response_belongs_to_a_different_selection_ef1f43c);
     return reply;
 }

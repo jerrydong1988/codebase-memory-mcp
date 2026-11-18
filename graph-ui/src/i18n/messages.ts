@@ -1,3 +1,5 @@
+import { presentation } from './presentation';
+import { featureCopy } from './features/i18n';
 /**
  * Der typisierte Katalog der sichtbaren Chrome-Strings.
  *
@@ -49,28 +51,28 @@ export interface MenuItemMessage {
  * genau einmal hier. Sie zweimal auszuschreiben waere zweimal die Gelegenheit,
  * einen davon zu schaerfen, bis die beiden verschieden sind.
  */
-const NO_PROJECT = 'no project';
-const CLOSE = 'close';
-const TOUR_FAILED_TEXT = 'the walk could not be prepared';
+const NO_PROJECT = featureCopy.no_project_88a1f32;
+const CLOSE = featureCopy.close_da38860;
+const TOUR_FAILED_TEXT = featureCopy.the_walk_could_not_be_prepared_ae4583d;
 
 export const messages = {
     browserChat: {
-        menuLabel: '[l]ocal chat',
-        menuTitle: 'Open local browser chat',
-        subtitle: 'Graph display and local browser models',
-        title: 'Browser models',
-        detail: 'Choose or download an optional model in chat settings. Answers run locally in this browser; code exploration works without a model.',
-        open: 'Open local chat',
+        menuLabel: featureCopy.l_ocal_chat_f223aba,
+        menuTitle: featureCopy.Open_local_browser_chat_11f626b,
+        subtitle: featureCopy.Graph_display_and_local_browser_models_a22100a,
+        title: featureCopy.Browser_models_72a781c,
+        detail: featureCopy.Choose_or_download_an_optional_model_in_chat_settings_Answers_run_d332f53,
+        open: featureCopy.Open_local_chat_181766d,
     },
     /** Die Kopfzeile und die Flaechen, die zu keinem Panel gehoeren. */
     app: {
         brand: 'CBM LENS',
-        releaseLabel: 'Beta',
+        releaseLabel: featureCopy.Beta_f03b60f,
         /** Steht in der Tab-Leiste und im Breadcrumb, wenn nichts offen ist. */
-        noFileOpen: 'no file open',
+        noFileOpen: featureCopy.no_file_open_fd69c61,
         /** Der Name, den eine Oberflaeche ohne Projekt traegt. */
         noProject: NO_PROJECT,
-        closeTab: (name: string): string => `close ${name}`,
+        closeTab: (name: string): string => featureCopy.close_0_159040f(name),
     },
 
     /**
@@ -92,7 +94,7 @@ export const messages = {
      * (src/app/shortcuts.ts, Test src/app/shortcuts.test.ts).
      */
     menu: {
-        ariaLabel: 'main menu',
+        ariaLabel: featureCopy.main_menu_5368d87,
         items: [
             { key: 'a', rest: 'tlas' },
             { key: '?', rest: 'help' },
@@ -106,22 +108,20 @@ export const messages = {
          * der Zeile und nicht nur in der Hilfe, weil sie dort gebraucht wird, wo
          * die Klammern stehen.
          */
-        legend: 'alt + letter',
-        atlasHide: 'atlas: hide the galaxy panel (alt+a)',
-        atlasShow: 'atlas: show the galaxy panel (alt+a)',
-        settings: 'atlas: which model answers, and everything that costs computing time (alt+s)',
+        legend: featureCopy.alt_letter_8068453,
+        atlasHide: featureCopy.atlas_hide_the_galaxy_panel_alt_a_40e144e,
+        atlasShow: featureCopy.atlas_show_the_galaxy_panel_alt_a_01ff03b,
+        settings: featureCopy.atlas_which_model_answers_and_everything_that_costs_computing_tim_ed64556,
         agentsOn:
-            'atlas: live mode is on. The bridge is being read and the actors are drawn on the graph '
-            + '(alt+g)',
+            featureCopy.atlas_live_mode_is_on_The_bridge_is_being_read_and_the_actors_are_65cafd1,
         agentsOff:
-            'atlas: live mode is off, and not one request goes to the bridge. Turn it on to see the '
-            + 'agents working in this repository (alt+g)',
-        why: 'atlas: put the question again and pick a way in (alt+w)',
-        bug: 'atlas: compare the expected path into a symbol with the observed one (alt+b)',
-        impact: 'atlas: what a change would reach, and what covers it (alt+c)',
-        helpOpen: 'help: what this reads, what it cannot do, and every key it listens to (?)',
-        helpClose: 'help: close this page (?)',
-        projects: 'atlas: what this server has indexed, index more, and what the server is doing (alt+p)',
+            featureCopy.atlas_live_mode_is_off_and_not_one_request_goes_to_the_bridge_Tur_87a1583,
+        why: featureCopy.atlas_put_the_question_again_and_pick_a_way_in_alt_w_c1d4ccf,
+        bug: featureCopy.atlas_compare_the_expected_path_into_a_symbol_with_the_observed_o_e70884c,
+        impact: featureCopy.atlas_what_a_change_would_reach_and_what_covers_it_alt_c_899da17,
+        helpOpen: featureCopy.help_what_this_reads_what_it_cannot_do_and_every_key_it_listens_t_d221785,
+        helpClose: featureCopy.help_close_this_page_20c0b27,
+        projects: featureCopy.atlas_what_this_server_has_indexed_index_more_and_what_the_server_59b4915,
     },
 
     /**
@@ -144,76 +144,61 @@ export const messages = {
      *    Repository.
      */
     help: {
-        title: 'CBM LENS HELP',
-        subtitle: 'a reading surface over an indexed repository',
-        close: '[esc] close',
+        title: featureCopy.CBM_LENS_HELP_d41f116,
+        subtitle: featureCopy.a_reading_surface_over_an_indexed_repository_1369736,
+        close: featureCopy.esc_close_1d54db9,
         closeLabel: CLOSE,
 
-        whatTitle: 'What this is',
+        whatTitle: featureCopy.What_this_is_ca413b8,
         what: [
-            'CBM Lens reads a repository that the analysis server has indexed and explains it: '
-            + 'the tree and the source, a twin of the symbol under the caret, a walk along the calls, '
-            + 'the scope of a change, and the answers of a local model.',
-            'Everything on this screen comes from that index or from a file the server handed over, '
-            + 'and every panel says which of the two it is.',
+            featureCopy.CBM_Lens_reads_a_repository_that_the_analysis_server_has_indexed__8f40375,
+            featureCopy.Everything_on_this_screen_comes_from_that_index_or_from_a_file_th_cbdaf43,
         ],
 
-        limitsTitle: 'What it cannot do',
+        limitsTitle: featureCopy.What_it_cannot_do_470bedc,
         limits: [
-            'The reader is read-only: you cannot edit a file here, and what you type into it changes nothing.',
-            'It cannot run code, and there is no terminal: no build, no test run, no shell. '
-            + 'The one job it can ask for is an index run, and the analysis server does that in its '
-            + 'own process, from the [p]rojects panel.',
-            'It reaches no cloud. The only model it can use is a sidecar on this machine, '
-            + 'started by hand, and it stays off until it answers.',
+            featureCopy.The_reader_is_read_only_you_cannot_edit_a_file_here_and_what_you__5f83769,
+            featureCopy.It_cannot_run_code_and_there_is_no_terminal_no_build_no_test_run__267a4b1,
+            featureCopy.It_reaches_no_cloud_The_only_model_it_can_use_is_a_sidecar_on_thi_20548e9,
         ],
         limitsWhy:
-            'That is the shape of the product and not a missing release: this surface has no backend of '
-            + 'its own. Apart from the three requests the [p]rojects panel makes (index a repository, '
-            + 'remove an index, store a decision record), the analysis server offers it a read-only '
-            + 'surface, and everything that writes, builds or executes happens where the repository '
-            + 'lives, on the command line.',
+            featureCopy.That_is_the_shape_of_the_product_and_not_a_missing_release_this_s_9caf1ff,
 
-        panelsTitle: 'The panels, and what each one answers',
+        panelsTitle: featureCopy.The_panels_and_what_each_one_answers_a0c7c16,
         panels: [
-            { name: 'explorer and reader', answers: 'what is in this project, and what does this file say' },
-            { name: 'twin', answers: 'what does the symbol under the caret hold, call, raise and touch' },
-            { name: 'flow', answers: 'in what order does this symbol call what it calls' },
-            { name: '[w]hy am I here', answers: 'where do I start, and what is the walk from there' },
-            { name: '[b]ug hunt', answers: 'how does the expected path into a symbol differ from the observed one' },
-            { name: '[c]hange scope', answers: 'what would a change here reach, and what covers it' },
-            { name: '[a]tlas', answers: 'where does this symbol sit among the others' },
-            { name: '[l]ocal llm', answers: 'is a local model answering, and out of which context' },
+            { name: featureCopy.explorer_and_reader_5dc7efe, answers: featureCopy.what_is_in_this_project_and_what_does_this_file_say_05a2695 },
+            { name: featureCopy.twin_be60598, answers: featureCopy.what_does_the_symbol_under_the_caret_hold_call_raise_and_touch_a20dd46 },
+            { name: featureCopy.flow_d8f7e9c, answers: featureCopy.in_what_order_does_this_symbol_call_what_it_calls_f83ba02 },
+            { name: featureCopy.w_hy_am_I_here_21d85a4, answers: featureCopy.where_do_I_start_and_what_is_the_walk_from_there_936b23e },
+            { name: featureCopy.b_ug_hunt_a7750a9, answers: featureCopy.how_does_the_expected_path_into_a_symbol_differ_from_the_observed_bbf9379 },
+            { name: featureCopy.c_hange_scope_19c8e2b, answers: featureCopy.what_would_a_change_here_reach_and_what_covers_it_42063cf },
+            { name: '[a]tlas', answers: featureCopy.where_does_this_symbol_sit_among_the_others_6c6e1a9 },
+            { name: featureCopy.l_ocal_llm_49f4ba8, answers: featureCopy.is_a_local_model_answering_and_out_of_which_context_18b2e7a },
             {
-                name: '[s]ettings',
+                name: featureCopy.s_ettings_762b402,
                 answers:
-                    'which model in your cache answers, how to get another one, and what the drawing '
-                    + 'of the graph costs on this machine',
+                    featureCopy.which_model_in_your_cache_answers_how_to_get_another_one_and_what_ec43047,
             },
             {
-                name: '[p]rojects',
+                name: featureCopy.p_rojects_6745a82,
                 answers:
-                    'what this server has indexed, how to index or remove a repository, the decision '
-                    + 'record of the open project, and what the server is doing',
+                    featureCopy.what_this_server_has_indexed_how_to_index_or_remove_a_repository__aeba2c2,
             },
             {
-                name: 'command line',
+                name: featureCopy.command_line_602667f,
                 answers:
-                    'which symbol means this: the words are matched against symbol names and their paths '
-                    + 'while you type. A line that ends with a question mark builds an answer from indexed '
-                    + 'cards and their source lines. Use the visible AI button on that answer only if you want an '
-                    + 'optional local-model wording. This line runs no commands.',
+                    featureCopy.which_symbol_means_this_the_words_are_matched_against_symbol_name_64914d2,
             },
         ],
 
-        shortcutsTitle: 'Every key this window listens to',
+        shortcutsTitle: featureCopy.Every_key_this_window_listens_to_b357a47,
         shortcutsNote:
-            'Menu shortcuts work across the workspace. Cmd/Ctrl+K opens the dedicated node and cluster search in Galaxy.',
+            featureCopy.Menu_shortcuts_work_across_the_workspace_Cmd_Ctrl_K_opens_the_ded_18baaf2,
         typingNote:
-            'Typing stays in the field you focused. Menu shortcuts use Alt (Option on an Apple keyboard).',
-        columnKey: 'key',
-        columnWhere: 'where it counts',
-        columnDoes: 'what it does',
+            featureCopy.Typing_stays_in_the_field_you_focused_Menu_shortcuts_use_Alt_Opti_19a0f66,
+        columnKey: featureCopy.key_a62f222,
+        columnWhere: featureCopy.where_it_counts_0927a7d,
+        columnDoes: featureCopy.what_it_does_235cc5e,
 
         /*
          * Der Tastentest.
@@ -225,52 +210,47 @@ export const messages = {
          * an einer Ursache zu raten, zeigt die Seite, was am Geraet des Lesers
          * wirklich ankommt, und was diese Oberflaeche daraus gemacht haette.
          */
-        keyProbeTitle: 'Test a key combination',
+        keyProbeTitle: featureCopy.Test_a_key_combination_ad74db2,
         keyProbeIntro:
-            'Press a combination now, with this page open, and read below what arrived. This is not a '
-            + 'simulation: it is the same reading the window handler makes, from the same event.',
-        keyProbeIdle: 'nothing pressed yet',
+            featureCopy.Press_a_combination_now_with_this_page_open_and_read_below_what_a_d4c04bd,
+        keyProbeIdle: featureCopy.nothing_pressed_yet_a7f56bc,
         keyProbeFields: {
             code: 'physical key (code)',
             key: 'character produced (key)',
-            modifiers: 'modifiers',
-            defaultPrevented: 'already consumed',
-            consumedBy: 'consumed by',
-            target: 'arrived at',
+            modifiers: featureCopy.modifiers_3dcdbf0,
+            defaultPrevented: featureCopy.already_consumed_3f138be,
+            consumedBy: featureCopy.consumed_by_88db8fe,
+            target: featureCopy.arrived_at_d86927f,
             shortcut: 'recognised as a menu key',
         } as Readonly<Record<string, string>>,
         keyProbeConsumers: {
-            nobody: 'nobody: it arrived untouched',
-            'this-window': 'this window: its own shortcut handler took it',
+            nobody: featureCopy.nobody_it_arrived_untouched_7f40ac2,
+            'this-window': featureCopy.this_window_its_own_shortcut_handler_took_it_ebc0d65,
             'something-else':
-                'something else, before this window saw it: a browser extension, the keyboard layout, '
-                + 'or another handler on the page',
+                featureCopy.something_else_before_this_window_saw_it_a_browser_extension_the__c16cbe4,
         } as Readonly<Record<string, string>>,
-        keyProbeNoShortcut: 'no: this combination is not a menu key',
-        keyProbeShortcut: (letter: string): string => `yes: the menu key for [${letter}]`,
+        keyProbeNoShortcut: featureCopy.no_this_combination_is_not_a_menu_key_ea2b16e,
+        keyProbeShortcut: (letter: string): string => featureCopy.yes_the_menu_key_for_0_9d139d8(letter),
         keyProbeNone: '-',
-        keyProbeNoModifier: 'none',
+        keyProbeNoModifier: featureCopy.none_71f8e79,
         keyProbeNote:
-            'What to look for: a menu key needs alt (option) and a code of the form KeyW. On an Apple '
-            + 'keyboard option+w produces a different character, which is why the wiring reads the code '
-            + 'and not the character. If nothing appears here at all when you press, the combination '
-            + 'never reached this page, and the cause is outside it.',
+            featureCopy.What_to_look_for_a_menu_key_needs_alt_option_and_a_code_of_the_fo_ac10d26,
 
         /** Der Modifikator vor einem Menuekuerzel. Auf Apple-Tastaturen: option. */
-        altPrefix: 'alt+',
+        altPrefix: featureCopy.alt_6c08015,
         scopes: {
-            mnemonic: 'anywhere, also while you type',
-            bare: 'outside text fields',
-            galaxy: 'anywhere',
-            walk: 'during a walk',
+            mnemonic: featureCopy.anywhere_also_while_you_type_c43b57c,
+            bare: featureCopy.outside_text_fields_c8bf12c,
+            galaxy: featureCopy.anywhere_112c2a0,
+            walk: featureCopy.during_a_walk_840fd95,
         },
         keyNames: {
-            Enter: 'enter',
-            Escape: 'esc',
-            ArrowUp: 'up',
-            ArrowDown: 'down',
-            ArrowLeft: 'left',
-            ArrowRight: 'right',
+            Enter: featureCopy.enter_3674951,
+            Escape: featureCopy.esc_abb761d,
+            ArrowUp: featureCopy.up_7c0a25c,
+            ArrowDown: featureCopy.down_77346d0,
+            ArrowLeft: featureCopy.left_12c0f1f,
+            ArrowRight: featureCopy.right_d27a1f1,
         } as Readonly<Record<string, string>>,
         /**
          * Was eine Taste tut, je Bereich und Taste (`bereich:taste`).
@@ -280,51 +260,45 @@ export const messages = {
          * oeffnet im Suchfenster den Treffer.
          */
         shortcutDoes: {
-            'mnemonic:a': 'show or hide the galaxy',
-            'mnemonic:w': 'ask again where to start, and walk from there',
-            'mnemonic:b': 'open the BUG hunt on the symbol in the twin',
-            'mnemonic:l': 'turn the local model on or off',
-            'mnemonic:r': 'put every zone back to the width and height it starts with',
-            'mnemonic:s': 'open or close the settings: the model, and what the drawing costs',
-            'mnemonic:g': 'turn the live agent mode on or off. Off asks the bridge nothing at all',
-            'mnemonic:p': 'add a project index or return to its indexing progress',
-            'bare:?': 'open or close this page',
-            'galaxy:Cmd/Ctrl+K': 'open Galaxy and focus node or cluster search',
-            'walk:Enter': 'go to the next step of the walk, and finish it on the last one',
-            'walk:ArrowLeft': 'go back one step',
-            'walk:q': 'leave the walk',
-            'walk:d': 'draw the flow of this step, when the step has a symbol',
+            'mnemonic:a': featureCopy.show_or_hide_the_galaxy_c3f1f1a,
+            'mnemonic:w': featureCopy.ask_again_where_to_start_and_walk_from_there_bc4fd8b,
+            'mnemonic:b': featureCopy.open_the_BUG_hunt_on_the_symbol_in_the_twin_89d13a7,
+            'mnemonic:l': featureCopy.turn_the_local_model_on_or_off_8c78e0b,
+            'mnemonic:r': featureCopy.put_every_zone_back_to_the_width_and_height_it_starts_with_ebdf46b,
+            'mnemonic:s': featureCopy.open_or_close_the_settings_the_model_and_what_the_drawing_costs_12532bc,
+            'mnemonic:g': featureCopy.turn_the_live_agent_mode_on_or_off_Off_asks_the_bridge_nothing_at_87a0747,
+            'mnemonic:p': featureCopy.add_a_project_index_or_return_to_its_indexing_progress_f836bb1,
+            'bare:?': featureCopy.open_or_close_this_page_17580f0,
+            'galaxy:Cmd/Ctrl+K': featureCopy.open_Galaxy_and_focus_node_or_cluster_search_9770728,
+            'walk:Enter': featureCopy.go_to_the_next_step_of_the_walk_and_finish_it_on_the_last_one_7174503,
+            'walk:ArrowLeft': featureCopy.go_back_one_step_a435532,
+            'walk:q': featureCopy.leave_the_walk_ebde205,
+            'walk:d': featureCopy.draw_the_flow_of_this_step_when_the_step_has_a_symbol_14210b8,
         } as Readonly<Record<string, string>>,
 
-        operationsTitle: 'Running it',
+        operationsTitle: featureCopy.Running_it_45f7b22,
         operations: [
-            'Index a project from the [p]rojects panel (alt+p) or with the CLI of the analysis server, '
-            + 'then open it from that panel or with the project name in the address (?project=<name>). '
-            + 'The server indexes; this window asks.',
-            'Start the local model with llm/start.sh class-a. It listens on the loopback address of this '
-            + 'machine; the [l]lm card turns green as soon as it answers, and says why when it does not.',
-            'Bring recorded runs in with ingest_traces on the command line. There is no importer on this '
-            + 'surface, and the twin does not carry them: they show up on the BUG hunt hops and in the flow.',
+            featureCopy.Index_a_project_from_the_p_rojects_panel_alt_p_or_with_the_CLI_of_f3511bd,
+            featureCopy.Start_the_local_model_with_llm_start_sh_class_a_It_listens_on_the_8a29272,
+            featureCopy.Bring_recorded_runs_in_with_ingest_traces_on_the_command_line_The_66be879,
         ],
 
-        honestyTitle: 'The rules this surface holds itself to',
+        honestyTitle: featureCopy.The_rules_this_surface_holds_itself_to_2203bd7,
         honesty: [
-            'Every claim comes from the index or from the file the server sent, and the panel names which.',
-            'What the index does not record is named as a gap, never filled in with a plausible guess.',
-            'An affordance that does nothing does not exist here: a button or a key either acts, or it is '
-            + 'not on the screen.',
+            featureCopy.Every_claim_comes_from_the_index_or_from_the_file_the_server_sent_82ba9b1,
+            featureCopy.What_the_index_does_not_record_is_named_as_a_gap_never_filled_in__955afff,
+            featureCopy.An_affordance_that_does_nothing_does_not_exist_here_a_button_or_a_4fc1616,
         ],
 
-        referencesTitle: 'Where to read further, in this repository',
+        referencesTitle: featureCopy.Where_to_read_further_in_this_repository_3ff8625,
         references: [
-            { path: 'README.md', about: 'exploration, local inference and development setup' },
-            { path: 'CONFIGURATION.md', about: 'settings, precedence and the local configuration API' },
-            { path: 'THIRD_PARTY.md', about: 'source provenance, dependencies and model licenses' },
-            { path: 'docs/adr/0001-modellwahl.md', about: 'local inference choices and model evidence' },
+            { path: 'README.md', about: featureCopy.exploration_local_inference_and_development_setup_53709d2 },
+            { path: 'CONFIGURATION.md', about: featureCopy.settings_precedence_and_the_local_configuration_API_66fdd2c },
+            { path: 'THIRD_PARTY.md', about: featureCopy.source_provenance_dependencies_and_model_licenses_5f1b1f0 },
+            { path: 'docs/adr/0001-modellwahl.md', about: featureCopy.local_inference_choices_and_model_evidence_37ecc21 },
         ],
         referencesNote:
-            'Paths in this repository, not links. This window is offline by design, so a link into the '
-            + 'web would be a button that leads nowhere.',
+            featureCopy.Paths_in_this_repository_not_links_This_window_is_offline_by_desi_fa85442,
     },
 
     /** Die Chips der Kopfzeile und der Statusleiste. */
@@ -332,7 +306,7 @@ export const messages = {
         chipProject: 'project',
         chipSymbols: 'sym',
         chipEdges: 'edg',
-        chipServer: 'server',
+        chipServer: presentation.server,
         chipPort: 'port',
         chipTree: 'tree',
         chipSource: 'source',
@@ -351,28 +325,28 @@ export const messages = {
         chipExplored: 'explored',
         chipWalk: 'walk',
         /** Der Wert eines Chips, dessen Zahl der Server nicht genannt hat. */
-        noCount: 'no count',
-        serverContacting: 'contacting',
-        serverReady: 'ready',
-        serverUnreachable: 'unreachable',
-        noFileLoaded: 'no file loaded',
-        noProjectIndexed: 'no project: this server has nothing indexed. alt+p opens the projects panel to index one',
-        noProjectError: (detail: string): string => `no project: ${detail}`,
+        noCount: featureCopy.no_count_2aa39f9,
+        serverContacting: featureCopy.contacting_b4985f2,
+        serverReady: featureCopy.ready_75c0533,
+        serverUnreachable: featureCopy.unreachable_408e9ed,
+        noFileLoaded: featureCopy.no_file_loaded_b681ec1,
+        noProjectIndexed: featureCopy.no_project_this_server_has_nothing_indexed_alt_p_opens_the_projec_acd574b,
+        noProjectError: (detail: string): string => featureCopy.no_project_0_28654b7(detail),
     },
 
     /** Der Explorer: seine Ueberschrift und die eine Zeile seiner Ordner-Legende. */
     explorer: {
-        title: 'EXPLORER',
-        folderLabel: 'folder',
-        folderDescription: 'the worst stage of anything below it',
+        title: featureCopy.EXPLORER_c056f61,
+        folderLabel: featureCopy.folder_afffdd0,
+        folderDescription: featureCopy.the_worst_stage_of_anything_below_it_d1187cc,
     },
 
     /** Die Notizen um den Editor herum. */
     reader: {
         /** Die Marke vor der Kappungszeile unter dem Editor. */
-        incompleteLabel: 'incomplete: ',
-        pickFile: 'pick a file in the explorer',
-        loading: (path: string, tool: string): string => `loading ${path} over ${tool} ...`,
+        incompleteLabel: featureCopy.incomplete_fdee3eb,
+        pickFile: featureCopy.pick_a_file_in_the_explorer_af49b80,
+        loading: (path: string, tool: string): string => featureCopy.loading_0_over_1_121026d(path, tool),
     },
 
     /**
@@ -386,7 +360,7 @@ export const messages = {
      * and what each one answers".
      */
     command: {
-        ariaLabel: 'command line',
+        ariaLabel: featureCopy.command_line_602667f,
         /*
          * Der Rueckfall, wenn noch kein Index geladen ist.
          *
@@ -396,18 +370,18 @@ export const messages = {
          * Beispiele, wie man den Chat nutzt, sonst weiss niemand, wie man es
          * nutzt."
          */
-        placeholder: 'type a command or ask CBM Lens...',
-        examplesLabel: 'what you can type here',
-        hintIdle: 'type 2 letters to search by meaning',
-        hintOpen: 'up/down picks, enter opens, esc closes',
+        placeholder: featureCopy.type_a_command_or_ask_CBM_Lens_fe935ee,
+        examplesLabel: featureCopy.what_you_can_type_here_2b71046,
+        hintIdle: featureCopy.type_2_letters_to_search_by_meaning_bdf3c0e,
+        hintOpen: featureCopy.up_down_picks_enter_opens_esc_closes_1acb8ae,
     },
 
     /** Das Suchfenster ueber der Kommandozeile. */
     search: {
-        resultsLabel: 'search results',
-        searching: (query: string): string => `searching for "${query}" ...`,
-        failed: 'the search could not be answered',
-        noFile: 'this hit carries no file in the index, so there is nothing to open',
+        resultsLabel: featureCopy.search_results_a85392a,
+        searching: (query: string): string => featureCopy.searching_for_0_6d1edf1(query),
+        failed: featureCopy.the_search_could_not_be_answered_a0cd56c,
+        noFile: featureCopy.this_hit_carries_no_file_in_the_index_so_there_is_nothing_to_open_929c816,
         /**
          * Was im Trefferfenster steht, solange erst ein Zeichen getippt ist.
          *
@@ -418,7 +392,7 @@ export const messages = {
          * Schweigen. Jetzt steht der Satz an der Stelle, an der die Antwort
          * erwartet wird.
          */
-        oneMoreLetter: 'one more letter, then CBM Lens searches by meaning',
+        oneMoreLetter: featureCopy.one_more_letter_then_CBM_Lens_searches_by_meaning_8a4c4b1,
         /*
          * Die Sofort-Vorschlaege, und dass sie vorlaeufig sind.
          *
@@ -431,14 +405,14 @@ export const messages = {
          */
         provisionalHeadline: (query: string, shown: number): string =>
             shown === 1
-                ? `1 suggestion for "${query}" from what is already loaded, the index is answering ...`
-                : `${shown} suggestions for "${query}" from what is already loaded, the index is answering ...`,
+                ? featureCopy.message_1_suggestion_for_0_from_what_is_already_loaded_the_index_is_answe_795d576(query)
+                : featureCopy.message_0_suggestions_for_1_from_what_is_already_loaded_the_index_is_answ_6f88263(shown, query),
         provisionalEmpty: (query: string): string =>
-            `nothing loaded answers "${query}" yet, asking the index ...`,
+            featureCopy.nothing_loaded_answers_0_yet_asking_the_index_b022f22(query),
         /** Die Marke an einer vorlaeufigen Zeile. Kurz, weil sie an jeder steht. */
-        provisionalMark: 'loaded',
+        provisionalMark: featureCopy.loaded_1310098,
         provisionalMarkTitle:
-            'from the tree and the graph this window already holds, not from an answer of the index',
+            featureCopy.from_the_tree_and_the_graph_this_window_already_holds_not_from_an_a518c94,
     },
 
     /** Die Frage nach dem Warum. Die Karten selbst stehen in why/why-model.ts. */
@@ -449,15 +423,15 @@ export const messages = {
 
     /** Die Schrittkarte einer Fuehrung. */
     tour: {
-        prev: '[<-] prev',
-        prevUnavailable: 'this is the first step, so there is no previous step to return to',
-        nextPrefix: '[Enter] ',
-        next: 'next',
-        finish: 'finish',
-        exit: '[q] exit',
+        prev: featureCopy.prev_865ec8b,
+        prevUnavailable: featureCopy.this_is_the_first_step_so_there_is_no_previous_step_to_return_to_2c910f3,
+        nextPrefix: featureCopy.Enter_c2cb49c,
+        next: featureCopy.next_edee940,
+        finish: featureCopy.finish_2cce4a9,
+        exit: featureCopy.q_exit_44ba143,
         /** Die vierte Aktion der Karte (PLAN Abschnitt 4, Audit-Befund 13). */
-        diagram: '[d] diagram',
-        diagramTitle: 'draw the flow of this step: what it calls, in order, and what each call raises',
+        diagram: featureCopy.d_diagram_c6c7a2e,
+        diagramTitle: featureCopy.draw_the_flow_of_this_step_what_it_calls_in_order_and_what_each_c_b9afd1b,
         /**
          * Was dort steht, wenn dieser Schritt kein Symbol hat.
          *
@@ -466,76 +440,76 @@ export const messages = {
          * ueber den Schritt.
          */
         diagramUnavailable:
-            'this step points at a file, not at a symbol, so there is no call flow to draw',
+            featureCopy.this_step_points_at_a_file_not_at_a_symbol_so_there_is_no_call_fl_379b66e,
         failed: TOUR_FAILED_TEXT,
         failedNoFile: (name: string): string =>
-            `${TOUR_FAILED_TEXT}: the index names no file for ${name}`,
+            featureCopy.message_0_the_index_names_no_file_for_1_6bcb3fc(TOUR_FAILED_TEXT, name),
     },
 
     /** Der Einstiegsdialog. */
     entry: {
-        title: 'Where do you want to start?',
+        title: featureCopy.Where_do_you_want_to_start_601748d,
         subline:
-            'The walk starts at what you pick here and goes forward over the calls the index recorded.',
-        searchPlaceholder: 'or search for a name ...',
-        searchLabel: 'search for a symbol by meaning',
-        close: '[esc] close',
+            featureCopy.The_walk_starts_at_what_you_pick_here_and_goes_forward_over_the_c_06e5403,
+        searchPlaceholder: featureCopy.or_search_for_a_name_8d8a7c2,
+        searchLabel: featureCopy.search_for_a_symbol_by_meaning_217e885,
+        close: featureCopy.esc_close_1d54db9,
         closeLabel: CLOSE,
-        searching: 'searching ...',
-        notOpenable: 'the index names this way in but no file for it, so there is nothing to open',
-        startWalkAt: (name: string): string => `start the walk at ${name}`,
+        searching: featureCopy.searching_2d422c9,
+        notOpenable: featureCopy.the_index_names_this_way_in_but_no_file_for_it_so_there_is_nothin_32745dc,
+        startWalkAt: (name: string): string => featureCopy.start_the_walk_at_0_e04a01e(name),
         overviewFailed: (detail: string): string =>
-            `the summary of ways in could not be read: ${detail}`,
-        noAnswer: (query: string): string => `no symbol answers "${query}"`,
+            featureCopy.the_summary_of_ways_in_could_not_be_read_0_a9eec8c(detail),
+        noAnswer: (query: string): string => featureCopy.no_symbol_answers_0_0e2bed0(query),
     },
 
     /** Der Rahmen des BUG-Assistenten. Seine Saetze stehen in bug-wizard-strings.ts. */
     wizard: {
         closeLabel: CLOSE,
         unresolvedHop: (name: string): string =>
-            `the index does not resolve "${name}", so there is nothing to open.`,
+            featureCopy.the_index_does_not_resolve_0_so_there_is_nothing_to_open_81c1a5e(name),
     },
 
     /** Der Rahmen der Aenderungsansicht. Ihre Saetze stehen in impact-strings.ts. */
     impact: {
-        close: '[esc] close',
+        close: featureCopy.esc_close_1d54db9,
         closeLabel: CLOSE,
-        openRow: (name: string): string => `open ${name}`,
-        rowNotOpenable: 'the index names no file for this row, so there is nothing to open',
-        tileChangedFiles: 'changed files',
-        tileDirectSymbols: 'symbols in them',
-        tileEndpoints: 'endpoints',
-        tileTestsAffected: 'tests affected',
-        tileUntestedAffected: 'untested affected',
+        openRow: (name: string): string => featureCopy.open_0_2edb6e3(name),
+        rowNotOpenable: featureCopy.the_index_names_no_file_for_this_row_so_there_is_nothing_to_open_9cd8bd6,
+        tileChangedFiles: featureCopy.changed_files_8e465dd,
+        tileDirectSymbols: featureCopy.symbols_in_them_33a4000,
+        tileEndpoints: featureCopy.endpoints_812c374,
+        tileTestsAffected: featureCopy.tests_affected_0ede84e,
+        tileUntestedAffected: featureCopy.untested_affected_e28d571,
         /** Ein Abstandsband, ein- und mehrzahlig. */
         stepsOut: (distance: number): string =>
-            distance === 1 ? 'one step out' : `${distance} steps out`,
-        noTestCaller: 'no test caller found',
+            distance === 1 ? featureCopy.one_step_out_d53fb1a : featureCopy.message_0_steps_out_673abd4(distance),
+        noTestCaller: featureCopy.no_test_caller_found_85722c8,
     },
 
     /** Die Karte des lokalen Modells. Ihre Zustandssaetze stehen in llm/strings.ts. */
     llm: {
-        panelLabel: 'local model',
-        on: 'on',
-        off: 'off',
-        toggleBlocked: 'denied by the project policy: this switch has no effect',
-        toggleOff: 'turn the local model off',
-        toggleOn: 'turn the local model on',
+        panelLabel: featureCopy.local_model_9a826ee,
+        on: featureCopy.on_db3d405,
+        off: featureCopy.off_da7a687,
+        toggleBlocked: featureCopy.denied_by_the_project_policy_this_switch_has_no_effect_9371833,
+        toggleOff: featureCopy.turn_the_local_model_off_f083a54,
+        toggleOn: featureCopy.turn_the_local_model_on_96e716d,
         /** Siehe Kopf dieser Datei: bis zum 2026-08-29 der eine deutsche Eintrag. */
-        readFrom: (source: string): string => `read from ${source}`,
-        rowModel: 'model',
-        rowContext: 'context',
-        rowWeights: 'weights',
-        rowSlots: 'slots',
+        readFrom: (source: string): string => featureCopy.read_from_0_6854ff7(source),
+        rowModel: featureCopy.model_1d06a0d,
+        rowContext: featureCopy.context_ec2727b,
+        rowWeights: featureCopy.weights_5cab97f,
+        rowSlots: featureCopy.slots_52547ca,
         sourceModel: 'GET /props (model_path, model_ftype)',
         sourceContext: 'GET /props (n_ctx), GET /v1/models (n_ctx_train)',
         sourceWeights: 'GET /v1/models (meta.size, meta.n_params)',
         sourceSlots: 'GET /props (total_slots), Port aus llm/start.sh',
         contextValue: (tokens: number, trained: number | undefined): string =>
-            trained === undefined ? `${tokens} tokens` : `${tokens} of ${trained} trained tokens`,
+            trained === undefined ? featureCopy.message_0_tokens_d6eba61(tokens) : featureCopy.message_0_of_1_trained_tokens_f578806(tokens, trained),
         weightsValue: (size: string, billions: string | undefined): string =>
-            billions === undefined ? size : `${size} for ${billions}B parameters`,
-        slotsValue: (slots: number, port: number): string => `${slots} on 127.0.0.1:${port}`,
+            billions === undefined ? size : featureCopy.message_0_for_1_B_parameters_6d8a5d7(size, billions),
+        slotsValue: (slots: number, port: number): string => featureCopy.message_0_on_127_0_0_1_1_318cb66(slots, port),
     },
 
     /**
@@ -556,56 +530,50 @@ export const messages = {
      *    "ist mein Verlauf noch da?". Seit W8 gilt sie fuer jeden Reiter.
      */
     layout: {
-        explainLabel: 'explain',
-        explainTabsLabel: 'what explains the code in front of you',
-        explainEmptyLabel: 'nothing to explain here yet',
-        collapse: '[esc] fold',
+        explainLabel: featureCopy.explain_f7c1380,
+        explainTabsLabel: featureCopy.what_explains_the_code_in_front_of_you_cbf1852,
+        explainEmptyLabel: featureCopy.nothing_to_explain_here_yet_33ae0ca,
+        collapse: featureCopy.esc_fold_56ab99c,
         collapseTooltip:
-            'fold this area away. Nothing in it is lost: the chat keeps its history, the walk its '
-            + 'step and the flow its place. Only "clear" in the chat deletes anything.',
-        expand: 'unfold',
-        expandTooltip: 'unfold this area again, on the tab that was open last',
+            featureCopy.fold_this_area_away_Nothing_in_it_is_lost_the_chat_keeps_its_hist_921a85c,
+        expand: featureCopy.unfold_1e0eecb,
+        expandTooltip: featureCopy.unfold_this_area_again_on_the_tab_that_was_open_last_2283de3,
         tab: {
-            flow: 'flow',
-            walk: 'walk',
-            chat: 'chat',
-            bug: 'bug hunt',
-            change: 'change impact',
+            flow: featureCopy.flow_d8f7e9c,
+            walk: featureCopy.walk_df06b14,
+            chat: featureCopy.chat_7ecde34,
+            bug: featureCopy.bug_hunt_6115e43,
+            change: featureCopy.change_impact_4523a37,
         },
         tabTitle: {
-            flow: 'the recorded calls of the symbol in the twin, as a sequence and as steps',
-            walk: 'the walk in front of you: one step, what it is, and where it sits',
-            chat: 'what was asked in this session, with the cards each answer was given',
-            bug: 'the expected path into a symbol against the observed one',
-            change: 'what a change would reach, and what covers it',
+            flow: featureCopy.the_recorded_calls_of_the_symbol_in_the_twin_as_a_sequence_and_as_85f83c1,
+            walk: featureCopy.the_walk_in_front_of_you_one_step_what_it_is_and_where_it_sits_9bd299d,
+            chat: featureCopy.what_was_asked_in_this_session_with_the_cards_each_answer_was_giv_3ba4ddb,
+            bug: featureCopy.the_expected_path_into_a_symbol_against_the_observed_one_8a16393,
+            change: featureCopy.what_a_change_would_reach_and_what_covers_it_af7fc4c,
         },
         disabled: {
             flow:
-                'No symbol in the twin yet, so there is no sequence to draw. Open a file and put '
-                + 'the caret in a function; the twin follows it, and this tab follows the twin.',
+                featureCopy.No_symbol_in_the_twin_yet_so_there_is_no_sequence_to_draw_Open_a__fe3cfaa,
             walk:
-                'No walk is running. Start one from the atlas menu ("Choose a starting point") and its steps '
-                + 'appear here.',
+                featureCopy.No_walk_is_running_Start_one_from_the_atlas_menu_Choose_a_startin_f9ba327,
             chat:
-                'Nothing was asked in this session yet. Type a question in the command line and '
-                + 'press enter; the answer and the cards it was given show up here.',
+                featureCopy.Nothing_was_asked_in_this_session_yet_Type_a_question_in_the_comm_e4dfdcd,
             bug:
-                'No project is open, and this assistant reads a project index. Open one and the '
-                + 'expected path against the observed one is drawn here.',
+                featureCopy.No_project_is_open_and_this_assistant_reads_a_project_index_Open__6c23085,
             change:
-                'No project is open, and this view reads a project index. Open one and the reach '
-                + 'of a change is drawn here.',
+                featureCopy.No_project_is_open_and_this_view_reads_a_project_index_Open_one_a_e9549a9,
         },
         note: {
-            flow: (subject: string): string => `flow of ${subject}`,
-            flowIdle: 'no symbol in the twin',
-            walk: (step: number, steps: number): string => `walk, step ${step} of ${steps}`,
-            walkIdle: 'no walk running',
+            flow: (subject: string): string => featureCopy.flow_of_0_b4ba899(subject),
+            flowIdle: featureCopy.no_symbol_in_the_twin_d8c6ee1,
+            walk: (step: number, steps: number): string => featureCopy.walk_step_0_of_1_e62543e(step, steps),
+            walkIdle: featureCopy.no_walk_running_33d9cab,
             chat: (turns: number): string =>
-                turns === 1 ? '1 question in this session' : `${turns} questions in this session`,
-            chatIdle: 'nothing asked yet',
-            bug: 'bug hunt',
-            change: 'change impact',
+                turns === 1 ? featureCopy.message_1_question_in_this_session_1dfcab7 : featureCopy.message_0_questions_in_this_session_f890da0(turns),
+            chatIdle: featureCopy.nothing_asked_yet_7dba095,
+            bug: featureCopy.bug_hunt_6115e43,
+            change: featureCopy.change_impact_4523a37,
         },
         /**
          * Die vier Griffe.
@@ -623,10 +591,10 @@ export const messages = {
          * Inhalt. Der Grund steht ausfuehrlich im Kopf von src/layout/Splitter.tsx.
          */
         splitter: {
-            left: 'width of the explorer',
-            explain: 'height of the explain area',
-            right: 'width of the understanding column',
-            twin: 'height of the twin against the graph',
+            left: featureCopy.width_of_the_explorer_1d4d44d,
+            explain: featureCopy.height_of_the_explain_area_96e8f0a,
+            right: featureCopy.width_of_the_understanding_column_06b98a0,
+            twin: featureCopy.height_of_the_twin_against_the_graph_720f44c,
             value: (pixels: number): string => `${pixels} pixels`,
         },
         /**
@@ -636,16 +604,16 @@ export const messages = {
          * zwei Wege, die dasselbe TUN sollen, aber es getrennt tun, sind zwei
          * Wege, die auseinanderlaufen koennen.
          */
-        reset: 'reset layout',
-        resetMenuLabel: '[r]eset layout',
-        resetTooltip: 'atlas: put every zone back to the width and height it starts with (alt+r)',
-        resetCommandHint: 'press enter to put every zone back to its default size',
+        reset: featureCopy.reset_layout_9fde62c,
+        resetMenuLabel: featureCopy.r_eset_layout_58fabe2,
+        resetTooltip: featureCopy.atlas_put_every_zone_back_to_the_width_and_height_it_starts_with__88d7555,
+        resetCommandHint: featureCopy.press_enter_to_put_every_zone_back_to_its_default_size_5511e0d,
     },
 
     /** Der Rahmen des Antwort-Panels. Seine Saetze stehen in chat-strings.ts. */
     chat: {
-        panelLabel: 'CBM Lens chat',
-        depthGroupLabel: 'neighbourhood depth',
+        panelLabel: featureCopy.CBM_Lens_chat_e4ed64b,
+        depthGroupLabel: featureCopy.neighbourhood_depth_8f99493,
         /*
          * `clear` bleibt der einzige Knopf, der loescht, und sagt es.
          *
@@ -659,25 +627,23 @@ export const messages = {
          * dieser eine Knopf hier loescht, und er steht als einziger im Kopf des
          * Chats.
          */
-        clear: 'clear',
+        clear: featureCopy.clear_168cbb2,
         clearTooltip:
-            'forget this session: every question and every answer in this panel is deleted. '
-            + 'The history is in memory and nowhere else, so this cannot be undone. Folding the '
-            + 'explain area away costs nothing; only this button deletes.',
-        readPrefix: 'read: ',
+            featureCopy.forget_this_session_every_question_and_every_answer_in_this_panel_3ff70d6,
+        readPrefix: featureCopy.read_8c42717,
         openCard: (path: string, line: number | undefined): string =>
-            `open ${path}${line === undefined ? '' : `:${line}`}`,
+            featureCopy.open_0_1_8dabcf5(path, line === undefined ? '' : `:${line}`),
         /** Die Ueberschrift ueber der Kandidatenliste. Ihr Satz steht in chat-strings.ts. */
-        candidatesLabel: 'symbols this name reached',
+        candidatesLabel: featureCopy.symbols_this_name_reached_3a16eaa,
     },
 
     /** Was die Statusleiste ueber das Graph-Panel sagt. */
     galaxy: {
-        noLayout: 'no layout',
+        noLayout: featureCopy.no_layout_92509fd,
         /** The label of a coverage-only selection: a file the graph knows about, not a symbol. */
-        coverageSelection: (name: string): string => `Coverage · ${name}`,
+        coverageSelection: (name: string): string => featureCopy.Coverage_0_03c5f0f(name),
         nodeCount: (nodes: number, hidden: boolean): string =>
-            `${nodes} nodes${hidden ? ' (hidden)' : ''}`,
+            featureCopy.message_0_nodes_1_79f9487(nodes, hidden ? ' (hidden)' : ''),
     },
 
     /**
@@ -702,27 +668,25 @@ export const messages = {
      *    das wurde am 2026-08-29 gemessen, und der Satz sagt es so.
      */
     settings: {
-        title: 'CBM LENS SETTINGS',
-        subtitle: 'which model answers, and everything that costs computing time',
-        panelLabel: 'settings',
-        close: '[esc] close',
+        title: featureCopy.CBM_LENS_SETTINGS_d47a797,
+        subtitle: featureCopy.which_model_answers_and_everything_that_costs_computing_time_45dbe8d,
+        panelLabel: featureCopy.settings_3cc1d5a,
+        close: featureCopy.esc_close_1d54db9,
         closeLabel: CLOSE,
         /** Der Eintrag in der Atlas-Zeile. Der Buchstabe steht in Klammern. */
-        menuLabel: '[s]ettings',
+        menuLabel: featureCopy.s_ettings_762b402,
         /** Was die Kommandozeile am rechten Rand sagt, wenn `settings` dasteht. */
-        commandHint: 'press enter to open the settings',
+        commandHint: featureCopy.press_enter_to_open_the_settings_05d7543,
 
         /* ------------------------------------------------- das laufende Modell */
 
-        modelTitle: 'The model that answers',
+        modelTitle: featureCopy.The_model_that_answers_0d4fb01,
         modelIntro:
-            'Every number in this block comes from the process that loaded the file. Point at one and '
-            + 'it says which request it came from. A table of model sizes kept in this code would be '
-            + 'right for a month and a claim about a file somebody swapped out after that.',
-        rowName: 'name',
-        rowQuantization: 'quantisation',
-        rowContext: 'context',
-        rowWeights: 'weights',
+            featureCopy.Every_number_in_this_block_comes_from_the_process_that_loaded_the_963943d,
+        rowName: featureCopy.name_6ae9995,
+        rowQuantization: featureCopy.quantisation_27864a5,
+        rowContext: featureCopy.context_ec2727b,
+        rowWeights: featureCopy.weights_5cab97f,
         sourceName: 'GET /props (model_path)',
         sourceQuantization: 'GET /props (model_ftype)',
         sourceContext: 'GET /props (n_ctx), GET /v1/models (meta.n_ctx_train)',
@@ -731,235 +695,183 @@ export const messages = {
         sourceQuantizationRouter: 'GET /props?model=<id> (model_ftype)',
         sourceContextRouter: 'GET /props?model=<id> (n_ctx), GET /v1/models (meta.n_ctx_train)',
         contextValue: (tokens: number, trained: number | undefined): string =>
-            trained === undefined ? `${tokens} tokens` : `${tokens} of ${trained} trained tokens`,
+            trained === undefined ? featureCopy.message_0_tokens_d6eba61(tokens) : featureCopy.message_0_of_1_trained_tokens_f578806(tokens, trained),
         weightsValue: (size: string, billions: string | undefined): string =>
-            billions === undefined ? size : `${size} for ${billions}B parameters`,
+            billions === undefined ? size : featureCopy.message_0_for_1_B_parameters_6d8a5d7(size, billions),
         /** Wenn der Prozess eine Angabe schuldig bleibt. Kein Platzhalter, ein Satz. */
-        valueUnreported: 'the process did not report this',
+        valueUnreported: featureCopy.the_process_did_not_report_this_0b1c37c,
 
-        offTitle: 'The local model is off, and this panel asks it nothing',
+        offTitle: featureCopy.The_local_model_is_off_and_this_panel_asks_it_nothing_0a12de1,
         offText:
-            'Not one request goes to the sidecar while the model is off, not even to find out whether '
-            + 'one is running. That is the whole meaning of the switch: an opt-out and not a different '
-            + 'colour. Turn it on in the atlas menu with [l]ocal llm, and this block fills with the '
-            + 'models in your cache, which one is answering, and a click to switch between them.',
+            featureCopy.Not_one_request_goes_to_the_sidecar_while_the_model_is_off_not_ev_6541188,
         offStillWorks:
-            'Everything below about drawing works either way. It has nothing to do with a model.',
-        notRunningTitle: 'The local model is on and nothing is listening',
+            featureCopy.Everything_below_about_drawing_works_either_way_It_has_nothing_to_560bbf9,
+        notRunningTitle: featureCopy.The_local_model_is_on_and_nothing_is_listening_ac259c9,
         notRunningText:
-            'This page has no backend and cannot start a process, so the sidecar is started from a '
-            + 'shell. Without an argument it runs over your cache directory, and then the list below '
-            + 'is a choice:',
-        startingText: 'A sidecar is loading its model. The numbers appear as soon as it answers.',
+            featureCopy.This_page_has_no_backend_and_cannot_start_a_process_so_the_sideca_bbf57bd,
+        startingText: featureCopy.A_sidecar_is_loading_its_model_The_numbers_appear_as_soon_as_it_a_a6575c6,
         blockedText:
-            'The committed policy of the indexed project denies the local model. This panel shows what '
-            + 'it would show and asks nothing.',
+            featureCopy.The_committed_policy_of_the_indexed_project_denies_the_local_mode_264a280,
 
         /* ------------------------------------------------- die Modelle im Cache */
 
-        cacheTitle: 'The models in your cache',
+        cacheTitle: featureCopy.The_models_in_your_cache_ee7ba71,
         cacheIntro:
-            'What the running process lists in its cache directory. It is read every time this panel '
-            + 'opens, and again when you ask for it.',
-        cacheEmpty: 'the process lists no model in its cache directory',
+            featureCopy.What_the_running_process_lists_in_its_cache_directory_It_is_read__b7224dc,
+        cacheEmpty: featureCopy.the_process_lists_no_model_in_its_cache_directory_88d8d97,
         cacheCount: (count: number): string =>
-            count === 1 ? '1 model in the cache' : `${count} models in the cache`,
-        modelAnswering: 'answering now',
-        modelLoaded: 'loaded',
-        modelUnloaded: 'in the cache, not loaded',
+            count === 1 ? featureCopy.message_1_model_in_the_cache_c3f9cf6 : featureCopy.message_0_models_in_the_cache_c7ee694(count),
+        modelAnswering: featureCopy.answering_now_ad230d2,
+        modelLoaded: featureCopy.loaded_1310098,
+        modelUnloaded: featureCopy.in_the_cache_not_loaded_0722a9d,
         selectTitle: (name: string): string =>
-            `send the next questions to ${name}. It stays chosen after a reload.`,
-        selectedTitle: (name: string): string => `${name} is the model the next question goes to`,
-        refresh: 'read the list again',
+            featureCopy.send_the_next_questions_to_0_It_stays_chosen_after_a_reload_25575d4(name),
+        selectedTitle: (name: string): string => featureCopy.message_0_is_the_model_the_next_question_goes_to_c8b404e(name),
+        refresh: featureCopy.read_the_list_again_c2d8d93,
         refreshTitle:
-            'ask the process for its model list once more. This is the only request this panel sends '
-            + 'on its own, and it counts in the same probe counter as the card in the sidebar.',
+            featureCopy.ask_the_process_for_its_model_list_once_more_This_is_the_only_req_4d9aa17,
 
-        noRouterTitle: 'This sidecar serves one fixed file, so there is nothing to switch',
+        noRouterTitle: featureCopy.This_sidecar_serves_one_fixed_file_so_there_is_nothing_to_switch_1c82c09,
         noRouterText:
-            'It was started with -m and a path. A sidecar in that shape ignores a different "model" '
-            + 'field in a request SILENTLY: measured on 2026-08-29 against this build, a request naming '
-            + 'another model came back with a normal answer from the loaded one, no error and no '
-            + 'warning. A list to click here would therefore do nothing and say nothing about it, '
-            + 'which is worse than no list.',
+            featureCopy.It_was_started_with_m_and_a_path_A_sidecar_in_that_shape_ignores__cdebb07,
         noRouterHow:
-            'Start it over your cache directory instead. Then /v1/models lists what lies there, the '
-            + '"model" field really chooses, and this block becomes a choice:',
+            featureCopy.Start_it_over_your_cache_directory_instead_Then_v1_models_lists_w_ff43101,
 
         /* ------------------------------------------------- eins dazuholen */
 
-        fetchTitle: 'Getting another model',
+        fetchTitle: featureCopy.Getting_another_model_b16bd3f,
         honesty:
-            'This line goes out to the network: it downloads from huggingface.co and writes the file '
-            + 'into the model cache of this project, models/ next to the repository (ATLAS_MODELS_DIR '
-            + 'or LLAMA_CACHE move it elsewhere). This application downloads nothing itself. It has no '
-            + 'backend, it starts no process and it writes no file; what it can do is hand you the '
-            + 'line and read the cache again afterwards.',
+            featureCopy.This_line_goes_out_to_the_network_it_downloads_from_huggingface_c_392627d,
         noProgressBar:
-            'There is no progress bar here because this window cannot see the download. A bar over a '
-            + 'transfer that another process is running would be an animation, not a measurement.',
-        suggestionsTitle: 'The six this project measured',
+            featureCopy.There_is_no_progress_bar_here_because_this_window_cannot_see_the__dd868a6,
+        suggestionsTitle: featureCopy.The_six_this_project_measured_523229c,
         suggestionsIntro:
-            'Six files, 44 questions, temperature 0, seed 42, one machine, one day '
-            + '(verification/w5/eval.json, the table in docs/adr/0001-modellwahl.md). That is what is '
-            + 'known about these six and it is not a statement about any other model or any other '
-            + 'machine. The field below takes any repository.',
-        columnModel: 'model',
-        columnClass: 'class',
-        columnPass: 'questions passed',
-        columnCitation: 'citations kept',
-        columnSpeed: 'speed',
-        columnSize: 'size',
+            featureCopy.Six_files_44_questions_temperature_0_seed_42_one_machine_one_day__b7d7d5a,
+        columnModel: featureCopy.model_1d06a0d,
+        columnClass: featureCopy.class_8d767bf,
+        columnPass: featureCopy.questions_passed_fb71a2a,
+        columnCitation: featureCopy.citations_kept_5a430fd,
+        columnSpeed: featureCopy.speed_92b6320,
+        columnSize: featureCopy.size_89368e1,
         classValue: (label: string): string =>
-            label === 'B' ? 'B, 8192 tokens of context' : 'A, 3072 tokens of context',
-        passValue: (percent: string, questions: number): string => `${percent} of ${questions}`,
-        citationValue: (percent: string): string => `${percent} of the answers`,
+            label === 'B' ? featureCopy.B_8192_tokens_of_context_43fe4e0 : featureCopy.A_3072_tokens_of_context_206c8f0,
+        passValue: (percent: string, questions: number): string => featureCopy.message_0_of_1_7388d66(percent, questions),
+        citationValue: (percent: string): string => featureCopy.message_0_of_the_answers_d084dfc(percent),
         unmeasuredValue: (count: number): string =>
             count === 1
-                ? '1 answer could not be measured for citations'
-                : `${count} answers could not be measured for citations`,
+                ? featureCopy.message_1_answer_could_not_be_measured_for_citations_9a71018
+                : featureCopy.message_0_answers_could_not_be_measured_for_citations_a72f957(count),
         /*
          * Der Fall, den es heute wirklich gibt: verification/w5/eval.json stammt
          * von vor der Aenderung an der Zitatpruefung (W10, AC8) und fuehrt das
          * Feld nicht. Eine Null waere hier die Behauptung, es habe keine
          * ungemessene Antwort gegeben, und genau das weiss niemand.
          */
-        unmeasuredMissing: 'the recorded run does not report unmeasured answers',
-        speedValue: (tokens: string): string => `${tokens} tokens/s`,
-        repoTitle: (repo: string): string => `on Hugging Face: ${repo}`,
-        copy: 'copy',
-        copying: 'copying...',
-        copyTitle: 'copy this line to the clipboard',
-        copied: 'copied to the clipboard',
-        copyFailed: 'the clipboard refused. The line stands above as text and can be selected.',
+        unmeasuredMissing: featureCopy.the_recorded_run_does_not_report_unmeasured_answers_51cb468,
+        speedValue: (tokens: string): string => featureCopy.message_0_tokens_s_7e21a62(tokens),
+        repoTitle: (repo: string): string => featureCopy.on_Hugging_Face_0_ee92531(repo),
+        copy: featureCopy.copy_f84e2e2,
+        copying: featureCopy.copying_7ffae5b,
+        copyTitle: featureCopy.copy_this_line_to_the_clipboard_73a53b4,
+        copied: featureCopy.copied_to_the_clipboard_5669463,
+        copyFailed: featureCopy.the_clipboard_refused_The_line_stands_above_as_text_and_can_be_se_68837cb,
 
-        freeTitle: 'Any other repository',
+        freeTitle: featureCopy.Any_other_repository_032c5bb,
         freeIntro:
-            'The shape is user/repo, with an optional :quant behind it. Only the shape is checked '
-            + 'here. Whether the repository exists is something only huggingface.co knows, and this '
-            + 'window does not talk to it.',
-        freeLabel: 'a Hugging Face repository',
-        freePlaceholder: 'user/repo or user/repo:quant',
-        freeEmpty: 'type a repository, for example unsloth/Qwen3.5-9B-GGUF',
+            featureCopy.The_shape_is_user_repo_with_an_optional_quant_behind_it_Only_the__e263e0b,
+        freeLabel: featureCopy.a_Hugging_Face_repository_7727090,
+        freePlaceholder: featureCopy.user_repo_or_user_repo_quant_16fa0d1,
+        freeEmpty: featureCopy.type_a_repository_for_example_unsloth_Qwen3_5_9B_GGUF_3567bce,
         freeShape:
-            'that is not the shape of a repository id. It is user/repo, with an optional :quant '
-            + 'behind it, and letters, digits, dots, dashes and underscores in the two names.',
-        freeOk: 'the shape is right. Whether it exists is decided by huggingface.co, not by this field.',
+            featureCopy.that_is_not_the_shape_of_a_repository_id_It_is_user_repo_with_an__6768809,
+        freeOk: featureCopy.the_shape_is_right_Whether_it_exists_is_decided_by_huggingface_co_8d06ad7,
 
         /* ------------------------------------------------- Darstellung und Leistung */
 
-        displayTitle: 'Drawing, and what it costs',
+        displayTitle: featureCopy.Drawing_and_what_it_costs_2400b1b,
         displayIntro:
-            'Everything that costs computing time is in this block and only here. Each switch says '
-            + 'what it does to the scene, and once you use it, what it did on THIS machine: frames per '
-            + 'second before, frames per second after, on the scene that was on the screen. No switch '
-            + 'here promises anything.',
-        displayStored: (key: string): string => `kept in this browser under ${key}`,
-        liveValue: (fps: string): string => `${fps} frames/s right now`,
+            featureCopy.Everything_that_costs_computing_time_is_in_this_block_and_only_he_33b2c9b,
+        displayStored: (key: string): string => featureCopy.kept_in_this_browser_under_0_67b1b19(key),
+        liveValue: (fps: string): string => featureCopy.message_0_frames_s_right_now_598cbf3(fps),
         liveIdle:
-            'the graph is not drawing right now, so there is nothing to measure. Open the graph panel '
-            + 'with [a]tlas and the counter starts.',
-        liveScene: (nodes: number, edges: number): string => `${nodes} nodes, ${edges} edges`,
+            featureCopy.the_graph_is_not_drawing_right_now_so_there_is_nothing_to_measure_e10a99b,
+        liveScene: (nodes: number, edges: number): string => featureCopy.message_0_nodes_1_edges_93287e3(nodes, edges),
 
-        measureIdle: 'not measured yet',
-        measureRunning: 'measuring, one window before and one after',
+        measureIdle: featureCopy.not_measured_yet_64196e9,
+        measureRunning: featureCopy.measuring_one_window_before_and_one_after_ab92262,
         measureNotDrawing:
-            'nothing was drawn while this changed, so nothing was measured: the graph panel is folded '
-            + 'away and its render loop stands still.',
+            featureCopy.nothing_was_drawn_while_this_changed_so_nothing_was_measured_the__b821866,
         measureNoDifference: (before: string, after: string, band: string): string =>
-            `before ${before} frames/s, after ${after} frames/s. That is inside the spread this `
-            + `machine shows without any change at all (${band} frames/s), so there is no measurable `
-            + 'difference here.',
+            featureCopy.before_0_frames_s_after_1_frames_s_That_is_inside_the_spread_this_6bdeb6e(before, after)
+            + featureCopy.machine_shows_without_any_change_at_all_0_frames_s_so_there_is_no_2e64f3d(band)
+            + featureCopy.difference_here_0738aab,
         measureHigher: (before: string, after: string, band: string): string =>
-            `before ${before} frames/s, after ${after} frames/s, past the ${band} frames/s this `
-            + 'machine wobbles by on its own.',
+            featureCopy.before_0_frames_s_after_1_frames_s_past_the_2_frames_s_this_b715edf(before, after, band)
+            + featureCopy.machine_wobbles_by_on_its_own_245d31f,
         measureLower: (before: string, after: string, band: string): string =>
-            `before ${before} frames/s, after ${after} frames/s, past the ${band} frames/s this `
-            + 'machine wobbles by on its own.',
+            featureCopy.before_0_frames_s_after_1_frames_s_past_the_2_frames_s_this_b715edf(before, after, band)
+            + featureCopy.machine_wobbles_by_on_its_own_245d31f,
         measureScene: (nodes: number, edges: number, at: string): string =>
-            `measured on ${nodes} nodes and ${edges} edges at ${at}`,
+            featureCopy.measured_on_0_nodes_and_1_edges_at_2_0b064c0(nodes, edges, at),
 
-        settingProjection: 'view',
+        settingProjection: featureCopy.view_8f3a075,
         settingProjectionDetail:
-            'the flat view is an orthographic camera looking down the z axis. It drops the third axis '
-            + 'instead of foreshortening it, and the controls lose their rotation; panning and zooming '
-            + 'stay.',
+            featureCopy.the_flat_view_is_an_orthographic_camera_looking_down_the_z_axis_I_89b9bfb,
         valueSpatial: '3D',
         valueFlat: '2D',
-        settingHalos: 'landmark halos',
+        settingHalos: featureCopy.landmark_halos_3133511,
         settingHalosDetail:
-            'the glow around the biggest hubs. It is an extra sprite layer drawn over the cloud.',
-        settingBloom: 'bloom',
+            featureCopy.the_glow_around_the_biggest_hubs_It_is_an_extra_sprite_layer_draw_dcf5f94,
+        settingBloom: featureCopy.bloom_5812e2b,
         settingBloomDetail:
-            'the post-processing pass that makes bright points glow. It renders the scene a second '
-            + 'time into a smaller buffer and blurs it.',
-        settingEdges: 'edges',
+            featureCopy.the_post_processing_pass_that_makes_bright_points_glow_It_renders_b87c5c8,
+        settingEdges: featureCopy.edges_7283b98,
         settingEdgesDetail:
-            'none does not draw the edge layer at all. Dimming it to nothing would cost the same and '
-            + 'only look cheaper.',
-        valueEdgesFull: 'all',
-        valueEdgesDim: 'dim',
-        valueEdgesOff: 'none',
-        settingLabels: 'labels',
+            featureCopy.none_does_not_draw_the_edge_layer_at_all_Dimming_it_to_nothing_wo_82f336b,
+        valueEdgesFull: featureCopy.all_d87c448,
+        valueEdgesDim: featureCopy.dim_4815cec,
+        valueEdgesOff: featureCopy.none_71f8e79,
+        settingLabels: featureCopy.labels_c7775e9,
         settingLabelsDetail:
-            'names beyond this distance from the camera are not drawn. Each name carries its own '
-            + 'texture and its own draw call. Until now their visibility depended on node size alone '
-            + 'and the camera did not come into it.',
-        valueLabelsAll: 'all of them',
-        valueLabelsFar: 'within twice the scene radius',
-        valueLabelsNear: 'within the scene radius',
-        settingFrameCap: 'frame ceiling',
+            featureCopy.names_beyond_this_distance_from_the_camera_are_not_drawn_Each_nam_cd02495,
+        valueLabelsAll: featureCopy.all_of_them_f5d27be,
+        valueLabelsFar: featureCopy.within_twice_the_scene_radius_9adc5eb,
+        valueLabelsNear: featureCopy.within_the_scene_radius_8050d11,
+        settingFrameCap: featureCopy.frame_ceiling_a68a929,
         settingFrameCapDetail:
-            'with a ceiling the render loop is driven by a clock instead of by the screen, so a '
-            + 'machine that cannot reach 60 stops trying. Without one it runs exactly as it did '
-            + 'before this panel existed.',
-        valueCapOff: 'none',
-        valueCap: (fps: number): string => `${fps} per second`,
-        settingAgents: 'live agent layer',
+            featureCopy.with_a_ceiling_the_render_loop_is_driven_by_a_clock_instead_of_by_4b42bed,
+        valueCapOff: featureCopy.none_71f8e79,
+        valueCap: (fps: number): string => featureCopy.message_0_per_second_7017736(fps),
+        settingAgents: featureCopy.live_agent_layer_a9f2b5b,
         settingAgentsDetail:
-            'the glowing bodies that orbit the symbol an agent is working on, and their search pings '
-            + 'and test lines. Each actor is one element that is placed again in every frame. Off '
-            + 'draws none of it; the instrument in the corner stays and says so.',
-        settingAgentTails: 'agent comet tails',
+            featureCopy.the_glowing_bodies_that_orbit_the_symbol_an_agent_is_working_on_a_095c631,
+        settingAgentTails: featureCopy.agent_comet_tails_efe75e2,
         settingAgentTailsDetail:
-            'the short trail right behind a body while it flies from one symbol to the next. One '
-            + 'line of twelve points per actor, refilled in every frame of the flight. Off leaves '
-            + 'the flight itself untouched.',
-        settingAgentTrails: 'agent trails',
+            featureCopy.the_short_trail_right_behind_a_body_while_it_flies_from_one_symbo_e6e8da7,
+        settingAgentTrails: featureCopy.agent_trails_a7f69bf,
         settingAgentTrailsDetail:
-            'the dashed line through the last symbols an actor touched, drawn under the real edges. '
-            + 'Up to ten nodes per actor and 120 segments in total; a dashed line needs its own '
-            + 'length computation per point. It is the reading that shows whether someone follows a '
-            + 'call path or jumps across the repository, so it is the last one to switch off.',
-        settingAgentWaves: 'agent write waves',
+            featureCopy.the_dashed_line_through_the_last_symbols_an_actor_touched_drawn_u_a45dc52,
+        settingAgentWaves: featureCopy.agent_write_waves_a47b53f,
         settingAgentWavesDetail:
-            'one concentric wave per burst of writes on the same symbol. One per burst, not one per '
-            + 'event: a wave per event would be a firework and say nothing.',
-        settingAgentTimeline: 'agent timeline',
+            featureCopy.one_concentric_wave_per_burst_of_writes_on_the_same_symbol_One_pe_b1cfde1,
+        settingAgentTimeline: featureCopy.agent_timeline_9315aa3,
         settingAgentTimelineDetail:
-            'the strip under the graph: one track per actor, one tick per event, redrawn on every '
-            + 'tick of the instrument clock. It only appears when the graph area is at least 600 px '
-            + 'wide; narrower than that, one tick cannot be told from the next.',
-        switchOn: 'on',
-        switchOff: 'off',
+            featureCopy.the_strip_under_the_graph_one_track_per_actor_one_tick_per_event__bafccdc,
+        switchOn: featureCopy.on_db3d405,
+        switchOff: featureCopy.off_da7a687,
 
-        profileTitle: 'Both at once',
-        profileThrifty: 'thrifty profile',
+        profileTitle: featureCopy.Both_at_once_8be1dd6,
+        profileThrifty: featureCopy.thrifty_profile_3631e5b,
         profileThriftyDetail:
-            'sets the flat view, no halos, no bloom, dim edges, labels within the scene radius, a '
-            + 'ceiling of 30 and no agent tails, trails, waves or timeline, in one step. Fullscreen '
-            + 'keeps working after it, only quieter.',
-        profileDefault: 'back to the default',
-        profileDefaultDetail: 'puts every switch in this block back to what it starts with.',
-        profileIsDefault: 'every switch is on its default',
-        profileChanged: 'this differs from the default',
+            featureCopy.sets_the_flat_view_no_halos_no_bloom_dim_edges_labels_within_the__61b2851,
+        profileDefault: featureCopy.back_to_the_default_0e1262b,
+        profileDefaultDetail: featureCopy.puts_every_switch_in_this_block_back_to_what_it_starts_with_c45cf58,
+        profileIsDefault: featureCopy.every_switch_is_on_its_default_614156f,
+        profileChanged: featureCopy.this_differs_from_the_default_46ae5c9,
 
-        keepsTitle: 'What stays where it is',
+        keepsTitle: featureCopy.What_stays_where_it_is_83cfba5,
         keepsText:
-            'Switches that only change what you see and cost nothing to draw stay in their own '
-            + 'panels: the detail level of the twin, the legend, the galaxy and hierarchy switch, and '
-            + 'the edge-kind filters inside the legend. The point was to bundle the expensive things, '
-            + 'not to build a menu that everything disappears into.',
+            featureCopy.Switches_that_only_change_what_you_see_and_cost_nothing_to_draw_s_be74eb5,
     },
 
     /**
@@ -970,135 +882,131 @@ export const messages = {
      * not about one subject area.
      */
     projects: {
-        title: 'CBM LENS PROJECTS',
-        subtitle: 'what this server has indexed, and how to give it more',
-        panelLabel: 'projects',
-        close: '[esc] close',
+        title: featureCopy.CBM_LENS_PROJECTS_2db6f64,
+        subtitle: featureCopy.what_this_server_has_indexed_and_how_to_give_it_more_1104c22,
+        panelLabel: featureCopy.projects_b37b567,
+        close: featureCopy.esc_close_1d54db9,
         closeLabel: CLOSE,
         /** The entry in the atlas row. The letter sits in brackets. */
-        menuLabel: '[p]rojects',
+        menuLabel: featureCopy.p_rojects_6745a82,
         /** The atlas row entry that opens this panel to index a repository; alt+p opens it as well. */
-        addIndexLabel: 'Add project index',
-        addIndexTitle: 'Choose a repository folder to index',
+        addIndexLabel: featureCopy.Add_project_index_9108ede,
+        addIndexTitle: featureCopy.Choose_a_repository_folder_to_index_6d43718,
 
         /* ------------------------------------------------------- the list */
 
-        listTitle: 'Projects on this server',
-        listSource: 'read from list_projects over /rpc',
-        listLoading: 'asking the server ...',
+        listTitle: featureCopy.Projects_on_this_server_1700953,
+        listSource: featureCopy.read_from_list_projects_over_rpc_b5c3549,
+        listLoading: featureCopy.asking_the_server_1a38fab,
         listEmpty:
-            'nothing is indexed yet. Index a repository below, or on the command line: '
-            + 'codebase-memory-mcp cli index_repository',
-        listError: (detail: string): string => `the list did not arrive: ${detail}`,
-        refresh: 'refresh',
-        openNow: 'open now',
-        open: 'open',
-        openTitle: (name: string): string => `open ${name}: the page reloads with ?project=${name}`,
-        counts: (nodes: number, edges: number): string => `${nodes} sym, ${edges} edg`,
-        countsUnknown: 'counts not sent',
-        check: 'check',
+            featureCopy.nothing_is_indexed_yet_Index_a_repository_below_or_on_the_command_a78b8e0,
+        listError: (detail: string): string => featureCopy.the_list_did_not_arrive_0_911b2e5(detail),
+        refresh: featureCopy.refresh_26b56c1,
+        openNow: featureCopy.open_now_5173895,
+        open: featureCopy.open_5fc7e38,
+        openTitle: (name: string): string => featureCopy.open_0_the_page_reloads_with_project_1_3a5f31f(name, name),
+        counts: (nodes: number, edges: number): string => featureCopy.message_0_sym_1_edg_d6f0524(nodes, edges),
+        countsUnknown: featureCopy.counts_not_sent_62cba59,
+        check: featureCopy.check_d56d985,
         checkTitle: 'GET /api/project-health: does the index file open, and what does it hold',
         healthHealthy: (nodes: number, edges: number, mb: string): string =>
-            `healthy: ${nodes} symbols, ${edges} edges, ${mb} MB on disk`,
-        healthMissing: 'missing: the server has no index file under this name',
-        healthCorrupt: (reason: string): string => `corrupt: ${reason}`,
-        healthUnknown: 'the server answered with a verdict this panel does not know',
-        reindex: 'reindex',
-        reindexTitle: (root: string): string => `POST /api/index for ${root}: rebuilds the index in the background`,
-        noRoot: 'root path not sent by the server; reindex from the form below',
-        remove: 'delete',
-        removeTitle: 'DELETE /api/project: removes the index file, never the repository',
+            featureCopy.healthy_0_symbols_1_edges_2_MB_on_disk_76721f2(nodes, edges, mb),
+        healthMissing: featureCopy.missing_the_server_has_no_index_file_under_this_name_b7371a0,
+        healthCorrupt: (reason: string): string => featureCopy.corrupt_0_04b9a58(reason),
+        healthUnknown: featureCopy.the_server_answered_with_a_verdict_this_panel_does_not_know_29fc32e,
+        reindex: featureCopy.reindex_797161e,
+        reindexTitle: (root: string): string => featureCopy.POST_api_index_for_0_rebuilds_the_index_in_the_background_9b05c94(root),
+        noRoot: featureCopy.root_path_not_sent_by_the_server_reindex_from_the_form_below_2ef4dd4,
+        remove: featureCopy.delete_9485989,
+        removeTitle: featureCopy.DELETE_api_project_removes_the_index_file_never_the_repository_800cd8f,
         removeArmed: (name: string): string =>
-            `delete the index of ${name}? The repository on disk stays as it is.`,
-        removeConfirm: 'yes, delete the index',
-        cancel: 'cancel',
-        removed: (name: string): string => `${name}: index deleted`,
-        removeError: (detail: string): string => `not deleted: ${detail}`,
+            featureCopy.delete_the_index_of_0_The_repository_on_disk_stays_as_it_is_d599893(name),
+        removeConfirm: featureCopy.yes_delete_the_index_0528e37,
+        cancel: featureCopy.cancel_4fd0653,
+        removed: (name: string): string => featureCopy.message_0_index_deleted_0c98cff(name),
+        removeError: (detail: string): string => featureCopy.not_deleted_0_2acb78d(detail),
 
         /* ------------------------------------------------------- the form */
 
-        indexTitle: 'Index a repository',
+        indexTitle: featureCopy.Index_a_repository_e1b5487,
         indexIntro:
-            'The server does the indexing; this window only asks. The path has to be a folder the '
-            + 'server may read (its workspace boundary applies), and the job runs in the background '
-            + 'while you keep reading.',
-        pathLabel: 'repository path',
+            featureCopy.The_server_does_the_indexing_this_window_only_asks_The_path_has_t_281960f,
+        pathLabel: featureCopy.repository_path_67d2f09,
         pathPlaceholder: '/absolute/path/to/repository',
-        browse: 'browse',
+        browse: featureCopy.browse_0f6a24f,
         browseTitle: 'GET /api/browse: list the folders under this path',
-        browseClose: 'close browser',
-        browseAt: (path: string): string => `folders in ${path}`,
-        browseUp: 'up one level',
-        browseUse: 'use this folder',
-        browseEmpty: 'no folders here',
-        browseError: (detail: string): string => `browsing failed: ${detail}`,
-        nameLabel: 'project name',
-        nameHint: 'suggested from the last path segment; change it if you like',
-        start: 'index',
-        startTitle: 'POST /api/index: start a background job for this path',
-        started: (path: string): string => `job accepted for ${path}; its state appears below`,
-        startError: (detail: string): string => `the server refused: ${detail}`,
-        jobsTitle: 'Index jobs since the server started',
+        browseClose: featureCopy.close_browser_785568f,
+        browseAt: (path: string): string => featureCopy.folders_in_0_975301b(path),
+        browseUp: featureCopy.up_one_level_05fff1e,
+        browseUse: featureCopy.use_this_folder_a4a1019,
+        browseEmpty: featureCopy.no_folders_here_c37f586,
+        browseError: (detail: string): string => featureCopy.browsing_failed_0_c87422b(detail),
+        nameLabel: featureCopy.project_name_cb01b59,
+        nameHint: featureCopy.suggested_from_the_last_path_segment_change_it_if_you_like_14e129f,
+        start: featureCopy.index_e540cdd,
+        startTitle: featureCopy.POST_api_index_start_a_background_job_for_this_path_676c926,
+        started: (path: string): string => featureCopy.job_accepted_for_0_its_state_appears_below_fdf30fc(path),
+        startError: (detail: string): string => featureCopy.the_server_refused_0_dece6cc(detail),
+        jobsTitle: featureCopy.Index_jobs_since_the_server_started_ab2be3c,
         jobsSource: (seconds: string): string =>
-            `read from GET /api/index-status, asked again every ${seconds} s while a job runs`,
-        jobsNone: 'no job has run yet',
-        jobIndexing: 'indexing',
-        jobDone: 'done',
-        jobError: (error: string): string => `failed: ${error}`,
-        jobUnknown: 'state not known to this panel',
+            featureCopy.read_from_GET_api_index_status_asked_again_every_0_s_while_a_job__88be9eb(seconds),
+        jobsNone: featureCopy.no_job_has_run_yet_bc2bf71,
+        jobIndexing: featureCopy.indexing_2b55124,
+        jobDone: featureCopy.done_e5fd9cf,
+        jobError: (error: string): string => featureCopy.failed_0_0a046cd(error),
+        jobUnknown: featureCopy.state_not_known_to_this_panel_b4fd858,
 
         /* -------------------------------------------------------- the adr */
 
-        adrTitle: 'Decision record',
-        adrOpen: 'Open ADR',
+        adrTitle: featureCopy.Decision_record_10cd48e,
+        adrOpen: featureCopy.Open_ADR_20eb557,
         adrIntro: (project: string): string =>
-            `The architecture decision record the server keeps for ${project}, as markdown. Saving `
-            + 'stores it in the project index; a reindex keeps it.',
-        adrNoProject: 'open a project to read or write its decision record',
-        adrLoading: 'reading ...',
-        adrNone: 'no record yet; what you save here becomes the first one',
-        adrUpdated: (at: string): string => `last saved ${at}`,
-        adrLabel: 'decision record, markdown',
-        adrSave: 'save',
-        adrSaveTitle: 'POST /api/adr: store this text for the open project',
-        adrSaved: 'saved',
-        adrBusy: 'the project is being indexed right now; save again when the job is done',
-        adrError: (detail: string): string => `not saved: ${detail}`,
-        adrReadError: (detail: string): string => `the record did not arrive: ${detail}`,
+            featureCopy.The_architecture_decision_record_the_server_keeps_for_0_as_markdo_df11b1c(project)
+            + featureCopy.stores_it_in_the_project_index_a_reindex_keeps_it_3b9ed97,
+        adrNoProject: featureCopy.open_a_project_to_read_or_write_its_decision_record_7f7931d,
+        adrLoading: featureCopy.reading_ef3f8d3,
+        adrNone: featureCopy.no_record_yet_what_you_save_here_becomes_the_first_one_2075f1e,
+        adrUpdated: (at: string): string => featureCopy.last_saved_0_d2b040a(at),
+        adrLabel: featureCopy.decision_record_markdown_75d10d9,
+        adrSave: featureCopy.save_13a4a11,
+        adrSaveTitle: featureCopy.POST_api_adr_store_this_text_for_the_open_project_74923a8,
+        adrSaved: featureCopy.saved_c75c31d,
+        adrBusy: featureCopy.the_project_is_being_indexed_right_now_save_again_when_the_job_is_3784f90,
+        adrError: (detail: string): string => featureCopy.not_saved_0_57d65ae(detail),
+        adrReadError: (detail: string): string => featureCopy.the_record_did_not_arrive_0_0cbae2b(detail),
 
         /* ----------------------------------------------------- the server */
 
-        serverTitle: 'This server',
-        processesSource: 'read from GET /api/processes',
-        processesSelf: (pid: number, mb: string): string => `serving this page: pid ${pid}, ${mb} MB resident`,
+        serverTitle: featureCopy.This_server_d75b234,
+        processesSource: featureCopy.read_from_GET_api_processes_bb03393,
+        processesSelf: (pid: number, mb: string): string => featureCopy.serving_this_page_pid_0_1_MB_resident_5378578(pid, mb),
         processesOthers: (count: number): string =>
-            count === 1 ? 'one other codebase-memory-mcp process' : `${count} other codebase-memory-mcp processes`,
-        processesNone: 'no other codebase-memory-mcp process is running',
+            count === 1 ? featureCopy.one_other_codebase_memory_mcp_process_89c5301 : featureCopy.message_0_other_codebase_memory_mcp_processes_59668b5(count),
+        processesNone: featureCopy.no_other_codebase_memory_mcp_process_is_running_3ce7560,
         processRow: (pid: number, cpu: string, mb: string, elapsed: string): string =>
-            `pid ${pid}: ${cpu}% cpu, ${mb} MB, up ${elapsed}`,
-        processesError: (detail: string): string => `the process list did not arrive: ${detail}`,
-        logsTitle: 'Log tail',
-        logsSource: (shown: number, total: number): string => `read from GET /api/logs: ${shown} of ${total} lines`,
-        logsEmpty: 'the log ring is empty',
-        logsError: (detail: string): string => `the log did not arrive: ${detail}`,
-        uiLogTitle: 'Frontend log',
+            featureCopy.pid_0_1_cpu_2_MB_up_3_ae39014(pid, cpu, mb, elapsed),
+        processesError: (detail: string): string => featureCopy.the_process_list_did_not_arrive_0_36c496c(detail),
+        logsTitle: featureCopy.Log_tail_1fc634d,
+        logsSource: (shown: number, total: number): string => featureCopy.read_from_GET_api_logs_0_of_1_lines_309a0bc(shown, total),
+        logsEmpty: featureCopy.the_log_ring_is_empty_f5dc3af,
+        logsError: (detail: string): string => featureCopy.the_log_did_not_arrive_0_57a19bf(detail),
+        uiLogTitle: featureCopy.Frontend_log_ed47dc1,
         uiLogSource: (shown: number, total: number, path: string): string =>
-            `read from GET /api/ui-log: ${shown} of ${total} lines of ${path}`,
-        uiLogPrevious: (path: string): string => `Local compatibility export archive: ${path}; retained history is read from SQLite.`,
+            featureCopy.read_from_GET_api_ui_log_0_of_1_lines_of_2_e8dc60a(shown, total, path),
+        uiLogPrevious: (path: string): string => featureCopy.Local_compatibility_export_archive_0_retained_history_is_read_fro_650a31a(path),
         uiLogAbout:
-            'This page records console output, uncaught errors and failed requests in the daemon’s local SQLite journal. '
-            + 'The JSONL file remains a bounded compatibility export. Review any content before sharing it; nothing is published automatically.',
-        uiLogEmpty: 'nothing recorded yet',
-        uiLogError: (detail: string): string => `the frontend log did not arrive: ${detail}`,
-        reload: 'reload',
+            featureCopy.This_page_records_console_output_uncaught_errors_and_failed_reque_a73202a,
+        uiLogEmpty: featureCopy.nothing_recorded_yet_4e72009,
+        uiLogError: (detail: string): string => featureCopy.the_frontend_log_did_not_arrive_0_8bca320(detail),
+        reload: featureCopy.reload_d6e6e57,
     },
 
     /** Der Rahmen des Twins. Seine Fakten-Saetze stehen in twin/strings.ts. */
     twin: {
         /** Das Etikett des Leseprofils, mit dem dieses Produkt startet. */
-        profileLabel: 'CBM Lens Twin',
+        profileLabel: featureCopy.CBM_Lens_Twin_d512c6a,
         /** Der Kopf des Panels, solange kein Symbol vor dem Leser steht. */
-        noSymbol: 'no symbol',
+        noSymbol: featureCopy.no_symbol_9a0962d,
     },
 } as const;
 

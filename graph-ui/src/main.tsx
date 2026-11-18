@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import { initializeFeatureLanguage } from './i18n/feature-language';
 import { UiLanguageProvider } from './i18n/ui-language';
 import { installUiLog } from './app/ui-log-install';
 // Erst die Tokens, dann das Chrome, das sie benutzt. Die Reihenfolge ist keine
@@ -20,8 +20,13 @@ if (container === null) {
   throw new Error('#root fehlt in index.html');
 }
 
-createRoot(container).render(
-  <StrictMode>
-    <UiLanguageProvider><App /></UiLanguageProvider>
-  </StrictMode>,
-);
+async function mountApplication() {
+  await initializeFeatureLanguage();
+  const { default: App } = await import('./App');
+  createRoot(container!).render(
+    <StrictMode>
+      <UiLanguageProvider><App /></UiLanguageProvider>
+    </StrictMode>,
+  );
+}
+void mountApplication();

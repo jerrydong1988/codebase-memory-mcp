@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/twin';
 /**
  * Letting the local model word the twin's sentences for the selected reader,
  * and refusing when it did anything else.
@@ -228,15 +229,15 @@ export function applyReaderRewrite(
 ): ReaderRewriteOutcome {
     const incoming = refinedLines(unfence(answer));
     if (lines.length === 0) {
-        return { kind: 'refused', reason: 'there was nothing on this level to reword' };
+        return { kind: 'refused', reason: featureCopy.there_was_nothing_on_this_level_to_reword_efaa3d2 };
     }
     if (incoming.length === 0) {
-        return { kind: 'refused', reason: 'the model answered with nothing' };
+        return { kind: 'refused', reason: featureCopy.the_model_answered_with_nothing_1e0746f };
     }
     if (incoming.length !== lines.length) {
         return {
             kind: 'refused',
-            reason: `the rewrite has ${incoming.length} sentences instead of ${lines.length}`,
+            reason: featureCopy.the_rewrite_has_0_sentences_instead_of_1_57e8124(incoming.length, lines.length),
         };
     }
     for (let index = 0; index < lines.length; index += 1) {

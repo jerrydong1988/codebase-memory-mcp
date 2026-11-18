@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/agents';
 /**
  * Die Saetze des Instruments.
  *
@@ -17,242 +18,224 @@ import type { WorkKind } from './agent-event';
 
 /** Was ein Buchstabe der Arbeit bedeutet, in einem Satz. */
 export const WORK_KIND_TEXT: Readonly<Record<WorkKind, string>> = {
-    read: 'read a file',
-    write: 'changed a file',
-    search: 'searched',
-    test: 'ran a test command',
-    other: 'ran a command the tool name does not classify',
+    read: featureCopy.read_a_file_fc69e72,
+    write: featureCopy.changed_a_file_1343fac,
+    search: featureCopy.searched_200a4ee,
+    test: featureCopy.ran_a_test_command_c5b1a36,
+    other: featureCopy.ran_a_command_the_tool_name_does_not_classify_c7eb45d,
 };
 
 /** Das kurze Wort, das in der Zeile steht. */
 export const WORK_KIND_WORD: Readonly<Record<WorkKind, string>> = {
-    read: 'reading',
-    write: 'writing',
-    search: 'searching',
-    test: 'testing',
-    other: 'command',
+    read: featureCopy.reading_227f38d,
+    write: featureCopy.writing_1935d7b,
+    search: featureCopy.searching_de94f82,
+    test: featureCopy.testing_dc724af,
+    other: featureCopy.command_1925f79,
 };
 
 export const agentStrings = {
-    title: 'LIVE AGENTS',
-    panelLabel: 'live agents on the graph',
+    title: featureCopy.LIVE_AGENTS_07a996f,
+    panelLabel: featureCopy.live_agents_on_the_graph_327541d,
 
     /* ------------------------------------------------------------ der Kopf */
 
     agentCount: (count: number): string =>
-        (count === 1 ? '1 actor' : `${count} actors`),
+        (count === 1 ? featureCopy.message_1_actor_2b0dfc7 : featureCopy.message_0_actors_8889040(count)),
     perMinute: (count: number): string =>
-        (count === 1 ? '1 event in the last minute' : `${count} events in the last minute`),
-    orderIntact: 'order intact',
+        (count === 1 ? featureCopy.message_1_event_in_the_last_minute_14d6327 : featureCopy.message_0_events_in_the_last_minute_4ad3c33(count)),
+    orderIntact: featureCopy.order_intact_ee40aac,
     orderMissed: (count: number): string =>
-        (count === 1 ? '1 event missed' : `${count} events missed`),
+        (count === 1 ? featureCopy.message_1_event_missed_2ee32ef : featureCopy.message_0_events_missed_16c5250(count)),
     orderTitle:
-        'every run numbers its events. A number that never arrived is counted here; it is not '
-        + 'filled in and not drawn.',
-    joinedAt: (run: string, seq: number): string => `joined run ${run} at number ${seq}`,
+        featureCopy.every_run_numbers_its_events_A_number_that_never_arrived_is_count_ff4f8b0,
+    joinedAt: (run: string, seq: number): string => featureCopy.joined_run_0_at_number_1_efd1677(run, seq),
 
     /* ------------------------------------------------------ die drei Lagen */
 
     foldTitle: (open: boolean): string =>
-        (open ? 'fold the instrument down to one line' : 'unfold the instrument'),
-    fold: (open: boolean): string => (open ? 'fold' : 'unfold'),
-    expand: (expanded: boolean): string => (expanded ? 'compact' : 'expand'),
+        (open ? featureCopy.fold_the_instrument_down_to_one_line_a41874f : featureCopy.unfold_the_instrument_64ddab5),
+    fold: (open: boolean): string => (open ? featureCopy.fold_c5b2b01 : featureCopy.unfold_1e0eecb),
+    expand: (expanded: boolean): string => (expanded ? featureCopy.compact_4f44e2c : featureCopy.expand_0bf04e4),
     expandTitle: (expanded: boolean): string =>
         (expanded
-            ? 'back to the compact instrument, so it explains the graph instead of covering it'
-            : 'one card per actor: the path it walked and the events behind every number'),
+            ? featureCopy.back_to_the_compact_instrument_so_it_explains_the_graph_instead_o_b11f168
+            : featureCopy.one_card_per_actor_the_path_it_walked_and_the_events_behind_every_9a29c98),
     collapsedLine: (count: number): string =>
         (count === 0
-            ? 'no actor on the graph'
-            : count === 1 ? '1 actor on the graph' : `${count} actors on the graph`),
+            ? featureCopy.no_actor_on_the_graph_86ff10f
+            : count === 1 ? featureCopy.message_1_actor_on_the_graph_b822e9d : featureCopy.message_0_actors_on_the_graph_1202e61(count)),
 
     /* ------------------------------------------------------- die Quelle */
 
-    sourceOff: 'live mode is off, and nothing is asked',
+    sourceOff: featureCopy.live_mode_is_off_and_nothing_is_asked_f244a20,
     sourceOffDetail:
-        'not one request goes to the daemon while this is off. Turn it on in the atlas menu with '
-        + '[g] live agents, or type "live agents" in the command line.',
-    sourceConnecting: 'connecting to the daemon',
-    sourceNone: 'live mode is on and no daemon is answering',
+        featureCopy.not_one_request_goes_to_the_daemon_while_this_is_off_Turn_it_on_i_e318681,
+    sourceConnecting: featureCopy.connecting_to_the_daemon_78f2ee1,
+    sourceNone: featureCopy.live_mode_is_on_and_no_daemon_is_answering_ec4fb5d,
     sourceNoneDetail:
-        'check that the local daemon is running. It stores tool events in SQLite and serves them '
-        + 'on the same port as this map. Recorded history is retained locally while the connection retries.',
-    sourceConnected: (file: string): string => `reading ${file}`,
-    sourceReplay: (file: string): string => `replaying ${file}`,
+        featureCopy.check_that_the_local_daemon_is_running_It_stores_tool_events_in_S_e46c310,
+    sourceConnected: (file: string): string => featureCopy.reading_0_d3a1d97(file),
+    sourceReplay: (file: string): string => featureCopy.replaying_0_d8d3f26(file),
     replayNote:
-        'these events were recorded earlier. Their spacing is the recorded spacing, shifted forward '
-        + 'so the last one is now.',
+        featureCopy.these_events_were_recorded_earlier_Their_spacing_is_the_recorded__43d44cc,
     unreadableLines: (count: number): string =>
         (count === 1
-            ? '1 line of the file was not readable JSON and was skipped'
-            : `${count} lines of the file were not readable JSON and were skipped`),
+            ? featureCopy.message_1_line_of_the_file_was_not_readable_JSON_and_was_skipped_61b525b
+            : featureCopy.message_0_lines_of_the_file_were_not_readable_JSON_and_were_skipped_50953df(count)),
 
     /* --------------------------------------------------------- die Zeilen */
 
     kindTitle: (kind: WorkKind, letter: string): string => `${letter}: ${WORK_KIND_TEXT[kind]}`,
-    placeRange: (name: string, from: number, to: number): string => `${name}, lines ${from} to ${to}`,
+    placeRange: (name: string, from: number, to: number): string => featureCopy.message_0_lines_1_to_2_1c7cf2b(name, from, to),
     placeFile: (name: string): string => name,
-    placeUncertain: (name: string): string => `${name} (no line range in the index)`,
+    placeUncertain: (name: string): string => featureCopy.message_0_no_line_range_in_the_index_bfc5b69(name),
     placeUncertainTitle:
-        'the graph knows this node but carries no end line for it, so this says where the event is '
-        + 'and not that it lies inside a range.',
-    placeNone: 'not placeable on the graph',
-    placeNoneTitle: (why: string): string => `${why}. The raw event stands below.`,
+        featureCopy.the_graph_knows_this_node_but_carries_no_end_line_for_it_so_this__7fb35e8,
+    placeNone: featureCopy.not_placeable_on_the_graph_008aa78,
+    placeNoneTitle: (why: string): string => featureCopy.message_0_The_raw_event_stands_below_d9dc2c3(why),
     ago: (seconds: number): string =>
         (seconds < 60
             ? `${Math.max(0, Math.round(seconds))}s`
             : `${Math.floor(seconds / 60)}m ${Math.round(seconds % 60)}s`),
-    hereFor: (spell: string): string => `here for ${spell}`,
-    lastSeen: (spell: string): string => `last event ${spell} ago`,
+    hereFor: (spell: string): string => featureCopy.here_for_0_9b8d2c8(spell),
+    lastSeen: (spell: string): string => featureCopy.last_event_0_ago_211008f(spell),
     stripTitle: (seconds: number, count: number): string =>
-        `${count} events in the last ${seconds} seconds, one bar per second, counted from the events `
-        + 'themselves',
+        featureCopy.message_0_events_in_the_last_1_seconds_one_bar_per_second_counted_from_th_02bc485(count, seconds)
+        + featureCopy.themselves_44dd75e,
     testedTitle: (name: string): string =>
-        `the command names ${name}, which the index knows. The dashed line goes there.`,
-    testedUnknown: 'the command names no file this index knows, so there is no line to draw',
+        featureCopy.the_command_names_0_which_the_index_knows_The_dashed_line_goes_th_5e29662(name),
+    testedUnknown: featureCopy.the_command_names_no_file_this_index_knows_so_there_is_no_line_to_09d7645,
 
     /* ------------------------------------------------- die Selbstauskunft */
 
-    intentPrefix: 'agent says:',
+    intentPrefix: featureCopy.agent_says_4634528,
     intentTitle:
-        'reported by the agent, not measured. This line exists because the event carried an intent '
-        + 'field; without one there is no such line.',
+        featureCopy.reported_by_the_agent_not_measured_This_line_exists_because_the_e_89ce2f2,
 
     /* --------------------------------------------------- was nicht passt */
 
     unmappedTitle: (count: number): string =>
         (count === 1
-            ? '1 event is not placeable on the graph'
-            : `${count} events are not placeable on the graph`),
+            ? featureCopy.message_1_event_is_not_placeable_on_the_graph_b22d1d5
+            : featureCopy.message_0_events_are_not_placeable_on_the_graph_491f47c(count)),
     unmappedIntro:
-        'they stay here instead of disappearing: an event that falls out of the view would be the '
-        + 'silent claim that it never happened.',
+        featureCopy.they_stay_here_instead_of_disappearing_an_event_that_falls_out_of_9dd6b0d,
     unmappedRow: (tool: string, path: string, why: string): string =>
-        `${tool} ${path.length > 0 ? path : '(no path)'}: ${why}`,
+        `${tool} ${path.length > 0 ? path : featureCopy.no_path_482e80c}: ${why}`,
 
     /* ---------------------------------------------------- die Umschalter */
 
-    filterLabel: 'show',
-    filterYou: 'you',
-    filterAgent: 'agents',
-    filterBoth: 'both',
+    filterLabel: featureCopy.show_9fb2905,
+    filterYou: featureCopy.you_8af56de,
+    filterAgent: featureCopy.agents_e7052ae,
+    filterBoth: featureCopy.both_fc39b18,
     filterTitle: (option: string): string =>
         (option === 'you'
-            ? 'only your own navigation'
-            : option === 'agent' ? 'only the agents' : 'your navigation and the agents'),
-    youName: 'you',
-    youPlace: 'the symbol you opened',
+            ? featureCopy.only_your_own_navigation_c1d5e79
+            : option === 'agent' ? featureCopy.only_the_agents_a365b52 : featureCopy.your_navigation_and_the_agents_7f8e9ec),
+    youName: featureCopy.you_8af56de,
+    youPlace: featureCopy.the_symbol_you_opened_72099ab,
 
-    follow: 'follow',
+    follow: featureCopy.follow_f7ac253,
     followTitle: (on: boolean): string =>
         (on
-            ? 'stop following: the camera stays where you put it'
-            : 'the camera flies to the actor that moved last'),
-    trails: 'trails',
+            ? featureCopy.stop_following_the_camera_stays_where_you_put_it_3a5a36c
+            : featureCopy.the_camera_flies_to_the_actor_that_moved_last_4e717c7),
+    trails: featureCopy.trails_3156da0,
     trailsTitle: (on: boolean): string =>
         (on
-            ? 'hide the path row of each actor'
-            : 'show the path row: the symbols each actor touched, newest first'),
+            ? featureCopy.hide_the_path_row_of_each_actor_f13e01f
+            : featureCopy.show_the_path_row_the_symbols_each_actor_touched_newest_first_da5cefa),
     /*
      * Bis W11b hiess dieser Schalter "cinema". Der Nutzer hat ihn am 2026-08-30
      * benutzt und woertlich gesagt: "bin jetzt im cinema mode, sollte fullscreen
      * heissen." Er heisst jetzt so, und zwar an jeder Stelle: Schalter,
      * Beschriftung, Kommandozeile, Naht und gespeicherte Wahl.
      */
-    fullscreen: 'fullscreen',
+    fullscreen: featureCopy.fullscreen_5994507,
     fullscreenTitle: (on: boolean): string =>
         (on
-            ? 'leave the full window and put the graph back into its panel. Escape does the same.'
-            : 'the graph fills the window: bigger bodies, the instrument as a column at the edge, '
-                + 'the timeline underneath.'),
+            ? featureCopy.leave_the_full_window_and_put_the_graph_back_into_its_panel_Escap_624db6b
+            : featureCopy.the_graph_fills_the_window_bigger_bodies_the_instrument_as_a_colu_263fda0),
     fullscreenScope:
-        'fullscreen is the frame and not a tour: the camera goes where you send it, here as well, '
-        + 'and it is still there when you leave.',
-    windowLabel: 'window',
+        featureCopy.fullscreen_is_the_frame_and_not_a_tour_the_camera_goes_where_you__e0b5b67,
+    windowLabel: featureCopy.window_320ad26,
     windowOption: (ms: number): string =>
-        (ms === 0 ? 'all kept' : ms < 60000 ? `${ms / 1000}s` : `${ms / 60000}m`),
-    windowTitle: 'how far back the path row, the trail on the graph and the timeline reach',
-    pathEmpty: 'no path yet: no event of this actor named a file',
+        (ms === 0 ? featureCopy.all_kept_ae3052f : ms < 60000 ? `${ms / 1000}s` : `${ms / 60000}m`),
+    windowTitle: featureCopy.how_far_back_the_path_row_the_trail_on_the_graph_and_the_timeline_7bba5f7,
+    pathEmpty: featureCopy.no_path_yet_no_event_of_this_actor_named_a_file_1e8e5c7,
 
     /* ------------------------------------------------- die Spur am Graphen */
 
-    trailLegendTitle: 'agent trail',
+    trailLegendTitle: featureCopy.agent_trail_ccc050e,
     trailLegendDetail:
-        'the dashed line behind an agent is the path it walked: the last symbols one actor touched, '
-        + 'newest first, drawn under the real edges. It is NOT a relation in the code. The solid '
-        + 'coloured lines come from the index; this one comes from events and fades with the window '
-        + 'you picked.',
+        featureCopy.the_dashed_line_behind_an_agent_is_the_path_it_walked_the_last_sy_4cf00d8,
 
     /* -------------------------------------------------------- der Deckel */
 
     capLine: (drawn: number, total: number): string =>
-        `${drawn} of ${total} bodies drawn: the layer stops at ${drawn}`,
+        featureCopy.message_0_of_1_bodies_drawn_the_layer_stops_at_2_5e0c044(drawn, total, drawn),
     capTitle:
-        'the cap is a promise about computing time, not about the truth: every actor stays in this '
-        + 'list with all its numbers. What is missing is the body on the graph, and this line is '
-        + 'here so the picture is never quietly incomplete.',
+        featureCopy.the_cap_is_a_promise_about_computing_time_not_about_the_truth_eve_f41b7b7,
 
     /* -------------------------------------------------------- die Ruhe */
 
     idleTitle: (seconds: number): string =>
-        `no event for ${Math.round(seconds)}s: this body stands still and stays pale until the next `
-        + 'one. Nothing here is animated while nothing happens.',
+        featureCopy.no_event_for_0_s_this_body_stands_still_and_stays_pale_until_the__7c1e338(Math.round(seconds))
+        + featureCopy.one_Nothing_here_is_animated_while_nothing_happens_6c78468,
 
     /* --------------------------------------------------------- der Puls */
 
     pulseTitle: (events: number, periodMs: number): string =>
         (events === 0
-            ? 'no event in the last minute, so this body does not breathe'
-            : `${events} events in the last minute: one breath every ${(periodMs / 1000).toFixed(1)}s. `
-                + 'The pulse is the count, not decoration.'),
+            ? featureCopy.no_event_in_the_last_minute_so_this_body_does_not_breathe_2a57a8f
+            : featureCopy.message_0_events_in_the_last_minute_one_breath_every_1_s_8b9a900(events, (periodMs / 1000).toFixed(1))
+                + featureCopy.The_pulse_is_the_count_not_decoration_6dc64f8),
 
     /* ------------------------------------------------------ die Wiedergabe */
 
     followLine: (name: string, kind: string, place: string, lines: readonly number[]): string =>
-        `${name} ${kind} ${place.length > 0 ? place : 'nothing this index knows'}`
-        + (lines.length === 2 ? `, lines ${lines[0]} to ${lines[1]}` : ''),
+        `${name} ${kind} ${place.length > 0 ? place : featureCopy.nothing_this_index_knows_664fe03}`
+        + (lines.length === 2 ? featureCopy.lines_0_to_1_f71365a(lines[0], lines[1]) : ''),
     followLineTitle:
-        'the event the camera just followed. Actor, kind of work, symbol and line range, all four '
-        + 'read from the event and the index; nothing else is in this line.',
+        featureCopy.the_event_the_camera_just_followed_Actor_kind_of_work_symbol_and__f4313c6,
 
     /* ------------------------------------------------------ der Zeitstrahl */
 
-    timelineLabel: 'timeline',
+    timelineLabel: featureCopy.timeline_16c0044,
     timelineLive: 'LIVE',
     timelinePaused: 'PAUSED',
     timelineReplay: 'REPLAY',
-    timelineLiveTitle: 'the window ends now and moves with it',
+    timelineLiveTitle: featureCopy.the_window_ends_now_and_moves_with_it_ca0ecaf,
     timelinePauseTitle:
-        'hold the window where it is. Events keep arriving and are all there when you let it run '
-        + 'again: what stops is the scrolling, not the listening.',
-    timelineResume: 'resume',
-    timelinePause: 'pause',
+        featureCopy.hold_the_window_where_it_is_Events_keep_arriving_and_are_all_ther_28f995c,
+    timelineResume: featureCopy.resume_a2b41bb,
+    timelinePause: featureCopy.pause_ef8d299,
     timelineReplayNote: (spell: string): string =>
-        `showing the state of ${spell} ago, not now`,
+        featureCopy.showing_the_state_of_0_ago_not_now_51a190f(spell),
     timelineReplayTitle:
-        'a click on the timeline shows the state at that moment. Everything on the screen belongs to '
-        + 'then, and it says so, because an old state looks exactly like the current one.',
-    timelineBackToLive: 'back to live',
+        featureCopy.a_click_on_the_timeline_shows_the_state_at_that_moment_Everything_83d13e2,
+    timelineBackToLive: featureCopy.back_to_live_6a91bb5,
     timelineTrackTitle: (name: string, count: number): string =>
-        `${name}: ${count === 1 ? '1 event' : `${count} events`} in this window, one tick each`,
-    timelineEmpty: 'no event of this actor in this window',
+        featureCopy.message_0_1_in_this_window_one_tick_each_ffec68c(name, count === 1 ? '1 event' : `${count} events`),
+    timelineEmpty: featureCopy.no_event_of_this_actor_in_this_window_638bd6e,
     timelineNarrow: (width: number): string =>
-        `the graph area is ${width} px wide; the timeline needs 600 to keep one tick apart from the `
-        + 'next',
+        featureCopy.the_graph_area_is_0_px_wide_the_timeline_needs_600_to_keep_one_ti_a9723cc(width)
+        + featureCopy.next_edee940,
 
     /* ---------------------------------------------------------- der Ticker */
 
-    tickerLabel: 'events',
+    tickerLabel: featureCopy.events_82d50d9,
     tickerLine: (name: string, kind: string, place: string, lines: readonly number[]): string =>
-        `${name} ${kind} ${place.length > 0 ? place : 'nothing this index knows'}`
-        + (lines.length === 2 ? `, lines ${lines[0]} to ${lines[1]}` : ''),
+        `${name} ${kind} ${place.length > 0 ? place : featureCopy.nothing_this_index_knows_664fe03}`
+        + (lines.length === 2 ? featureCopy.lines_0_to_1_f71365a(lines[0], lines[1]) : ''),
     tickerTitle:
-        'the last events in plain words. One line per event, and every part of it is read from the '
-        + 'event: who, what kind of work, which symbol, which lines.',
+        featureCopy.the_last_events_in_plain_words_One_line_per_event_and_every_part__d6e6c38,
 
     /* ---------------------------------------------------------- die Ebene */
 
-    layerOff: 'the agent layer is off in the settings, so nothing is drawn on the graph',
+    layerOff: featureCopy.the_agent_layer_is_off_in_the_settings_so_nothing_is_drawn_on_the_fb85884,
 } as const;
 
 /**
@@ -266,5 +249,5 @@ export const agentStrings = {
  * heraustrennt (splitMenuLabel) und ein Terminal keine Unterstreichung hat.
  */
 export function agentsMenuLabel(on: boolean): string {
-    return on ? '[g] live agents on' : '[g] live agents off';
+    return on ? featureCopy.g_live_agents_on_2d21845 : featureCopy.g_live_agents_off_9c0e3c9;
 }

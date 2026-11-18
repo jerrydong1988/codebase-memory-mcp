@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/search';
 /**
  * Was die Kommandozeile ueber sich selbst zeigt, und woher die Namen darin
  * kommen.
@@ -115,19 +116,19 @@ export function commandExamplesFor(symbol: string): CommandExample[] {
         {
             id: 'search',
             text: symbol.slice(0, EXAMPLE_SEARCH_LETTERS),
-            note: 'find by meaning',
+            note: featureCopy.find_by_meaning_8a361b0,
             symbol,
         },
         {
             id: 'at',
             text: `@${symbol} what does it do?`,
-            note: 'ask about one symbol',
+            note: featureCopy.ask_about_one_symbol_8131e59,
             symbol,
         },
         {
             id: 'question',
             text: `Who calls ${symbol}?`,
-            note: 'ask CBM Lens',
+            note: featureCopy.ask_CBM_Lens_095da6c,
             symbol,
         },
     ];
@@ -145,4 +146,4 @@ export function commandPlaceholderFor(symbol: string | undefined, fallback: stri
 }
 
 /** Was ueber der Liste steht. Eine Zeile, weil die Beispiele fuer sich sprechen. */
-export const COMMAND_EXAMPLES_LABEL = 'this line does two things:';
+export const COMMAND_EXAMPLES_LABEL = featureCopy.this_line_does_two_things_56917fd;

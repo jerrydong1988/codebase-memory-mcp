@@ -1,3 +1,4 @@
+import { featureCopy } from '../../i18n/features/ui';
 /**
  * Wo ein Tooltip stehen darf, und was er dabei nicht verdecken darf.
  *
@@ -91,14 +92,12 @@ export const HINT_PROTECTED: readonly { selector: string; reason: string }[] = [
     {
         selector: 'input, textarea, select',
         reason:
-            'Regler und Eingabefelder. Genau der Fall aus dem Screenshot vom 2026-08-29: '
-            + 'ein Tooltip lag ueber dem Detail-Regler des Twin.',
+            featureCopy.Regler_und_Eingabefelder_Genau_der_Fall_aus_dem_Screenshot_vom_20_04e622b,
     },
     {
         selector: '[data-hint-keep]',
         reason:
-            'Die Beschriftungen und Schalter der Sektion, in der der Ausloeser steht. Wer einen '
-            + 'Knopf beruehrt, um zu erfahren was er tut, schaut danach auf seine Nachbarn.',
+            featureCopy.Die_Beschriftungen_und_Schalter_der_Sektion_in_der_der_Ausloeser__5be8b99,
     },
 ];
 

@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/twin';
 import type { SymbolRef } from '../core/focus-protocol';
 import type { SemanticIR } from '../core/semantic-ir';
 import type { ReaderSelection } from '../reader/MonacoReader';
@@ -39,7 +40,7 @@ export function inspectorChatContext(snapshot: SelectedCodeSnapshot, id: string)
         && firstLine >= document.firstLine && lastLine <= document.lastLine;
     return {
         id,
-        label: `${selection ? 'Selection context' : symbol ? 'Symbol context' : 'File context'} · ${symbol?.name ?? filePath}`,
+        label: `${selection ? featureCopy.Selection_context_b9bcc62 : symbol ? featureCopy.Symbol_context_1de1bdb : featureCopy.File_context_a083b85} · ${symbol?.name ?? filePath}`,
         text: JSON.stringify({
             kind: 'selected-code-context', project, path: filePath, symbol,
             generation: ir?.generation,
@@ -48,7 +49,7 @@ export function inspectorChatContext(snapshot: SelectedCodeSnapshot, id: string)
             source: sourceAvailable ? {
                 firstLine, lastLine,
                 text: document.source.split('\n').slice(firstLine - document.firstLine, lastLine - document.firstLine + 1).join('\n'),
-                note: 'Complete source lines covering the indexed symbol; this is not an editor text selection.',
+                note: featureCopy.Complete_source_lines_covering_the_indexed_symbol_this_is_not_an__a066237,
             } : undefined,
             evidence: browserGraphContext(ir, project, filePath, symbol ? workspacePathOf(symbol.uri) : '')
                 .map(item => JSON.parse(item.text) as unknown),

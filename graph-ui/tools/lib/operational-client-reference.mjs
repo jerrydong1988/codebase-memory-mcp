@@ -10,6 +10,7 @@ import { ATTRIBUTION_PATTERNS, NAME_PATTERN, WATCHED_NAMES } from './forbidden-n
  */
 const FILES = new Set([
     'src/agents/AgentSetup.tsx',
+    'src/i18n/features/agents.ts',
     'src/agents/AgentSetup.test.tsx',
     'agents/hooks/atlas-trace.py',
     'agents/hooks/test_atlas_trace.py',

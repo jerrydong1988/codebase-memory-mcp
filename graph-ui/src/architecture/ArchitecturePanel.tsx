@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import type { JSX, ReactNode } from 'react';
 import type { ArchitectureHotspot, ArchitectureOverviewDto } from '../core/intelligence-provider';
@@ -201,7 +202,7 @@ function ArchitectureWorkspace({ projectName, overview, loading = false, error, 
                 <button className="atlas-arch-tab" key={view} aria-pressed={place.view === view || (view === 'overview' && ['dependencies', 'entryPoints'].includes(place.view))} data-view={view}
                     onClick={() => { if (view !== place.view) onSelectionEvidence?.(undefined); setView(view); }}>{text.views[view]}</button>)}</nav>
         </div>
-        {systemView && projectName ? <Suspense fallback={<div role="status"><Empty>Preparing system analysis…</Empty></div>}><SystemArchitecture
+        {systemView && projectName ? <Suspense fallback={<div role="status"><Empty>{featureCopy.Preparing_system_analysis_a185059}</Empty></div>}><SystemArchitecture
             project={projectName} generation={graphGeneration} view={systemView} filter={filter} active={active}
             graph={graph} onSelect={onSelect} onClearSelection={onClearSelection} onSelectionEvidence={onSelectionEvidence} onNavigate={onNavigate} loader={systemArchitectureLoader}
             place={place.system} onPlace={changeSystem} navigation={historyControls} /></Suspense> : null}
@@ -218,7 +219,7 @@ function ArchitectureWorkspace({ projectName, overview, loading = false, error, 
             ? <RoutesArchitecture {...spatialProps} perspective={place.routes} onPerspective={changePerspective} />
             : <SpatialArchitecture {...spatialProps} />)}
         {!systemView && ready && data && !graph && <div className="atlas-arch-content" data-testid="atlas-architecture-content">
-            <p className="atlas-arch-fallback-summary">{data.files.length.toLocaleString()} files · {data.groups.length.toLocaleString()} source areas · {data.boundaries.length.toLocaleString()} cross-area connections</p>
+            <p className="atlas-arch-fallback-summary">{data.files.length.toLocaleString()}{featureCopy.files_4ba9c34}{data.groups.length.toLocaleString()}{featureCopy.source_areas_395508d}{data.boundaries.length.toLocaleString()}{featureCopy.cross_area_connections_dccdb87}</p>
             <Findings view={place.view === 'overview' || place.view === 'dependencies' ? 'entryPoints' : place.view} data={data} empty={text.noData} onNavigate={onNavigate} />
         </div>}
     </section>;

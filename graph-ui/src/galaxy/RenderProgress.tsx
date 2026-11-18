@@ -1,3 +1,4 @@
+import { presentation } from '../i18n/presentation';
 import { useEffect, useState } from 'react';
 import './graph-exploration.css';
 
@@ -7,7 +8,7 @@ export interface RenderProgressProps {
 }
 
 /** Slow updates get feedback; fast updates leave the graph undisturbed. */
-export default function RenderProgress({ busy, label = 'Updating view…' }: RenderProgressProps) {
+export default function RenderProgress({ busy, label = presentation.updating }: RenderProgressProps) {
     const [visible, setVisible] = useState(false);
     useEffect(() => {
         if (!busy) { setVisible(false); return; }

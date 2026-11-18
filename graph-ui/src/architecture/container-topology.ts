@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/architecture';
 import { isAlias, isMap, isScalar, isSeq, LineCounter, parseDocument } from 'yaml';
 import type { RouteGraphSnapshot } from './route-graph-source';
 
@@ -124,11 +125,11 @@ function endpoints(value: string, hint: string, bare: boolean): Endpoint[] {
 function validateDocument(root: unknown): void {
     let count = 0;
     const walk = (node: unknown, depth: number): void => {
-        if (++count > 15_000 || depth > 40) throw new Error('YAML structure exceeds the analysis limit');
-        if (isAlias(node)) throw new Error('YAML aliases are not supported');
+        if (++count > 15_000 || depth > 40) throw new Error(featureCopy.YAML_structure_exceeds_the_analysis_limit_a6abb9a);
+        if (isAlias(node)) throw new Error(featureCopy.YAML_aliases_are_not_supported_da3a48b);
         if (isMap(node)) for (const pair of node.items) {
-            if (str(pair.key) === '<<') throw new Error('YAML merge keys are not supported');
-            if (!isScalar(pair.key) || typeof pair.key.value !== 'string') throw new Error('YAML mapping keys must be strings');
+            if (str(pair.key) === '<<') throw new Error(featureCopy.YAML_merge_keys_are_not_supported_d1021ee);
+            if (!isScalar(pair.key) || typeof pair.key.value !== 'string') throw new Error(featureCopy.YAML_mapping_keys_must_be_strings_f077b5c);
             walk(pair.value, depth + 1);
         }
         else if (isSeq(node)) for (const item of node.items) walk(item, depth + 1);
@@ -630,7 +631,7 @@ export function buildContainerTopology(projects: readonly ServiceProject[]): Con
         if (targets.length === 1) {
             const protocol = endpoint.protocol === 'tcp' ? protocolFor(targets[0].view.image ?? '') : endpoint.protocol;
             add(source, targets[0], kind, protocol, proof);
-        } else unresolved.push({ ...proof, summary: targets.length ? `Ambiguous Docker DNS destination ${tidy(endpoint.host)}` : `No selected service on a shared network resolves ${tidy(endpoint.host)}` });
+        } else unresolved.push({ ...proof, summary: targets.length ? featureCopy.Ambiguous_Docker_DNS_destination_0_5305619(tidy(endpoint.host)) : featureCopy.No_selected_service_on_a_shared_network_resolves_0_377b05c(tidy(endpoint.host)) });
     };
     for (const service of services) {
         const depends = field(service.node, 'depends_on');
@@ -639,7 +640,7 @@ export function buildContainerTopology(projects: readonly ServiceProject[]): Con
             const target = services.find(candidate => candidate.input === service.input && candidate.view.name === name);
             const proof = evidence(service, lineOf(node, service.counter), `Declared startup dependency on ${tidy(name)}`);
             if (target) add(service, target, 'startup', 'startup', proof);
-            else unresolved.push({ ...proof, summary: `Startup dependency ${tidy(name)} is not present in this manifest` });
+            else unresolved.push({ ...proof, summary: featureCopy.Startup_dependency_0_is_not_present_in_this_manifest_7cfe689(tidy(name)) });
         }
         for (const link of list(field(service.node, 'links'))) {
             const name = link.split(':')[0];
@@ -663,7 +664,7 @@ export function buildContainerTopology(projects: readonly ServiceProject[]): Con
         if (!service || !file.text || !CODE_FILE.test(file.path) || /(?:^|\/)(?:test|tests|__tests__)(?:\/|$)/i.test(file.path)) continue;
         for (const candidate of codeEndpoints(file.text, service, file.path)) connectHost(service, candidate.endpoint, 'call', {
             project: file.project.project, path: file.path, line: candidate.line,
-            summary: `${candidate.via} references ${candidate.endpoint.protocol} destination ${tidy(candidate.endpoint.host)}`,
+            summary: featureCopy.message_0_references_1_destination_2_4af3c63(candidate.via, candidate.endpoint.protocol, tidy(candidate.endpoint.host)),
         });
     }
     // Graph identities are project-scoped; paths must independently map to unambiguous service ownership.
@@ -679,7 +680,7 @@ export function buildContainerTopology(projects: readonly ServiceProject[]): Con
             const targetPath = relationship.target.file_path;
             const target = targetPath ? owners.get(`${project.project}\0${absolute(project.rootPath, targetPath)}`) : undefined;
             const proof: ServiceEvidence = { project: project.project, path: sourcePath,
-                line: relationship.source.start_line ?? 1, summary: `Indexed ${relationship.type} relationship` };
+                line: relationship.source.start_line ?? 1, summary: featureCopy.Indexed_0_relationship_28ef4b5(relationship.type) };
             if (target && source.view.networks.some(network => target.view.networks.includes(network))) {
                 add(source, target, 'call', relationship.type === 'HTTP_CALLS' ? 'http' : 'async', proof);
             } else {

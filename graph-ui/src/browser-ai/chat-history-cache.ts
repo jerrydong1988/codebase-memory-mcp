@@ -1,3 +1,4 @@
+import { featureCopy } from '../i18n/features/browser-ai';
 import type { BrowserChatTurn } from './chat-model';
 import type { PreparedExplanationContext } from './explanation-context';
 
@@ -125,12 +126,12 @@ function bytes(value: unknown): number { return new TextEncoder().encode(JSON.st
 /** Opens only on an explicit cache operation; no model, network, timer, or background work. */
 export function createIndexedDbBrowserChatHistoryStorage(): BrowserChatHistoryStorage {
     const open = (): Promise<IDBDatabase> => new Promise((resolve, reject) => {
-        if (!globalThis.indexedDB) { reject(new Error('Browser chat history storage is unavailable.')); return; }
+        if (!globalThis.indexedDB) { reject(new Error(featureCopy.Browser_chat_history_storage_is_unavailable_3504074)); return; }
         const request = indexedDB.open('cbm-browser-chat-history', 1);
         let rejected = false;
         request.onupgradeneeded = () => { request.result.createObjectStore('projects'); };
-        request.onerror = () => reject(request.error ?? new Error('Could not open browser chat history.'));
-        request.onblocked = () => { rejected = true; reject(new Error('Browser chat history storage is blocked.')); };
+        request.onerror = () => reject(request.error ?? new Error(featureCopy.Could_not_open_browser_chat_history_ad91020));
+        request.onblocked = () => { rejected = true; reject(new Error(featureCopy.Browser_chat_history_storage_is_blocked_4012492)); };
         request.onsuccess = () => {
             if (rejected) { request.result.close(); return; }
             request.result.onversionchange = () => request.result.close();
@@ -147,7 +148,7 @@ export function createIndexedDbBrowserChatHistoryStorage(): BrowserChatHistorySt
                 let result: T;
                 transaction.oncomplete = () => { database.close(); resolve(result); };
                 transaction.onabort = transaction.onerror = () => {
-                    database.close(); reject(transaction.error ?? new Error('Browser chat history write failed.'));
+                    database.close(); reject(transaction.error ?? new Error(featureCopy.Browser_chat_history_write_failed_b88e0d7));
                 };
                 const store = transaction.objectStore('projects');
                 const entries = new Map<string, unknown>();
@@ -188,7 +189,7 @@ export function createBrowserChatHistoryCache(options: BrowserChatHistoryCacheOp
     const maxProjectBytes = options.maxProjectBytes ?? BROWSER_CHAT_HISTORY_MAX_PROJECT_BYTES;
     const maxTotalBytes = options.maxTotalBytes ?? BROWSER_CHAT_HISTORY_MAX_TOTAL_BYTES;
     for (const bound of [maxTurns, maxProjectBytes, maxTotalBytes]) {
-        if (!Number.isSafeInteger(bound) || bound < 1) throw new Error('Chat history bounds must be positive integers.');
+        if (!Number.isSafeInteger(bound) || bound < 1) throw new Error(featureCopy.Chat_history_bounds_must_be_positive_integers_8b4043a);
     }
     const projectLimit = Math.min(maxProjectBytes, maxTotalBytes);
     const clean = (entries: Map<string, unknown>, time: number): Map<string, HistoryRecord> => {
@@ -219,7 +220,7 @@ export function createBrowserChatHistoryCache(options: BrowserChatHistoryCacheOp
         },
         /** Errors reject so callers can retain their in-memory chat and explain the storage failure. */
         async save(key: string, history: BrowserChatHistory): Promise<BrowserChatHistorySaveResult> {
-            if (!isHistory(history)) throw new Error('Chat history contains invalid snapshot data.');
+            if (!isHistory(history)) throw new Error(featureCopy.Chat_history_contains_invalid_snapshot_data_83b1e56);
             // Take the snapshot before waiting for IndexedDB; later UI mutations cannot alter it.
             const snapshot = copy({ turns: history.turns,
                 ...(history.draft === undefined ? {} : { draft: history.draft }),

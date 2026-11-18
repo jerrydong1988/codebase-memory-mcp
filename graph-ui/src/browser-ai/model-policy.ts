@@ -1,3 +1,5 @@
+import { presentation } from '../i18n/presentation';
+import { featureCopy } from '../i18n/features/browser-ai';
 /** Metadata verified against the pinned Hugging Face revision on 2026-09-07. */
 export const BROWSER_MODEL = {
     id: 'onnx-community/Qwen2.5-Coder-0.5B-Instruct',
@@ -43,7 +45,7 @@ export interface BrowserModel {
 export const BROWSER_MODELS: readonly BrowserModel[] = [
     {
         ...BROWSER_MODEL, contextTokens: 8192, maxOutputTokens: 512, availability: 'available',
-        compatibilityNote: 'Coding baseline · WebGPU with shader-f16 · 8K browser context',
+        compatibilityNote: presentation.baseline,
         files: MODEL_FILES, weightHashes: { 'onnx/model_q4f16.onnx': BROWSER_MODEL.weightSha256 },
     },
     {
@@ -51,7 +53,7 @@ export const BROWSER_MODELS: readonly BrowserModel[] = [
         displayName: 'Qwen3 0.6B', bytes: 578917626, cacheName: 'cbm-browser-ai-qwen3-06-da14531-v1',
         modelCard: 'https://huggingface.co/onnx-community/Qwen3-0.6B-ONNX', license: 'Apache-2.0', dtype: 'q4f16',
         contextTokens: 8192, maxOutputTokens: 512, availability: 'available',
-        compatibilityNote: 'Small download · WebGPU with shader-f16 · non-thinking · 8K browser context',
+        compatibilityNote: presentation.small,
         files: MODEL_FILES, weightHashes: { 'onnx/model_q4f16.onnx': '9e33a5911974174761d0dfdcc0bec975d9c45af0eae5e9eb647b8ba9442a8f91' },
     },
     {
@@ -60,7 +62,7 @@ export const BROWSER_MODELS: readonly BrowserModel[] = [
         modelCard: 'https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-ONNX',
         license: 'Liquid AI license · commercial terms apply above $10M annual revenue; review model card', dtype: 'q4f16',
         contextTokens: 8192, maxOutputTokens: 512, availability: 'available',
-        compatibilityNote: 'Instruction-following candidate · WebGPU with shader-f16 · 8K browser context · not benchmarked in CBM',
+        compatibilityNote: presentation.instruction,
         files: [...MODEL_FILES, 'onnx/model_q4f16.onnx_data'],
         weightHashes: {
             'onnx/model_q4f16.onnx': 'a9986ad188200507342ac32f727aa4691edb5428b0aa8c4a9fbdf0c85a6fe667',
@@ -72,7 +74,7 @@ export const BROWSER_MODELS: readonly BrowserModel[] = [
         displayName: 'Qwen3.5 2B', bytes: 1402850762, cacheName: 'cbm-browser-ai-qwen35-2-2ea7886-v1',
         modelCard: 'https://huggingface.co/onnx-community/Qwen3.5-2B-ONNX-OPT', license: 'Apache-2.0', dtype: 'q4f16',
         contextTokens: 8192, maxOutputTokens: 512, availability: 'available',
-        compatibilityNote: 'Text only · WebGPU with shader-f16 · non-thinking · 8K browser context · not benchmarked in CBM',
+        compatibilityNote: presentation.textOnly,
         files: ['config.json', 'generation_config.json', 'tokenizer.json', 'tokenizer_config.json',
             'onnx/decoder_model_merged_q4f16.onnx', 'onnx/decoder_model_merged_q4f16.onnx_data',
             'onnx/embed_tokens_q4f16.onnx', 'onnx/embed_tokens_q4f16.onnx_data'],
@@ -87,7 +89,7 @@ export const BROWSER_MODELS: readonly BrowserModel[] = [
 
 export function getBrowserModel(modelId: string = BROWSER_MODEL.id): BrowserModel {
     const model = BROWSER_MODELS.find(candidate => candidate.id === modelId);
-    if (!model) throw new Error('Unknown browser model. Choose a model from the catalog.');
+    if (!model) throw new Error(featureCopy.Unknown_browser_model_Choose_a_model_from_the_catalog_0ce1684);
     return model;
 }
 
