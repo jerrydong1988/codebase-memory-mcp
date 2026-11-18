@@ -9,6 +9,7 @@ it.each([['zh-CN', 'auto', 'zh'], ['zh-CN', 'en', 'en'], ['en-US', 'zh', 'zh'], 
         vi.spyOn(navigator, 'language', 'get').mockReturnValue(browser);
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ lang: configured }) }));
         const locale = await import('./feature-language');
+        await import('../app/ui-log-install');
         await locale.initializeFeatureLanguage();
         const { architectureText } = await import('../architecture/strings');
         const { DIAGNOSTIC_LABELS } = await import('../diagnostics/diagnostics-model');
